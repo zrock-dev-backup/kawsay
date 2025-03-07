@@ -1,0 +1,26 @@
+@startgantt
+language spa
+header Scheduling System
+title Cronograma de trabajo
+footer Diagrama Gantt
+ganttscale weekly
+
+Project starts 2025-01-06
+
+[Definición de proyecto] AS [A1] STARTS 2025-01-12
+[A1] ENDS 2025-02-12
+
+then [Sprint 0: Analisis, planeacion y diseño] AS [S-1] STARTS 2025-02-06
+[S-1] LASTS 14 DAYS
+then [Sprint 1: Student management, SIS integration] AS [S-2] LASTS 14 DAYS
+then [Sprint 2: Student management] AS [S-3] LASTS 14 DAYS
+then [Sprint 3: Teaching staff management] AS [S-4] LASTS 14 DAYS
+then [Sprint 4: Courses Management] AS [S-5] LASTS 14 DAYS
+then [Sprint 5: Schedule creation] AS [S-6] LASTS 14 DAYS
+then [Sprint 6: Schedule migration] AS [S-7] LASTS 14 DAYS
+then [Sprint 7: Evaluation] AS [S-8] LASTS 14 DAYS
+then [Sprint 8: Reports] AS [S-9] LASTS 14 DAYS
+then [Sprint 9: QA and bug fixing] AS [S-11] ENDS 2025-07-02
+[VERSION ALFA] AS [M-4] HAPPENS AT [S-11]'S END
+[M-4] IS COLORED IN Fuchsia/FireBrick
+@endgantt
