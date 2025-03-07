@@ -1,118 +1,82 @@
 \section{Antecedentes}
 
-% > university administrators who are responsible for the creation of the schedule of classes and the assignment of students to these classes to understand the effects of their decisions on the operation of the university.
-% Why?
+% The purpose of this section is to explore the importance and complexities of scheduling, particularly in educational institutions, and the technological solutions that have been developed to address scheduling challenges.
+
+% Scheduling plays a critical role in the efficient operation of universities, as the Registrar Office is responsible for creating the schedule of classes and assigning students to these classes. Understanding the impact of scheduling decisions on the university's functioning is essential for optimizing resource allocation and ensuring student satisfaction. 
+
+% The scheduling process can be broken down into two primary aspects:
+% - The creation of the class schedule
+% - The assignment of individual students to classes
+
+% The scheduling process is not as simple as it may appear, especially when virtual classrooms are introduced. Virtual classrooms eliminate the need for physical facilities and time-based resource management, such as coordinating staff availability and room reservations. However, they come with their own set of constraints, primarily related to server capacity, scalability, and managing online interaction.
+
+% Constraints in Virtual Classrooms
+% While physical limitations (like room size) are irrelevant in virtual classrooms, other challenges must still be addressed. These include ensuring server performance, managing bandwidth, and maintaining effective communication tools for both students and instructors. 
 %
-% aspects of scheduling process:
-%     - creation of the schedule of classes
-%     - assigment of individual students ot classes
+% Moreover, making the most efficient use of available time is a critical goal of scheduling. In educational settings, ensuring that classes are scheduled at optimal times and that the system runs smoothly is key to maximizing student engagement and performance.
+
+% Learning Management System (LMS)
+% At Jala University (JalaU), the delivery of curricula is facilitated through an online Learning Management System (LMS). The LMS provides an organized platform where students and faculty can access course materials, interact, and participate in assessments. The system is integral to the university’s virtual scheduling, providing a centralized tool for scheduling and resource management.
+
+% \subsection{Scheduling as a Key Function}
 %
-% importance of scheduling process.
+% Scheduling is broadly defined as a function in many industries, including education, where it ensures that events take place at the most opportune times. It is an essential aspect of personal time management and is crucial for enhancing productivity.
 %
-% > The process starts with building a schedule of classes that helps expand the choice of courses available to the student.
-% does a student has a say when picking schedule?
+% \subsubsection{The Origins of Scheduling}
+The science of scheduling has its roots in the industrial revolution. In 1874, Frederick Taylor, often referred to as the father of scientific management, began developing a discipline he called “Scientific Management” to improve the efficiency of machine shops. Taylor’s practices, including the creation of detailed schedules displayed on bulletin boards, helped ensure that time was used more effectively in the workplace.
+
+Henry Gantt, a colleague of Taylor, built upon his ideas in the 1910s by creating Gantt charts, which provided a visual representation of project timelines. These charts are still widely used today, from large-scale projects such as Facebook, Google or Amazon.
+
+% \subsection{General Scheduling Issues}
+
+Various industries face scheduling issues due to the nature of their operations and business needs:
+
+- **Healthcare**: Overlapping schedules, last-minute changes, and understaffing are common, particularly with the need for 24/7 coverage.
+- **Retail**: Issues like understaffing, overstaffing, and poor shift management affect operations.
+- **Hospitality**: Resource allocation and scheduling conflicts arise, especially during peak seasons.
+- **Manufacturing and Warehousing**: Challenges include understaffing and equipment availability conflicts.
+- **Call Centers**: Shifting schedules and fluctuating volumes complicate staffing.
+- **Education**: Scheduling issues include staffing, withdraws, dissmission, and student availability.
+
+% In all these sectors, businesses must efficiently manage people and resources to minimize disruptions, often utilizing sophisticated scheduling tools to address these challenges.
+
+% \subsection{Technological Solutions to Scheduling Problems}
+
+The development of computerized scheduling tools began in the mid-1950s, with E.I. du Pont de Nemours (Du Pont) experimenting with early computers like the UNIVAC1 to assist in planning and scheduling tasks. In the 1970s, more powerful scheduling systems were developed for mini-computers, further transforming the way scheduling was handled.
+
+In our modern day ther is Teach 'n Go, modern school management software that integrates scheduling functionality with other features for managing school operations. Teach 'n Go is an LMS \footcite{LMS (Learning Management System)} designed to school management tasks, including scheduling.
+
+% \subsubsection{Features of Teach 'n Go}
+Teach 'n Go provides a wide range of features for school management:
+\begin{itemize}
+    \item \textbf{Class Color Coding}: Helps visually organize classes.
+    \item \textbf{Classroom Size Management}: Restricts the number of students per class.
+    \item \textbf{Quick Student Enrollment}: Allows for bulk enrollment or unenrollment of students.
+    \item \textbf{Class Archiving}: Archives completed classes for record-keeping.
+    \item \textbf{Quick Stats Dashboard}: Displays important metrics like attendance and grades.
+    \item \textbf{Google Calendar Integration}: Syncs class schedules with Google Calendar for easy access.
+\end{itemize}
+
+The software also allows customization with school branding and provides integration with tools like Google Meet and Microsoft Teams, facilitating a seamless scheduling experience.
+
+% \subsubsection{Registrar-Student Relationship}
+The system facilitates better interaction between the registrar and students:
+\begin{itemize}
+    \item \textbf{Dashboard}: Provides an overview of the daily schedule, including teacher assignments and classroom availability.
+    \item \textbf{Calendar View}: Displays courses per teacher, classroom, or other criteria, allowing users to create new meetings or print the calendar.
+    \item \textbf{Error Handling}: Alerts users when scheduling conflicts arise, such as when a classroom is double-booked.
+\end{itemize}
+
+% \subsection{Dynamic Scheduling and Customization}
+Dynamic scheduling involves the creation and management of flexible, real-time schedules that can adapt to changing conditions. In the context of educational institutions, dynamic scheduling is essential for handling unexpected changes, such as last-minute class cancellations or rescheduling.
+
+Teach 'n Go allows users to set up recurring class schedules, either weekly or on custom dates, with customizable fields for tracking specific data such as class subject, level, and course codes.
+
+Teach 'n Go integrates with HostHub Open API to talk with another systems. Making it possible to use it in an ecosystem of related software.
+
+
+% \subsection{Spreadsheet as a Scheduling Solution}
+% In addition to dedicated scheduling software like Teach 'n Go, spreadsheets are often used for dynamic scheduling. These tools offer a flexible way to organize and manipulate scheduling data, though they may lack some of the specialized features and integrations offered by purpose-built systems.
 %
-% virtual classes removes facility from the scheduling coordination of staff, facility and time resources.
-%
-% scheduling has constraints. Virtual classrom's physical limitation is irrelevant (related to server capacity and scalability) what are the constraints of a virtual classroom?
-%
-% > Making full use of available time is also critical
-% The goal of scheduling.
-%
-% > Our online curricula are delivered via a learning management system (LMS)
-% JalaU uses an LMS
-
-
-% you have sell the fact that scheduling is no easy task
-
-% Assignment to a schedule, or systematic arrangement.
-% definition of the word
-sheduling is defined as:  A function in many aspects of industry, commerce and computing in which events are timed to take place at the most opportune time. 
-
-scheduling as personal time management for productive people.
-
-% origins of scheduling
-The science of scheduling began in the machine shops of the industrial revolution. In 1874, Frederick Taylor, the son of a wealthy lawyer, turned down his acceptance at Harvard to become an apprentice machinist at Enterprise Hydraulic Works in Philadelphia. Four years later, he completed his apprenticeship and began working at the Midvale Steel Works, where he rose through the ranks from lathe operator to machine shop foreman and ultimately to chief engineer. In the process, he came to believe that the time of the machines (and people) he oversaw was not being used very well, leading him to develop a discipline he called “Scientific Management.”
-Taylor created a planning office, at the heart of which was a bulletin board displaying the shop’s schedule for all to see. The board depicted every machine in the shop, showing the task currently being carried out by that machine and all the tasks waiting for it. This practice would be built upon by Taylor’s colleague Henry Gantt, who in the 1910s developed the Gantt charts that would help organize many of the twentieth century’s most ambitious construction projects, from the Hoover Dam to the Interstate Highway System. A century later, Gantt charts still adorn the walls and screens of project managers at firms like Amazon, IKEA, and SpaceX.
-
-% general scheduling issues
-Various industries encounter scheduling issues due to the nature of their operations and workforce needs. In healthcare, overlapping schedules, last-minute changes, understaffing, and burnout are common due to the need for 24/7 coverage and unpredictable staff availability. Retail businesses face issues like understaffing or overstaffing, seasonal demand fluctuations, and employee dissatisfaction from poor shift management. Hospitality businesses struggle with similar challenges, along with resource allocation issues, especially during peak seasons. Manufacturing and warehousing often deal with understaffing, equipment availability conflicts, and unplanned disruptions, while call centers face overlapping shifts and fluctuating call volumes. In transportation and logistics, time zone conflicts and resource allocation issues complicate scheduling, leading to shipment delays. Event planning and entertainment sectors are affected by overlapping schedules and last-minute changes, while educational institutions face problems with staffing, cancellations, and student availability. Freelancers and consultants juggle multiple client schedules, leading to inconsistent prioritization, while tech and software development teams deal with shifting deadlines, time zone conflicts, and changes in project priorities. Construction and field services often struggle with resource allocation and seasonal demand fluctuations, and the fitness industry faces last-minute cancellations and overlapping sessions. In all these sectors, businesses must effectively manage people, resources, and client needs to minimize disruptions, often relying on scheduling tools and proactive planning to address these challenges.
-
-% tech solutions
-The development of CPM as computerised project management tool can be traced back to mid 1956. E.I. du Pont de Numours (Du Pont) was looking for useful things to do with its ‘UNIVAC1’ computer (this was one of the very first computers installed in a commercial business anywhere and only the third UNIVAC machine built).
-Du Pont’s management felt that ‘planning, estimating and scheduling’ seemed like a good use of the computer! Morgan Walker was given the job of discovering if a computer could be programmed to help. Others had started studying the problem, including other researchers within
-Du Pont but no one had achieved a commercially viable outcome
-
-During the 1970s, the arrival of powerful project scheduling systems running on ‘Mini Computers’ caused the first major change. The lower operating cost of systems such as MAPPS on Wang and Artemis on HP and DEC hardware caused the rapid demise of mainframe scheduling systems. Apart from a few legacy systems the era of the mainframe was over by the
-mid 1980s. The ‘mini systems’ retained many of the characteristics of the mainframes though and
-required skilled schedulers to make efficient use of them. From the perspective of the people
-working as schedulers all that changed was the hardware and maybe the software vendor.
-
-Teach 'n Go - Modern school management software. https://www.teachngo.com/
-Description: 
-> Effectively manage and grow with our all-in-one school management software
-Does it means is holistic
-
-What does it do apart from scheduling?
-These software products are typically designed for a broad audience or specific market and are intended to generate revenue through direct sales, subscriptions, or licensing agreements
-
-It's an LMS that offers scheduling.
-
-Functions
-    application: token based authentication
-        core requirements
-            - Class colour coding
-            - copy classes
-            - clasroom size: limit the number of people in a class
-            - Quickly Enrol Students: enrol or unenroll multiple students into a class
-            - Archive Classes: archive school classes that have been completed to keep track of records
-            - Quick stats: dashboard of important data. like attendance or grades?
-            - Future Enrol Students: enrol students into future classes
-
-        distinguishing:
-            - school branding: Add your own unique touch to our product with our customizable branding options, custom url
-            - Google Calendar Integration: So that students and other interested parties can have acess to the calendar. Do observe its populated with courses schedule
-
-        registrar-student relationship
-            - Dashboard: what teachers are scheduled in what classroom for the day ahead
-            - Calendar: A view (per teacher, clasrooms, default) courses. Allowing interested parties to create new meetings.
-                Print Calendar
-                Add events
-                calendar updates
-
-    error handling:
-        - Identifies and produces a warning notifications when there is a conflict. Notification indicates: Monday between 12:00 - 13:00; Computer Lab is being used by Programming CSS3; Donna Swanson is teaching Programming CSS3
-
-    time-related:
-        - creation of class
-
-
-> customisable fields for tracking specific data in your school.
-Data
-    input:
-        - create your class (clas details): class name, class subject, class level, awarding body, course code, teacher, classroom.
-        - class schedule: start date, end date. Lessons days and times.
-
-    output
-        - class details: teacher and classroom fields are eligible. Is the product that makes those fields available prior input.
-
-    preset
-        - class schedule: is expected to have days of the week avaialble to choose.
-
-    persistent:
-        class details
-
-    sequences/combinations
-        - class schedule: class recurrence can be weekly or custom dates.
-
-Operations
-    environment: mobile app
-
-Interfaces
-    system interfaces
-        multiple integrations: excel, google meet, google calendar, teams, skype, Hosthub Open API
-
-%% Spreadsheet
-Spreadsheet as a solution to the problem
-
-What is dynamic scheduling.
+% \subsection{Conclusion}
+% Scheduling is an essential but complex function in many industries, including education. As virtual classrooms and technology-driven solutions become more prevalent, it is important to understand the constraints and challenges that come with scheduling in this new environment. Tools like Teach 'n Go help address these challenges by providing customizable, dynamic scheduling solutions that integrate with existing systems, improving overall efficiency and resource management.
