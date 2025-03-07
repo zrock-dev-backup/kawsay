@@ -1,0 +1,25 @@
+\section{Planteamiento del problema}
+
+The Registrar Office needs to process an ever growing amount of uncentralized data with a tool where business rules are constantly evolving to fit better eligibility criterias and has to produce reports and build schedules. Which while the academic calendar is executing need to be updated and acommodated to real life situations.
+
+% Scenario
+Eligibility evaluation. Registrar interprets GPA and SAP grading in order to assign an eligibility status (yes, maybe and no) to the student.
+
+To display the whole view of scheduled courses per cohort and their times. The default view is a board of the all the cohorts, and their respective courses and times.
+ The cohort view is ordered left to right, from older to newer generations. This view enables the handling of students that failed a course. For example a student  from cohort 3 failed computer networking, given that the view of courses from cohort 2 is on the right side one may be able to allocate the student who has failed.
+
+To give meaning to the data through the use of colors. Categorization values such as: program status, and eligibility determine if a student will be taken into account. By using colors, one can easily determine the overall meaning of the board.
+
+To identify the student, cohort, and course. Each student has data with necessary information to establish that relationship. like: Group, institutional email, precedence country, program status, SAP status, prerequisite course GPA, eligibility per course, total credits.
+
+% problematics | define 
+Currently the Registrar office uses spreadsheet solution which has the challenges.
+Working with spreadsheets in an academic context presents challenges due to uncentralized data, where information from multiple sources needs to be manually inputted. This process can be time-consuming and prone to errors, especially when real-time data updates are required. Ideally, a spreadsheet should pull live data, but this integration is often complex and inefficient.
+
+The spreadsheet setup itself requires significant effort, involving defining cells, creating formulas, and establishing conditional formatting to make the document look like a meaningful dashboard. This setup is time-intensive and necessary for organizing and interpreting large datasets, but it can quickly become overwhelming without careful planning.
+
+Spreadsheets also struggle with tasks like assessment and conflict detection. Manual ponderation for student eligibility is time-consuming and error-prone, and spreadsheets lack automatic checks for issues like double-booked students or course conflicts. Without built-in alerts or automated error detection, spreadsheets can lead to mistakes and inefficiencies in academic management.
+
+
+\subsection{Formulación del problema}
+How can an academic calendar software ETL system web application with machine learning forecast schedules can replace the many spreadhseets used and make registrart's work more efficient?
