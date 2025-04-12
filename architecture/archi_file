@@ -8,11 +8,25 @@ workspace "Kawsay" "Procedural university timetabling generation" {
             wa = container "Web Application"
 			api_gateway = container "Api gateway"
 
-			mgtm_timetable = container "timetable management"
             timetable_db = container "mgtm_timetable database"
+			mgtm_timetable = container "timetable management" {
+				handler_course = component "Courses handler" "Handles courses data"
+				timetable_generator = component "Timetable generator" "Procedurally generates a timetable (e.g. module, term, year) based on hard constraints (i.e. course duration, module/term/year duration, teaching staff, max class size)"
+				handler_clash = component "Clash handler" "Handles clashes between courses, provides a solution to the class based on rules"
 
-			mgtm_st = container "student&teaching management"
+				timetable_generator -> handler_course "fetches course data"
+				timetable_generator -> timetable_db "fetches configuration, stores timetable"
+				handler_clash -> timetable_db "fetches rules"
+			}
+
             st_db = container "mgtm_st database"
+			mgtm_st = container "student&teaching management" {
+				handler_student = component "Student CRUD"
+				handler_teacher = component "Teaching staff CRUD"
+
+				handler_student -> st_db "Writes and Reads"
+				handler_teacher -> st_db "Writes and Reads"
+			}
         }
 
 		sis = softwareSystem "Student Information System"
@@ -39,6 +53,15 @@ workspace "Kawsay" "Procedural university timetabling generation" {
             autolayout lr
         }
 
+        component ss.mgtm_timetable "Diagram3" {
+            include *
+            autolayout lr
+        }
+        component ss.mgtm_st "Diagram4" {
+            include *
+            autolayout lr
+        }
+
         styles {
             element "Element" {
                 color #ffffff
@@ -55,6 +78,9 @@ workspace "Kawsay" "Procedural university timetabling generation" {
             }
             element "Database" {
                 shape cylinder
+            }
+            element "Component" {
+                background #85cc85
             }
         }
     }
