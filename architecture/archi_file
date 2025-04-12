@@ -1,0 +1,66 @@
+workspace "Kawsay" "Procedural university timetabling generation" {
+
+    !identifiers hierarchical
+
+    model {
+        u = person "Registrar Office" "Timetable maker"
+        ss = softwareSystem "Kawsay" {
+            wa = container "Web Application"
+			api_gateway = container "Api gateway"
+
+			mgtm_timetable = container "timetable management"
+            timetable_db = container "mgtm_timetable database"
+
+			mgtm_st = container "student&teaching management"
+            st_db = container "mgtm_st database"
+        }
+
+		sis = softwareSystem "Student Information System"
+
+        u -> ss.wa "Uses"
+        ss -> sis "fetches student data"
+        ss.wa -> ss.api_gateway "client access"
+
+		ss.api_gateway -> ss.mgtm_timetable "forward proxyies"
+		ss.api_gateway -> ss.mgtm_st "forward proxyies"
+		ss.mgtm_timetable -> ss.timetable_db "Reads and Writes to"
+		ss.mgtm_st -> ss.st_db "Reads and Writes to"
+		ss.mgtm_timetable -> ss.mgtm_st "fetches student&teaching data"
+    }
+
+    views {
+        systemContext ss "Diagram1" {
+            include *
+            autolayout lr
+        }
+
+        container ss "Diagram2" {
+            include *
+            autolayout lr
+        }
+
+        styles {
+            element "Element" {
+                color #ffffff
+            }
+            element "Person" {
+                background #048c04
+                shape person
+            }
+            element "Software System" {
+                background #047804
+            }
+            element "Container" {
+                background #55aa55
+            }
+            element "Database" {
+                shape cylinder
+            }
+        }
+    }
+
+    configuration {
+        scope softwaresystem
+    }
+
+}
