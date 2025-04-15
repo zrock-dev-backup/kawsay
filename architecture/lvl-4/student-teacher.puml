@@ -1,0 +1,77 @@
+@startuml
+package "StudentTeacher" {
+	package "Doa" {
+		class StudentDoa {
+			- id: int
+			- email: String
+			- timezone: String
+			- firstName: String
+			- lastName: String
+			- country: String
+		}
+
+		class TeacherDoa {
+			- id: int
+			- type: String
+			- firstName: String
+			- lastName: String
+		}
+
+		class SubjectDoa {
+			- id: int
+			- name: String
+			- amntWeeksDuration: int
+		}
+
+		class LectureDoa {
+			- id: int
+			- startTime: Date
+			- endTime: Date
+			- type: String
+			- teacher: TeacherDoa
+			- subject: SubjectDoa
+			- student: List<StudentDoa>
+		}
+		LectureDoa *-- TeacherDoa
+		LectureDoa *-- SubjectDoa
+		LectureDoa *-- StudentDoa
+
+		class CalificationDoa {
+			- id: int
+			- note: int
+			- student: StudentDoa
+			- lecture: LectureDoa
+		}
+		CalificationDoa *-- StudentDoa
+		CalificationDoa *-- LectureDoa
+
+		class StudentCalfication {
+			- id: int
+			- gpa: float
+			- spa: String
+			- student: StudentDoa
+		}
+		StudentCalfication *-- SubjectDoa
+	}
+
+	package "Repository"{
+		class StudentRepository {
+			+ get(id: int): StudentDoa
+			+ getAll(): List<StudentDoa>
+		}
+		StudentRepository --> StudentDoa: <<creates>>
+
+		class LectureRepository {
+			+ get(id: int): LectureDoa
+			+ getAll(): List<LectureDoa>
+		}
+		LectureRepository --> LectureDoa: <<creates>>
+
+		class TeacherRepository {
+			+ get(id: int): TeacherDoa
+			+ getAll(): List<TeacherDoa>
+		}
+		TeacherRepository --> TeacherDoa: <<creates>>
+	}
+}
+@enduml
