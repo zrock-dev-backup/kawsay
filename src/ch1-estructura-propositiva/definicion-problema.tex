@@ -1,23 +1,31 @@
 \subsection{Planteamiento del problema}
-La Oficina del Registro necesita procesar una cantidad cada vez mayor de datos descentralizados, donde las reglas de negocio están en constante evolución. También debe generar informes y crear horarios que necesitan ser actualizados y ajustados en tiempo real a medida que avanza el calendario académico y surgen situaciones del mundo real.
+La Oficina del Registro necesita procesar una cantidad cada vez mayor de datos descentralizados, donde las reglas de negocio están en constante evolución.
+También debe generar informes y crear horarios que necesitan ser actualizados y ajustados en tiempo real a medida que avanza el calendario académico y surgen situaciones del mundo real.
 
 Un horario debe ser actualizado en los siguientes escenarios:
 \begin{itemize}
-    \item Las calificaciones de los estudiantes aún no están disponibles. Dado que las calificaciones no están, la Oficina del Registro evalúa la elegibilidad de un estudiante en función de la probabilidad de aprobar. Este análisis se realiza considerando el GPA del estudiante y el estado del SAP.
+    \item Las calificaciones de los estudiantes aún no están disponibles.
+Dado que las calificaciones no están, la Oficina del Registro evalúa la elegibilidad de un estudiante en función de la probabilidad de aprobar. Este análisis se realiza considerando el GPA del estudiante y el estado del SAP.
     \item El estudiante reprobó un curso.
-    \item La elegibilidad del estudiante fue evaluada como "No", pero logró aprobar el curso. El estudiante no fue considerado para su siguiente curso y ahora necesita ser asignado a él.
-    \item Un profesor o un miembro del personal académico solicita un cambio en el horario. Esta solicitud podría deberse a comentarios de la clase o factores externos.
+    \item La elegibilidad del estudiante fue evaluada como "No", pero logró aprobar el curso.
+El estudiante no fue considerado para su siguiente curso y ahora necesita ser asignado a él.
+    \item Un profesor o un miembro del personal académico solicita un cambio en el horario.
+Esta solicitud podría deberse a comentarios de la clase o factores externos.
 \end{itemize}
 
 Actualmente, la Oficina del Registro depende de hojas de cálculo, lo que presenta varios desafíos.
 
-Trabajar con hojas de cálculo en un contexto académico es problemático debido a la naturaleza descentralizada de los datos, lo que requiere la entrada manual de múltiples fuentes. Este proceso consume mucho tiempo y es propenso a errores, especialmente cuando se necesitan actualizaciones de datos en tiempo real.
+Trabajar con hojas de cálculo en un contexto académico es problemático debido a la naturaleza descentralizada de los datos, lo que requiere la entrada manual de múltiples fuentes.
+Este proceso consume mucho tiempo y es propenso a errores, especialmente cuando se necesitan actualizaciones de datos en tiempo real.
 
-La configuración de la hoja de cálculo en sí requiere un esfuerzo considerable, que implica definir celdas, crear fórmulas y macros, y establecer formato condicional para hacer que el documento se asemeje a un panel de control funcional. Aunque esta configuración es necesaria para organizar e interpretar grandes conjuntos de datos, puede hacerse abrumadora sin una planificación cuidadosa.
+La configuración de la hoja de cálculo en sí requiere un esfuerzo considerable, que implica definir celdas, crear fórmulas y macros, y establecer formato condicional para hacer que el documento se asemeje a un panel de control funcional.
+Aunque esta configuración es necesaria para organizar e interpretar grandes conjuntos de datos, puede hacerse abrumadora sin una planificación cuidadosa.
 
-Las hojas de cálculo también tienen dificultades con tareas como la evaluación y la detección de conflictos. Los cálculos manuales para la elegibilidad de los estudiantes son laboriosos y propensos a errores, y las hojas de cálculo carecen de verificaciones automáticas para problemas como estudiantes con doble asignación o conflictos de cursos. Sin alertas incorporadas o detección automatizada de errores, las hojas de cálculo pueden llevar a errores e ineficiencias en la gestión académica.
+Las hojas de cálculo también tienen dificultades con tareas como la evaluación y la detección de conflictos.
+Los cálculos manuales para la elegibilidad de los estudiantes son laboriosos y propensos a errores, y las hojas de cálculo carecen de verificaciones automáticas para problemas como estudiantes con doble asignación o conflictos de cursos. Sin alertas incorporadas o detección automatizada de errores, las hojas de cálculo pueden llevar a errores e ineficiencias en la gestión académica.
 
-%It is necessary to take into account a lot of data when deciding to edit the academic calendar, to change a class from one timeslot to another could create a conflict, where to classes have the same time, or a time when the teaching staff is not available. Is necessary to considerate different dimensions when moving a course, and that's what makes it tricky, because the registrar office has to go through all those checks and evaluations in order to assess the movement of the class is actually doable.
+%It is necessary to take into account a lot of data when deciding to edit the academic calendar, to change a class from one timeslot to another could create a conflict, where to classes have the same time, or a time when the teaching staff is not available.
+Is necessary to considerate different dimensions when moving a course, and that's what makes it tricky, because the registrar office has to go through all those checks and evaluations in order to assess the movement of the class is actually doable.
 
 \begin{figure}[H]
     \centering
