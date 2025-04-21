@@ -85,10 +85,15 @@ package "Management" {
     population +-- prediction
     population +-- eligibility
 
-    stereotype "Schedule creation" AS sch_creation {
+    stereotype "Generation algorithm" AS sch_gen {
+        {field} overview: system should use an algorithm to generate the schedule.
+    }
+
+    stereotype "Malla curricular" AS sch_creation {
         {field} overview: Registrar wants to create a course on a term in a specific time range.
     }
     sch_creation +-- population
+    sch_creation +-- sch_gen
 
     stereotype "Timezone evaluation" AS timezone {
         {field} overview: Registrar should be able to acknowledge different countries timezones.
