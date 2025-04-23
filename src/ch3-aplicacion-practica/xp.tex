@@ -1,6 +1,6 @@
 \subsection{Eleccion de metodología agil}
 
-As stated on the appendix Appendix~\ref{sec:methodology-justification} the chosen methodologies are XP and Scrum.
+As stated on the Appendix~\ref{sec:methodology-justification} the chosen methodologies is XP.
 
 \begin{figure}
     \includegraphics[width=0.45\textwidth]{"resources/images/xp-workflow.png"}
@@ -10,6 +10,7 @@ As stated on the appendix Appendix~\ref{sec:methodology-justification} the chose
 \paragraph{Adaption of methodology} XP will be the main development methodology and will be supported by Scrum's Sprint, Sprint Review and Sprint planning.
 The idea of the adoption is to have the testing approach and coding standards of extreme programming while working in timeboxes with defined workloads.
 
+
 \subsubsection{Roles y responsabilidades}
 
 \paragraph{Programmer, Tester and Tracker, Manager} Tesista will asume those roles.
@@ -17,3 +18,29 @@ The idea of the adoption is to have the testing approach and coding standards of
 \paragraph{Consultant, Coach} Tutor will act as tehcnical reference regarding machine learning development.
 
 \paragraph{Customer} The customer is the Registrar Office.
+
+\subsubsection{Events}
+
+\begin{figure}
+    \includegraphics[width=0.45\textwidth]{"resources/images/xp-project.png"}
+    \caption{Fuente \textcite{XpWeb}}\label{fig:xp-project}
+\end{figure}
+
+\paragraph{Release planning} Registrar office will pick a week's worth of user stories, based on velocity.
+
+\paragraph{Iteration}
+
+\begin{figure}
+    \includegraphics[width=0.45\textwidth]{"resources/images/xp-iteration.png"}
+    \caption{Fuente \textcite{XpWeb}}\label{fig:xp-iteration}
+\end{figure}
+
+\begin{itemize}
+    \item Iteration planning, pick stories and produce programming tasks.
+    \item Development, first unit tests and then coding.
+\end{itemize}
+
+During each iteration Tracker would produce the velocity metric.
+
+\paragraph{Acceptance tests} Produced from user stories.
+The customer will specify scenarios to test. This step produces bug-fixes and refactoring tasks to be taken into account for the next iteration
