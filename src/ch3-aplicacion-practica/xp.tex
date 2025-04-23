@@ -11,7 +11,7 @@ As stated on the Appendix~\ref{sec:methodology-justification} the chosen methodo
 The idea of the adoption is to have the testing approach and coding standards of extreme programming while working in timeboxes with defined workloads.
 
 
-\subsubsection{Roles y responsabilidades}
+\subsection{Roles y responsabilidades}
 
 \paragraph{Programmer, Tester and Tracker, Manager} Tesista will asume those roles.
 
@@ -19,7 +19,7 @@ The idea of the adoption is to have the testing approach and coding standards of
 
 \paragraph{Customer} The customer is the Registrar Office.
 
-\subsubsection{Events}
+\subsection{Process workflow}
 
 \begin{figure}
     \includegraphics[width=0.45\textwidth]{"resources/images/xp-project.png"}
@@ -44,3 +44,19 @@ During each iteration Tracker would produce the velocity metric.
 
 \paragraph{Acceptance tests} Produced from user stories.
 The customer will specify scenarios to test. This step produces bug-fixes and refactoring tasks to be taken into account for the next iteration
+
+\subsection{Herramientas}
+\subsubsection{Gestion del proyecto}
+Tools to be used in order to manage user requirements and programming tasks.
+
+\paragraph{Taiga} Will be used to manage user requirements.
+
+\paragraph{TaskWarrior} Will be used to manage programming tasks, given that programming tasks are technical removing programming tasks from the user requirements view will declutter this view making it less technical for the client.
+
+\subsubsection{Control de versiones}
+
+The selected versioning tool is Git.
+
+\paragraph{Branching model} The GitFlow branching model will be used.
+
+\paragraph{GitHub} will be the remote codebase. This platform will also have CI/CD implementations.
