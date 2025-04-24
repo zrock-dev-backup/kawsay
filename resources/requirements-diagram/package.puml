@@ -48,29 +48,6 @@ package "Management" {
     stu_mgmt <.. sis: <<drvReqt>>
     stu_mgmt +-- stu_c
 
-    stereotype "Availability" AS teach_availability {
-        {field} overview: Teaching staff defines the available time to teach and sometimes because external reasons it may change.
-    }
-    stereotype "Teaching staff management" AS teach_mgmt {
-        {field} overview: Registrar office wants to register proffessors and faculty practicioners, so that they can know their availability when creating schedules.
-    }
-    teach_mgmt +-- teach_availability
-
-    stereotype "Preriquisite visualization" AS visual {
-        {field} overview: Registrar wants to visualize a course's required courses as a tree.
-    }
-    stereotype "Course creation" AS course_creation {
-        {field} overview: Registrar wants to create a course. Sometimes a course has dependencies.
-    }
-    course_creation +-- visual
-    stereotype "Class assignation" AS class_asign {
-        {field} overview: Registrar wants to assign students to a class.
-    }
-    stereotype "Courses management" AS courses_mgmt{
-        {field} overview: Registrar office wants to manage (CRUD) courses, so that they can assign students to courses having in mind teaching staff availability.
-    }
-    courses_mgmt +-- course_creation
-    courses_mgmt +-- class_asign
 }
 package "Management" {
     stereotype "Course eligibility analysis" AS eligibility {

@@ -1,0 +1,116 @@
+@startuml
+skinparam wrapwidth 200
+skinparam defaultFontName Helvetica
+
+skinparam class {
+    BackgroundColor<<Requirement>> Beige
+}
+
+package "Academic Program" {
+    stereotype "Class timetable pre-population" AS module_population {
+        {field} overview: When opening a module, it should come pre-populated with classes. Given that a module has a defined set of courses the system should generate a timetable for an specific cohort.
+    }
+    stereotype "Module" AS academic_module {
+        {field} overview: I as registrar want to open a module for a cohort so that I can start with student enrollment process.
+		{field} A module can have a maximum of 3 courses per group. Students are required to pass prerequisite courses in order to be enrolled in the next module.
+    }
+	academic_module <.. module_population: <<drvReqt>>
+    stereotype "Term" AS academic_term {
+        {field} overview: I as registrar want to open a new term for a cohort, so that I can open modules in it.
+    }
+    stereotype "Academic calendar" AS academic {
+        {field} overview: I as registrar want to open a new term and open a new module.
+    }
+	academic +-- academic_term
+	academic +-- academic_module
+
+    stereotype "Academic map graphical view" AS course_dependencyGraphView {
+        {field} overview: I as a registrar want the system to show me a graphical view of the academic map dependencies, so that I can asses if courses depedencies are correct.
+    }
+    stereotype "Course dependency" AS course_dependency {
+        {field} overview: I as a registrar want to register that a course depends in other courses.
+    }
+	course_dependency <.. course_dependencyGraphView: <<drvReqt>>
+    stereotype "Course" AS course {
+        {field} overview: I as a registrar want to create/update/delete courses of the Commercial Software Engineering career.
+    }
+	course <.. course_dependency: <<drvReqt>>
+
+    stereotype "Enrollment Hint" AS hint_clash_enrollment {
+        {field} overview: If the system identifies an enrollment clash it should hint the user another timeslot, that is a the same class subject but in another timesslot.
+    }
+    stereotype "Student timeslot availability evaluation" AS clash_studentEnrollment {
+        {field} overview: Before enrolling student to class, system should verify if the student isn't already enrolled in another class at the same timeslot.
+    }
+	clash_studentEnrollment <.. hint_clash_enrollment: <<drvReqt>>
+    stereotype "Course pass/fail forecasting hint" AS eligibility_forecasting {
+        {field} overview: When opening next module, grading notes are not in yet, in this situation registrar office ponders if the student should be enrolled. System should do the forecasting based on GPA and SPA.
+    }
+    stereotype "Course dependency evaluation" AS eligibility_courseDepedency {
+        {field} overview: I as a registrar want the sytem to notify me if a student doesn't have the necessary courses required to take the course.
+    }
+    stereotype "Student filter" AS student_filter{
+        {field} overview: I as a registrar want to filter my search of students according to: group, section, cohort, timezone and country.
+    }
+    stereotype "Student search" AS student_search {
+        {field} overview: I as registrar want to search for an student.
+    }
+    stereotype "Student selection" AS student_selection {
+        {field} overview: I as registrar want to select a student from a list, so that him/her would be enrolled to it.
+    }
+	student_selection +-- student_search
+	student_selection +-- student_filter
+    stereotype "Student eligibility status" AS student_eligibilityStatus {
+        {field} overview: I as registrar want to have a view of a student eligibility status. Showing timeslot availability and course dependency.
+    }
+    stereotype "Force enrollment" AS enrollment_forced {
+        {field} overview: I as registrar want to forcibly enroll a student so that he/she can be enrolled because of a management decision.
+		{field} A forced enrollment should have a justification.
+		{field} Registrar should be able to select a pre-made justification.
+    }
+    stereotype "Enrollment analysis" AS enrollmentAnalysis {
+        {field} overview: I as registrar want to receive notifications for when a student can't be enrolled to the class.
+    }
+	enrollmentAnalysis +-- eligibility_courseDepedency
+	enrollmentAnalysis +-- clash_studentEnrollment
+	enrollmentAnalysis +-- student_eligibilityStatus
+	enrollmentAnalysis +-- enrollment_forced
+	enrollmentAnalysis +-- eligibility_forecasting
+
+    stereotype "Enrollment" AS classEnrollment {
+        {field} overview: As a registrar I want to select a student and enroll him/her to the class.
+    }
+	classEnrollment <.. student_selection: <<drvReqt>>
+	classEnrollment +-- enrollmentAnalysis
+
+    stereotype "Teacher selection" AS class_teacherSelection {
+        {field} overview: I as registrar want to select a teacher to teach a class, so that I can assign him/her.
+		{field} The selection list should only contain the names of teachers that can give the class.
+    }
+    stereotype "Course selection" AS class_courseSelection {
+        {field} overview: I as a registrar want to select a course to be imparted in the class.
+    }
+    stereotype "Class creation" AS class_creation {
+        {field} overview: I as registrar want to create a new course either masterclass or faculty practitioner.
+		{field} There are two kinds of classes:
+        {field} Masterclass, given by a professor. A whole group of students attends the masterclass.
+        {field} Practicioner class, given by an industry engineer. A section of students attends this class.
+		{field} attributes: class name, teacher, students, timeslot, frequency.
+    }
+    class_creation +-- class_courseSelection
+    class_creation +-- class_teacherSelection
+
+    stereotype "Class timeslot migration" AS class_timeslotMigration {
+        {field} overview: I as registrar want to change the timeslot of a class so that I can handle the teacher's request.
+    }
+    stereotype "Class" AS class_mgmt{
+        {field} overview: I as registrar want to create/update/delete classes (masterclass and faculty practitioner class) of a course.
+    }
+    class_mgmt +-- class_creation
+    class_mgmt +-- classEnrollment
+	class_mgmt +-- class_timeslotMigration
+}
+@enduml
+    stereotype "" {
+        {field} overview:
+    }
