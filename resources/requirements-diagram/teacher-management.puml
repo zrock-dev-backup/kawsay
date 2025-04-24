@@ -1,0 +1,16 @@
+@startuml
+skinparam wrapwidth 200
+skinparam defaultFontName Helvetica
+
+skinparam class {
+    BackgroundColor<<Requirement>> Beige
+}
+package "Teaching staff" {
+    stereotype "Teacher registration" AS teach_mgmt {
+        {field} overview: I as registrar want to register/update/delete proffessors and faculty practicioners, so that they are available for selection when creating classes.
+    }
+}
+@enduml
+    stereotype "" {
+        {field} overview:
+    }

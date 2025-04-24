@@ -6,7 +6,7 @@ skinparam class {
     BackgroundColor<<Requirement>> Beige
 }
 
-package "Academic Program" {
+package "Academic" {
     stereotype "Class timetable pre-population" AS module_population {
         {field} overview: When opening a module, it should come pre-populated with classes. Given that a module has a defined set of courses the system should generate a timetable for an specific cohort.
     }
@@ -18,12 +18,21 @@ package "Academic Program" {
     stereotype "Term" AS academic_term {
         {field} overview: I as registrar want to open a new term for a cohort, so that I can open modules in it.
     }
-    stereotype "Academic calendar" AS academic {
-        {field} overview: I as registrar want to open a new term and open a new module.
+    stereotype "Academic track creation" AS track_creation {
+        {field} overview: I as a registrar want to create a track, so that students will be managed under that track.
+		{field} Track creation involves selecting cohorts.
+		{field} Cohort creation involves selecting groups, groups are composed by sections.
+    }
+    stereotype "Academic track" AS academic {
+        {field} overview: I as a registrar want to create a track.
+		A track is an association of students by language and timezone divided in cohorts, groups and sections.
     }
 	academic +-- academic_term
 	academic +-- academic_module
+	academic +-- track_creation
+}
 
+package "Course" {
     stereotype "Academic map graphical view" AS course_dependencyGraphView {
         {field} overview: I as a registrar want the system to show me a graphical view of the academic map dependencies, so that I can asses if courses depedencies are correct.
     }
@@ -35,7 +44,9 @@ package "Academic Program" {
         {field} overview: I as a registrar want to create/update/delete courses of the Commercial Software Engineering career.
     }
 	course <.. course_dependency: <<drvReqt>>
+}
 
+package "Enrollment Analysis" AS pk_enrollmentAnalysis {
     stereotype "Enrollment Hint" AS hint_clash_enrollment {
         {field} overview: If the system identifies an enrollment clash it should hint the user another timeslot, that is a the same class subject but in another timesslot.
     }
@@ -49,6 +60,15 @@ package "Academic Program" {
     stereotype "Course dependency evaluation" AS eligibility_courseDepedency {
         {field} overview: I as a registrar want the sytem to notify me if a student doesn't have the necessary courses required to take the course.
     }
+	eligibility_courseDepedency <.. eligibility_forecasting
+    stereotype "Student eligibility status" AS student_eligibilityStatus {
+        {field} overview: I as registrar want to have a view of a student eligibility, showing timeslot availability and pre-requisite course.
+    }
+	student_eligibilityStatus +-- eligibility_courseDepedency
+	student_eligibilityStatus +-- clash_studentEnrollment
+}
+
+package "Student" {
     stereotype "Student filter" AS student_filter{
         {field} overview: I as a registrar want to filter my search of students according to: group, section, cohort, timezone and country.
     }
@@ -60,29 +80,27 @@ package "Academic Program" {
     }
 	student_selection +-- student_search
 	student_selection +-- student_filter
-    stereotype "Student eligibility status" AS student_eligibilityStatus {
-        {field} overview: I as registrar want to have a view of a student eligibility status. Showing timeslot availability and course dependency.
-    }
+}
+
+package "Enrollment" AS pkg_enrollment {
     stereotype "Force enrollment" AS enrollment_forced {
         {field} overview: I as registrar want to forcibly enroll a student so that he/she can be enrolled because of a management decision.
 		{field} A forced enrollment should have a justification.
 		{field} Registrar should be able to select a pre-made justification.
     }
-    stereotype "Enrollment analysis" AS enrollmentAnalysis {
-        {field} overview: I as registrar want to receive notifications for when a student can't be enrolled to the class.
+    stereotype "Notifications" AS notifications {
+        {field} overview: I as registrar want to receive notifications when attempting to enroll a student and: student isn't available for timeslot, student doesn't have pre-requisite courses.
     }
-	enrollmentAnalysis +-- eligibility_courseDepedency
-	enrollmentAnalysis +-- clash_studentEnrollment
-	enrollmentAnalysis +-- student_eligibilityStatus
-	enrollmentAnalysis +-- enrollment_forced
-	enrollmentAnalysis +-- eligibility_forecasting
-
-    stereotype "Enrollment" AS classEnrollment {
-        {field} overview: As a registrar I want to select a student and enroll him/her to the class.
+    stereotype "Enrollment" AS enrollment {
+        {field} overview: I as registrar want to enroll students in a class.
     }
-	classEnrollment <.. student_selection: <<drvReqt>>
-	classEnrollment +-- enrollmentAnalysis
+	enrollment +-- enrollment_forced
+	enrollment +-- notifications
+}
+pkg_enrollment +-- student_selection
+pkg_enrollment +-- student_eligibilityStatus
 
+package "Class" {
     stereotype "Teacher selection" AS class_teacherSelection {
         {field} overview: I as registrar want to select a teacher to teach a class, so that I can assign him/her.
 		{field} The selection list should only contain the names of teachers that can give the class.
@@ -99,6 +117,7 @@ package "Academic Program" {
     }
     class_creation +-- class_courseSelection
     class_creation +-- class_teacherSelection
+    class_creation +-- pkg_enrollment
 
     stereotype "Class timeslot migration" AS class_timeslotMigration {
         {field} overview: I as registrar want to change the timeslot of a class so that I can handle the teacher's request.
@@ -107,7 +126,6 @@ package "Academic Program" {
         {field} overview: I as registrar want to create/update/delete classes (masterclass and faculty practitioner class) of a course.
     }
     class_mgmt +-- class_creation
-    class_mgmt +-- classEnrollment
 	class_mgmt +-- class_timeslotMigration
 }
 @enduml

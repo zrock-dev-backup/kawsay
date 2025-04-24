@@ -9,6 +9,10 @@ skinparam class {
 title System requirements
 footer SySML requirements diagram
 
+!include courses-management.puml
+!include student-management.puml
+!include teacher-management.puml
+
 package "Reports" {
     ' OUTPUT
     stereotype "Schedule report" AS report_sch{
@@ -22,77 +26,6 @@ package "Reports" {
     }
     report +-- report_t
     report +-- report_sch
-}
-
-package "Management" {
-    stereotype "Grading" AS grading{
-        {field} overview: SAP and GPA are grading scales to evaluate a student. System should allow registrar office to browse one or many student grading.
-    }
-    stereotype "Student creation" aS stu_c{
-        {field} overview: student creation should contemplate the following fields.
-        Enrollment status of a student (a.k.a. program status): enrolled, withdrawn, LOA
-        email, cohort, group, section, country
-    }
-    stereotype "Data integrity" AS sis_integrity {
-        {field} overview: System should ensure coherence between internal DB and SIS' DB
-    }
-    stereotype "SIS integration" as sis {
-        {field} overview: System should be able to grab data student and grades data from the SIS.
-    }
-    sis +-- sis_integrity
-    stereotype "Student management" AS stu_mgmt{
-    ' CRUD operations with students.
-        {field} overview: Registrar office wants to register students into the system so that they have them available for other operations
-    }
-    stu_mgmt +-- grading
-    stu_mgmt <.. sis: <<drvReqt>>
-    stu_mgmt +-- stu_c
-
-}
-package "Management" {
-    stereotype "Course eligibility analysis" AS eligibility {
-        {field} overview: System should determine student's eligibility for a course based on course prerequisites (i.e. advanced courses require students to pass other courses) and categorize in three: Yes (eligible student), maybe and not.
-    }
-    stereotype "Student course pass prediction" AS prediction {
-        {field} overview: system should take student's history (i.e. grading and attendance) to predict if the student will pass the course.
-    }
-    stereotype "Class population" AS population {
-        {field} overview: After registrar has created a course. System should provide an option to populate the course with student based on prediction analysis
-    }
-    population +-- prediction
-    population +-- eligibility
-
-    stereotype "Generation algorithm" AS sch_gen {
-        {field} overview: system should use an algorithm to generate the schedule.
-    }
-
-    stereotype "Malla curricular" AS sch_creation {
-        {field} overview: Registrar wants to create a course on a term in a specific time range.
-    }
-    sch_creation +-- population
-    sch_creation +-- sch_gen
-
-    stereotype "Timezone evaluation" AS timezone {
-        {field} overview: Registrar should be able to acknowledge different countries timezones.
-    }
-    stereotype "Schedule clash evaluation" AS clash {
-        {field} overview: Registrar should be able to know if an schedule management action (e.g. creation or migration) would create a course conflict
-    }
-    stereotype "Evaluation" AS eval {
-        {field} overview:
-    }
-    eval +-- clash
-    eval +-- timezone
-
-    stereotype "Schedule migration" AS sch_migration {
-        {field} overview: Registrar wants to move a course from one time to another, this is done when teaching staff requests a change.
-    }
-    stereotype "Schedule management" AS sch_mgmt{
-        {field} overview: registrar office wants to manage an academic year schedule.
-    }
-    sch_mgmt <.. eval: <<drvRq>>
-    sch_mgmt +-- sch_creation
-    sch_mgmt +-- sch_migration
 }
 
 package "non-functional" {
