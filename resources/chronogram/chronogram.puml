@@ -1,0 +1,29 @@
+@startgantt
+language spa
+header Scheduling System
+title Cronograma de trabajo - Semanal
+footer Diagrama Gantt
+ganttscale weekly
+
+Project starts 2025-01-06
+
+[Perfil de grado] AS [A1] STARTS 2025-01-06
+[A1] ENDS 2025-02-02
+
+[Marco Teorico] AS [A2] STARTS 2025-02-03
+[A2] ENDS 2025-03-24
+
+-- Aplicacion Practica --
+[Fase de exploracion] AS [S-1] STARTS 2025-02-03
+[S-1] ENDS 2025-03-16
+then [Iteration 1: UI prototyping] AS [S-2] LASTS 14 DAYS
+then [Iteration 2: Schedule generation, basic clashes] AS [S-3] LASTS 14 DAYS
+then [Iteration 3: Data input, teaching, students] AS [S-4] LASTS 14 DAYS
+then [Iteration 4: Data input, courses, excel] AS [S-5] LASTS 14 DAYS
+then [Iteration 5: ML forecasting] AS [S-6] LASTS 14 DAYS
+then [Iteration 6: Data output: reports] AS [S-7] LASTS 14 DAYS
+then [Iteration 7: System integration] AS [S-8] LASTS 14 DAYS
+then [Final release preparations] AS [S-9] ENDS 2025-07-02
+[VERSION ALFA] AS [M-4] HAPPENS AT [S-9]'S END
+[M-4] IS COLORED IN Fuchsia/FireBrick
+@endgantt
