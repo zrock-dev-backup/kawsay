@@ -4,14 +4,15 @@ skinparam defaultFontName Helvetica
 
 skinparam class {
     BackgroundColor<<Requirement>> Beige
+    BackgroundColor<<ActiveDevelopment>> Yellow
 }
 
 title System requirements
 footer SySML requirements diagram
 
-!include courses-management.puml
 !include student-management.puml
 !include teacher-management.puml
+!include courses-management.puml
 
 package "Reports" {
     ' OUTPUT

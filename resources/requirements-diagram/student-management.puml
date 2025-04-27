@@ -6,11 +6,38 @@ skinparam class {
     BackgroundColor<<Requirement>> Beige
 }
 
-package "Student management" {
-    stereotype "Grading" AS grading{
+package "Academic Registration" {
+    stereotype "Section registration" AS reg_section {
+        {field} overview:
+    }
+    stereotype "Group registration" AS reg_group {
+        {field} overview:
+    }
+    stereotype "Cohort registration" AS reg_cohort {
+        {field} overview:
+    }
+    stereotype "Track registration" AS reg_track <<ActiveDevelopment>> {
+        {field} overview: I as a registrar want to create a track, so that students will be managed under that track.
+		{field} Track creation involves selecting cohorts.
+		{field} Cohort creation involves selecting groups, groups are composed by sections.
+    }
+	NOTE LEFT OF reg_track
+		"A track is an association of students by language and timezone divided in cohorts, groups and sections."
+	END NOTE
+    stereotype "Academic registration" AS academic_registration {
+        {field} overview: To assign a student to a cohort/section/group
+    }
+	academic_registration +-- reg_track
+	academic_registration +-- reg_group
+	academic_registration +-- reg_section
+	academic_registration +-- reg_cohort
+}
+
+package "Student management" AS pck_student_mgmt{
+    stereotype "Grading" AS grading {
         {field} overview: SAP and GPA are grading scales to evaluate a student. System should allow registrar office to browse one or many student grading.
     }
-    stereotype "Student creation" aS stu_c{
+    stereotype "Personal registration" AS stu_c{
         {field} overview: student creation should contemplate the following fields.
         Enrollment status of a student (a.k.a. program status): enrolled, withdrawn, LOA
         email, cohort, group, section, country
@@ -19,7 +46,7 @@ package "Student management" {
         {field} overview: System should ensure coherence between internal DB and SIS' DB
     }
     stereotype "SIS integration" as sis {
-        {field} overview: System should be able to grab data student and grades data from the SIS.
+        {field} overview: System should verify that registered students are available in SIS.
     }
     sis +-- sis_integrity
     stereotype "Student management" AS stu_mgmt{
@@ -29,7 +56,9 @@ package "Student management" {
     stu_mgmt +-- grading
     stu_mgmt <.. sis: <<drvReqt>>
     stu_mgmt +-- stu_c
+	stu_mgmt +-- academic_registration
 }
+
 @enduml
     stereotype "" {
         {field} overview:

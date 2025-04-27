@@ -4,10 +4,15 @@ skinparam defaultFontName Helvetica
 
 skinparam class {
     BackgroundColor<<Requirement>> Beige
+    BackgroundColor<<ActiveDevelopment>> Yellow
 }
 
-package "Academic" {
-    stereotype "Class timetable pre-population" AS module_population {
+
+package "Timetable generation" {
+    stereotype "Term" AS academic_term {
+        {field} overview: I as registrar want to open a new term for a cohort, so that I can open modules in it.
+    }
+    stereotype "Class timetable pre-population" AS module_population <<ActiveDevelopment>>{
         {field} overview: When opening a module, it should come pre-populated with classes. Given that a module has a defined set of courses the system should generate a timetable for an specific cohort.
     }
     stereotype "Module" AS academic_module {
@@ -15,21 +20,6 @@ package "Academic" {
 		{field} A module can have a maximum of 3 courses per group. Students are required to pass prerequisite courses in order to be enrolled in the next module.
     }
 	academic_module <.. module_population: <<drvReqt>>
-    stereotype "Term" AS academic_term {
-        {field} overview: I as registrar want to open a new term for a cohort, so that I can open modules in it.
-    }
-    stereotype "Academic track creation" AS track_creation {
-        {field} overview: I as a registrar want to create a track, so that students will be managed under that track.
-		{field} Track creation involves selecting cohorts.
-		{field} Cohort creation involves selecting groups, groups are composed by sections.
-    }
-    stereotype "Academic track" AS academic {
-        {field} overview: I as a registrar want to create a track.
-		A track is an association of students by language and timezone divided in cohorts, groups and sections.
-    }
-	academic +-- academic_term
-	academic +-- academic_module
-	academic +-- track_creation
 }
 
 package "Course" {
@@ -119,7 +109,7 @@ package "Class" {
     class_creation +-- class_teacherSelection
     class_creation +-- pkg_enrollment
 
-    stereotype "Class timeslot migration" AS class_timeslotMigration {
+    stereotype "Class timeslot migration" AS class_timeslotMigration <<ActiveDevelopment>> {
         {field} overview: I as registrar want to change the timeslot of a class so that I can handle the teacher's request.
     }
     stereotype "Class" AS class_mgmt{
