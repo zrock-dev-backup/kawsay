@@ -16,31 +16,22 @@ package "Academic Registration" {
     stereotype "Cohort registration" AS reg_cohort {
         {field} overview:
     }
-    stereotype "Track registration" AS reg_track <<ActiveDevelopment>> {
+    stereotype "Track registration" AS reg_track {
         {field} overview: I as a registrar want to create a track, so that students will be managed under that track.
-		{field} Track creation involves selecting cohorts.
-		{field} Cohort creation involves selecting groups, groups are composed by sections.
+		'{field} Track creation involves selecting cohorts.
+		'{field} Cohort creation involves selecting groups, groups are composed by sections.
     }
+	reg_track +-- reg_group
+	reg_track +-- reg_section
+	reg_track +-- reg_cohort
 	NOTE LEFT OF reg_track
 		"A track is an association of students by language and timezone divided in cohorts, groups and sections."
 	END NOTE
-    stereotype "Academic registration" AS academic_registration {
-        {field} overview: To assign a student to a cohort/section/group
-    }
-	academic_registration +-- reg_track
-	academic_registration +-- reg_group
-	academic_registration +-- reg_section
-	academic_registration +-- reg_cohort
 }
 
 package "Student management" AS pck_student_mgmt{
     stereotype "Grading" AS grading {
         {field} overview: SAP and GPA are grading scales to evaluate a student. System should allow registrar office to browse one or many student grading.
-    }
-    stereotype "Personal registration" AS stu_c{
-        {field} overview: student creation should contemplate the following fields.
-        Enrollment status of a student (a.k.a. program status): enrolled, withdrawn, LOA
-        email, cohort, group, section, country
     }
     stereotype "Data integrity" AS sis_integrity {
         {field} overview: System should ensure coherence between internal DB and SIS' DB
@@ -49,14 +40,19 @@ package "Student management" AS pck_student_mgmt{
         {field} overview: System should verify that registered students are available in SIS.
     }
     sis +-- sis_integrity
+    stereotype "Personal registration" AS stu_c{
+        {field} overview: student creation should contemplate the following fields.
+        Enrollment status of a student (a.k.a. program status): enrolled, withdrawn, LOA
+        email, cohort, group, section, country
+    }
+    stu_c <.. sis: <<drvReqt>>
     stereotype "Student management" AS stu_mgmt{
     ' CRUD operations with students.
         {field} overview: Registrar office wants to register students into the system so that they have them available for other operations
     }
     stu_mgmt +-- grading
-    stu_mgmt <.. sis: <<drvReqt>>
     stu_mgmt +-- stu_c
-	stu_mgmt +-- academic_registration
+	stu_mgmt +-- reg_track
 }
 
 @enduml

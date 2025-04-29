@@ -9,17 +9,57 @@ skinparam class {
 
 
 package "Timetable generation" {
-    stereotype "Term" AS academic_term {
-        {field} overview: I as registrar want to open a new term for a cohort, so that I can open modules in it.
+    stereotype "Creation hint" AS hint_custom_class{
+        {field} overview: System should hint registrar of available timeslots and teachers.
     }
-    stereotype "Class timetable pre-population" AS module_population <<ActiveDevelopment>>{
-        {field} overview: When opening a module, it should come pre-populated with classes. Given that a module has a defined set of courses the system should generate a timetable for an specific cohort.
+    stereotype "Custom class creation" AS custom_class {
+        {field} overview: I as a registrar want to create a custom class so that it is possible to accomodate failed students.
     }
-    stereotype "Module" AS academic_module {
-        {field} overview: I as registrar want to open a module for a cohort so that I can start with student enrollment process.
-		{field} A module can have a maximum of 3 courses per group. Students are required to pass prerequisite courses in order to be enrolled in the next module.
+	custom_class <.. hint_custom_class: <<drvReqt>>
+	NOTE LEFT OF custom_class
+		Scenario example:
+			student fails a class and has to take it again.
+		In this case Registrar will create a custom class.
+	END NOTE
+    stereotype "Class-Teacher Timetabling" AS gen_2 {
+        {field} overview: I as Registrar want the system to generate a class timetable for the students of a module.
     }
-	academic_module <.. module_population: <<drvReqt>>
+	NOTE LEFT OF gen_2
+		Distribute group and sections so that no teacher and no class should have no simultaneous lessons.
+	END NOTE
+    stereotype "Faculty timetabling" AS gen_1  {
+        {field} overview: As a Registrar I want the system to generate a timetable where teachers have been assigned to a class taking into account their availability and our preference of time.
+    }
+	NOTE LEFT OF gen_1
+		Distribute courses between instructors under specified conditions.
+	END NOTE
+    stereotype "Automated timetable generation" AS module_population{
+        {field} overview: As a Registrar I want the system to generate an academic timetable of the module
+    }
+	module_population +-- gen_1
+	module_population +-- gen_2
+    stereotype "Module view" AS module_view {
+        {field} overview: As registrar I want to have a view of a module.
+    }
+    stereotype "Open a new module" AS academic_module {
+        {field} overview: I as registrar want to open a module.
+    }
+	academic_module +-- module_population
+	academic_module +-- custom_class
+	academic_module <.. module_view: <<drvReqt>>
+	/'
+	NOTE LEFT OF academic_module
+		A module can have a maximum of 3 courses per group. Students are required to pass prerequisite courses in order to be enrolled in the next module.
+	END NOTE
+	'/
+    stereotype "Term view" AS term_view {
+        {field} overview: As registrar I want to have a view of a term.
+    }
+    stereotype "Open a new Term" AS academic_term {
+        {field} overview: I as registrar want to open a new term for a cohort.
+    }
+	academic_term +-- academic_module
+	academic_term <.. term_view: <<drvReqt>>
 }
 
 package "Course" {
@@ -30,19 +70,27 @@ package "Course" {
         {field} overview: I as a registrar want to register that a course depends in other courses.
     }
 	course_dependency <.. course_dependencyGraphView: <<drvReqt>>
+    stereotype "Course assignation" AS course_assignation {
+        {field} overview: As a registrar want to set in which term a course is available.
+    }
     stereotype "Course" AS course {
         {field} overview: I as a registrar want to create/update/delete courses of the Commercial Software Engineering career.
     }
 	course <.. course_dependency: <<drvReqt>>
+	course +-- course_assignation
 }
 
 package "Enrollment Analysis" AS pk_enrollmentAnalysis {
     stereotype "Enrollment Hint" AS hint_clash_enrollment {
         {field} overview: If the system identifies an enrollment clash it should hint the user another timeslot, that is a the same class subject but in another timesslot.
     }
+    stereotype "Enrollment clash alert" AS notification_clashStudentEnrollment {
+        {field} overview: As a registrar I want to receive an alert when attempting to enroll an already booked student.
+    }
     stereotype "Student timeslot availability evaluation" AS clash_studentEnrollment {
         {field} overview: Before enrolling student to class, system should verify if the student isn't already enrolled in another class at the same timeslot.
     }
+	clash_studentEnrollment <.. notification_clashStudentEnrollment: <<drvReqt>>
 	clash_studentEnrollment <.. hint_clash_enrollment: <<drvReqt>>
     stereotype "Course pass/fail forecasting hint" AS eligibility_forecasting {
         {field} overview: When opening next module, grading notes are not in yet, in this situation registrar office ponders if the student should be enrolled. System should do the forecasting based on GPA and SPA.
