@@ -1,0 +1,61 @@
+@startuml
+skinparam wrapwidth 200
+skinparam defaultFontName Helvetica
+
+header almond algorithm
+title Faculty timetabling
+'*****
+
+START
+FLOATING NOTE LEFT
+Data
+1 Title of course
+2 Number of students
+3 Whether or not the course can be run in sections
+4 number of single periods per week
+5 number and duration of multiple periods
+6 times of courses which must be fixed
+7 prefered times or days
+8 other courses within the department which must not conflict with this course owing to the non-availability of students, lecturers or rooms.
+END NOTE
+
+:enter the times of the fixed courses to the timetable;
+:iterate through remaining courses list;
+WHILE (are there any remaining courses?) IS (yes)
+
+':create list of the remaining courses in some suitable order for allocation.;
+NOTE RIGHT
+To do this a weight factor
+is associated with each course and the courses are then
+sorted in order of decreasing weight factor.
+
+Weight factor items: number of non-conflicting course, number of students and the number of lecture and laboratory hours.
+
+different orderings will result in alteranive versions of the timetable
+END NOTE
+partition "**process** Allocation procedure" {
+:take next course;
+NOTE RIGHT: a course which requires two single periods
+FLOATING NOTE
+search suitable times on the list of multiple period courses
+search suitable times on the list of single period courses
+END NOTE
+
+
+WHILE (has the course any periods?) IS (yes)
+	:take next period from course;
+	WHILE (has the period any times?) IS (yes)
+		:take next time from period;
+		IF (any non-conflicting course already inserted at this time?) THEN (yes)
+		ELSE (no)
+			:enter the time of the period;
+			:jump to next period, not next time;
+		ENDIF
+	ENDWHILE (no)
+	:execute procedure on other days or try relaxation of constraints;
+ENDWHILE (no)
+}
+
+ENDWHILE (no)
+STOP
+@enduml
