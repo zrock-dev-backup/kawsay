@@ -1,0 +1,26 @@
+\subsection{Diagramas}
+Los diagramas son herramientas visuales esenciales en la ingeniería de software para comunicar la estructura, el comportamiento y la arquitectura de un sistema de manera clara y concisa.
+Utilizar diferentes tipos de diagramas ayuda a comprender y documentar distintos aspectos del sistema web de gestión académica \parencite{Fowler2003}.
+
+\subsubsection{Diagrama de requerimientos}
+Los diagramas de requerimientos, como los diagramas de casos de uso (\texttt{UML}), representan las interacciones entre los actores (usuarios como estudiantes, administradores académicos) y el sistema, describiendo las funcionalidades que este debe ofrecer (e.g., "Consultar horario", "Generar propuesta de horario", "Predecir elegibilidad de estudiante", "Administrar cursos") \parencite{Jacobson1992}.
+Estos diagramas son fundamentales en las etapas iniciales para definir el alcance del proyecto y asegurar que se comprendan y capturen las necesidades de los usuarios de Jala University.
+
+\subsubsection{Diagrama C4}
+El modelo C4 (Context, Containers, Components, Code) proporciona un marco para visualizar la arquitectura de software en diferentes niveles de abstracción, facilitando la comunicación entre distintos roles (desde negocio hasta desarrolladores) \parencite{BrownC4}.
+Es especialmente útil para describir sistemas complejos como el propuesto, permitiendo entender cómo encaja en el ecosistema de Jala University y cómo se estructura internamente.
+
+\paragraph{System context}
+El diagrama de Contexto (Nivel 1 de C4) muestra el sistema de software en su totalidad como una caja negra, identificando sus interacciones con los usuarios principales (estudiantes, administradores) y otros sistemas externos con los que se integra (e.g., sistema de registro de estudiantes de Jala University, sistema de autenticación).
+Este diagrama establece el alcance y los límites del sistema de gestión del calendario académico.
+
+\paragraph{Containers}
+El diagrama de Contenedores (Nivel 2 de C4) descompone el sistema en sus principales bloques ejecutables o desplegables, como aplicaciones web, APIs, bases de datos o microservicios (e.g., Web App Frontend, API Gateway, Servicio de Horarios, Servicio de Predicción ML, Base de Datos Académica).
+Muestra las responsabilidades de alto nivel de cada contenedor y las tecnologías principales utilizadas, así como las interacciones entre ellos.
+
+\paragraph{Components}
+El diagrama de Componentes (Nivel 3 de C4) detalla la estructura interna de un contenedor específico, mostrando los principales componentes (agrupaciones lógicas de código, como clases o módulos) y sus interacciones dentro de ese contenedor.
+
+\paragraph{Code}
+El diagrama de Código (Nivel 4 de C4, opcional) ofrece una vista detallada a nivel de clases o entidades específicas dentro de un componente, utilizando notaciones como diagramas de clases \texttt{UML}.
+Este nivel es útil para desarrolladores que necesitan entender la implementación detallada de una parte específica del sistema, como las clases que implementan un algoritmo de predicción o las entidades del dominio académico.

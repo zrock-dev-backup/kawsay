@@ -1,0 +1,13 @@
+\subsection{Machine Learning}
+El Machine Learning (ML), o Aprendizaje Automático, es una rama de la inteligencia artificial que se enfoca en el desarrollo de sistemas capaces de aprender y mejorar a partir de la experiencia, sin ser explícitamente programados para cada tarea específica \parencite{Samuel1959}.
+En el contexto de este proyecto, el ML se aplica para analizar datos históricos académicos y predecir la elegibilidad de los estudiantes para inscribirse en futuras asignaturas, buscando optimizar la asignación de cupos y la planificación académica, abordando así uno de los objetivos principales de entender el impacto del ML en este proceso.
+
+\subsubsection{Supervised learning}
+El aprendizaje supervisado es un paradigma del ML donde el algoritmo aprende a partir de un conjunto de datos previamente etiquetado, es decir, cada ejemplo de entrada está asociado a una salida correcta conocida \parencite{Bishop2006}.
+El objetivo es entrenar un modelo que pueda predecir la etiqueta de salida para nuevas entradas no vistas.
+Para la predicción de elegibilidad de estudiantes en Jala University, se utilizarán datos históricos (calificaciones, cursos aprobados, plan de estudios) como entradas etiquetadas (elegible/no elegible para un curso específico) para entrenar un modelo predictivo, como podría ser una regresión logística o una máquina de soporte vectorial.
+
+\subsubsection{Unsupervised learning}
+A diferencia del aprendizaje supervisado, el aprendizaje no supervisado trabaja con datos no etiquetados, buscando descubrir patrones, estructuras o relaciones inherentes en la información sin una guía previa sobre las salidas correctas \parencite{Hastie2009}.
+Técnicas comunes incluyen el clustering (agrupación) y la reducción de dimensionalidad.
+Aunque el enfoque principal del proyecto es supervisado para la predicción de elegibilidad, el análisis exploratorio de datos podría emplear técnicas no supervisadas para identificar grupos de estudiantes con perfiles académicos similares o detectar anomalías en los patrones de inscripción, complementando la comprensión del proceso actual.

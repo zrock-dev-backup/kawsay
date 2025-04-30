@@ -1,0 +1,18 @@
+\subsection{Algoritmos para la generacion de horarios}
+La generación de horarios académicos es un problema complejo de optimización combinatoria, clasificado como NP-difícil, que busca asignar recursos (profesores, aulas, horarios) a eventos (clases) respetando un conjunto de restricciones duras (inviolables) y blandas (deseables) \parencite{Schaerf1999}.
+El desarrollo de algoritmos eficientes para esta tarea es crucial para instituciones educativas como Jala University, ya que impacta directamente en la satisfacción de estudiantes y docentes, y en la utilización de recursos, siendo un pilar para mejorar el proceso actual de gestión del calendario.
+
+\subsubsection{Evolutionary and genetic algorithms}
+Los algoritmos evolutivos, y en particular los algoritmos genéticos, son metaheurísticas inspiradas en la evolución biológica que resultan efectivas para problemas de optimización complejos como la generación de horarios \parencite{Eiben2003}.
+Operan sobre una población de soluciones candidatas (horarios), aplicando operadores genéticos como selección, cruce y mutación para evolucionar hacia soluciones de mayor calidad (que satisfacen más restricciones o minimizan conflictos).
+Su capacidad para explorar amplios espacios de búsqueda los hace adecuados para encontrar horarios viables y optimizados en entornos con múltiples restricciones como el de Jala University.
+
+\subsubsection{Constraint-based reasoning}
+El razonamiento basado en restricciones (Constraint Satisfaction Problems - CSP) modela el problema de generación de horarios definiendo un conjunto de variables (clases), dominios (posibles asignaciones de tiempo/aula/profesor) y restricciones (reglas como no solapamiento, disponibilidad, capacidad) \parencite{Rossi2006}.
+Algoritmos como backtracking, forward checking o arc consistency se utilizan para encontrar asignaciones que satisfagan todas las restricciones.
+Este enfoque es útil para garantizar la viabilidad de los horarios generados, asegurando que se cumplan las reglas fundamentales del calendario académico de la universidad.
+
+\subsubsection{Linear programming/Integer programming}
+La programación lineal (LP) y la programación entera (IP) son técnicas de investigación de operaciones que permiten modelar problemas de optimización mediante funciones objetivo lineales y restricciones lineales (con variables continuas en LP y enteras o binarias en IP) \parencite{Winston2004}.
+La generación de horarios puede formularse como un problema de IP, donde las variables representan decisiones de asignación (e.g., si una clase se asigna a un horario específico) y el objetivo es optimizar alguna métrica (minimizar huecos, maximizar preferencias) sujeto a las restricciones académicas.
+Aunque computacionalmente intensivos, pueden garantizar soluciones óptimas para instancias de tamaño moderado.
