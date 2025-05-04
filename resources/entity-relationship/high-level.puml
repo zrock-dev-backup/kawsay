@@ -1,0 +1,122 @@
+@startchen
+
+'"Each [ENTITY1] [cardinality+optionality] [relationship verb] [cardinality+optionality] [ENTITY2]"
+
+/'
+Each CLASS is a COURSE
+Each MODULE has 3 COURSES
+Each TERM has 3 MODULEs
+Each CLASS may last 8 to 10 weeks
+'/
+
+'				Entities
+entity STUDENT {
+	id <<key>>
+	full_name
+	timezone
+	email_address
+	country
+}
+entity SECTION {
+	ID <<key>>
+	alpha_num_name
+ }
+entity GROUP {
+	ID <<key>>
+	alpha_num_name
+ }
+entity COHORT {
+	ID <<key>>
+	alpha_num_name
+ }
+entity TERM {
+	ID <<key>>
+	num_name
+ }
+entity TEACHER {
+	ID <<key>>
+	full_name
+ }
+entity CLASS {
+	ID <<key>>
+	title
+ }
+ entity TIMESLOT {
+	ID <<key>>
+ }
+entity TIMETABLE {
+	ID <<key>>
+	name
+ }
+ entity DAY {
+    ID <<key>>
+    date
+ }
+ entity PERIOD {
+    ID <<key>>
+    time_range
+ }
+
+'				Relationships
+relationship IS_IN_GROUP {
+ }
+relationship IS_IN_SECTION {
+ }
+relationship ENROLLED_IN_TERM {
+ }
+relationship ENROLLED_IN_CLASS {
+ }
+relationship TEACHES {
+ }
+relationship IS_SCHEDULED_FOR {
+ }
+relationship CONTAINS_GROUP {
+ }
+relationship CONTAINS_DAY {
+ }
+relationship CONSISTS_OF_PERIOD {
+ }
+relationship INCLUDES {
+ }
+
+'				Connections
+'Each STUDENT must BELONG to exactly one SECTION and exactly one GROUP.
+STUDENT -1- IS_IN_SECTION
+SECTION -1- IS_IN_SECTION
+
+STUDENT -1- IS_IN_GROUP
+GROUP -1- IS_IN_GROUP
+
+'Each COHORT must have one or many GROUPs.
+COHORT -1- CONTAINS_GROUP
+GROUP -M- CONTAINS_GROUP
+
+'Each STUDENT must be ENROLLED to exactly one TERM.
+STUDENT -1- ENROLLED_IN_TERM
+TERM -1- ENROLLED_IN_TERM
+
+'Each STUDENT must be ENROLLED in at least one or many CLASS.
+STUDENT -1- ENROLLED_IN_CLASS
+CLASS -M- ENROLLED_IN_CLASS
+
+'Each TEACHER must be ASSIGNED to one or many CLASSES
+TEACHER -1- TEACHES
+CLASS -M- TEACHES
+
+'Each CLASS IS_SCHEDULED_FOR one or many TIMESLOTs
+CLASS -1- IS_SCHEDULED_FOR
+TIMESLOT -M- IS_SCHEDULED_FOR
+
+'Each TIMESLOT must CONTAINS_DAY one or many DAYs
+TIMESLOT -1- CONTAINS_DAY
+DAY -M- CONTAINS_DAY
+
+'Each DAY must CONSISTS_OF_PERIOD one or many PERIODs
+DAY -1- CONSISTS_OF_PERIOD
+PERIOD -M- CONSISTS_OF_PERIOD
+
+'Each TIMETABLE must INCLUDES one or many TIMESLOTs
+TIMETABLE -1- INCLUDES
+TIMESLOT -M- INCLUDES
+
+@endchen
