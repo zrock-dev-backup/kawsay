@@ -1,0 +1,173 @@
+Kawsay Timetable Management API Design
+
+Base URL: /kawsay
+---
+
+Basic Entities
+
+Endpoint: GET /courses
+Purpose: Retrieve a list of all courses.
+Response Body (200 OK):
+[
+    {
+        "id": 401,
+        "name": "Programming 2",
+        "code": "CSPR-124"
+    },
+    {
+        "id": 402,
+        "name": "Linear Algebra",
+        "code": "MATH-201"
+    }
+    // ... more courses
+]
+
+
+Endpoint: GET /teachers
+Purpose: Retrieve a list of all teachers.
+Response Body (200 OK):
+[
+    {
+        "id": 301,
+        "name": "Dave Smith",
+        "type": "Professor"
+    },
+    {
+        "id": 302,
+        "name": "Jane Doe",
+        "type": "Faculty Practitioner"
+    }
+    // ... more teachers
+]
+Note: teacher type can only be "Professor" or "Faculty Practitioner".
+
+---
+
+1. Create Timetable
+
+Endpoint: POST /timetable
+Purpose: Create a new timetable structure, defining days and periods.
+Request Body:
+{
+    "name": "Spanish track",
+    "days": [ "Monday", "Tuesday", "Friday" ],
+    "periods": [
+        { "start": "08:00", "end": "08:30" },
+        { "start": "08:30", "end": "09:00" },
+        { "start": "09:00", "end": "09:30" }
+    ]
+}
+Response Body (201 Created):
+{
+    "id": 1,
+    "name": "Spanish track",
+    "days": [
+        { "id": 101, "name": "Monday" },
+        { "id": 102, "name": "Tuesday" },
+        { "id": 103, "name": "Friday" }
+    ],
+    "periods": [
+        { "id": 201, "start": "08:00", "end": "08:30" },
+        { "id": 202, "start": "08:30", "end": "09:00" },
+        { "id": 203, "start": "09:00", "end": "09:30" }
+    ]
+}
+
+---
+
+2. Get Timetable Details
+
+Endpoint: GET /timetable/{id}
+Purpose: Retrieve the structure of a specific timetable.
+Response Body (200 OK):
+{
+    "id": 1,
+    "name": "Spanish track",
+    "days": [
+        { "id": 101, "name": "Monday" },
+        { "id": 102, "name": "Tuesday" },
+        { "id": 103, "name": "Friday" }
+    ],
+    "periods": [
+        { "id": 201, "start": "08:00", "end": "08:30" },
+        { "id": 202, "start": "08:30", "end": "09:00" },
+        { "id": 203, "start": "09:00", "end": "09:30" }
+    ]
+}
+
+---
+
+3. Get Classes for a Timetable
+
+Endpoint: GET /classes
+Purpose: Retrieve all classes scheduled within a specific timetable.
+Query Parameters: timetableId={id}
+Response Body (200 OK):
+[
+    {
+        "id": 501,
+        "timetableId": 1,
+        "course": { "id": 401, "name": "Programming 2", "code": "CSPR-124" },
+        "teacher": { "id": 301, "name": "Dave Smith", "type": "Professor" },
+        "occurrences": [
+            { "id": 601, "dayId": 101, "startPeriodId": 201, "length": 2 },
+            { "id": 602, "dayId": 103, "startPeriodId": 203, "length": 1 }
+        ]
+    },
+    {
+         "id": 502,
+         "timetableId": 1,
+         "course": { "id": 402, "name": "Linear Algebra", "code": "MATH-201" },
+         "teacher": null,
+         "occurrences": [
+             { "id": 603, "dayId": 101, "startPeriodId": 203, "length": 2 }
+         ]
+    }
+]
+
+---
+
+4. Get Single Class Details
+
+Endpoint: GET /class/{id}
+Purpose: Retrieve details for a specific class.
+Response Body (200 OK):
+{
+    "id": 501,
+    "timetableId": 1,
+    "course": { "id": 401, "name": "Programming 2", "code": "CSPR-124" },
+    "teacher": { "id": 301, "name": "Dave Smith", "type": "Professor" },
+    "occurrences": [
+        { "id": 601, "dayId": 101, "startPeriodId": 201, "length": 2 },
+        { "id": 602, "dayId": 103, "startPeriodId": 203, "length": 1 }
+    ]
+}
+
+---
+
+5. Create Class
+
+Endpoint: POST /class
+Purpose: Create a new class and schedule its occurrences.
+Request Body:
+{
+    "timetableId": 1,
+    "courseId": 401,
+    "teacherId": 301,
+    "occurrences": [
+        { "dayId": 101, "startPeriodId": 201, "length": 2 },
+        { "dayId": 103, "startPeriodId": 203, "length": 1 }
+    ]
+}
+Response Body (201 Created):
+{
+    "id": 501,
+    "timetableId": 1,
+    "course": { "id": 401, "name": "Programming 2", "code": "CSPR-124" },
+    "teacher": { "id": 301, "name": "Dave Smith", "type": "Professor" },
+    "occurrences": [
+        { "id": 601, "dayId": 101, "startPeriodId": 201, "length": 2 },
+        { "id": 602, "dayId": 103, "startPeriodId": 203, "length": 1 }
+    ]
+}
+
