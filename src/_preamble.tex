@@ -1,15 +1,31 @@
-\documentclass[man,11pt,floatsintext,letterpaper]{apa7}
+\documentclass[man, 11pt, floatsintext, letterpaper, margins=L3cm_R2.5cm_T2.5cm_B2.5cm, headheight=20pt]{apa7}
 
 \usepackage{polyglossia}
 \setdefaultlanguage{spanish}
+
 \usepackage{csquotes}
 \usepackage{graphicx}
+\graphicspath{
+  {../resources/},
+  {../resources/images/},
+  {../resources/images/marco_practico/},
+  {../resources/images/marco_practico/sprint_0/},
+  {../resources/chronogram/build/},
+  {../resources/cover/}
+}
 \usepackage{float}
-\usepackage[style=apa,sortcites=true,sorting=nyt,backend=biber]{biblatex}
+
+\usepackage[style=apa, sortcites=true, sorting=nyt, backend=biber]{biblatex}
 \DeclareLanguageMapping{american}{american-apa}
 \addbibresource{bibliography.bib}
+
 \usepackage{fontspec}
 \setmainfont{Arial}
+\usepackage{setspace}
+\setstretch{1.15}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{tikz}
@@ -17,48 +33,16 @@
 \usepackage{ragged2e}
 \justifying
 \usepackage{longtable}
-\usepackage{tikz}
 
-\usepackage{titlesec}
+\usepackage{tocbibind}
 
-% --- NEW SECTION FORMATTING ---
-% Redefine \section to act as centered, bold chapter titles starting on a new page
-\titleformat{\section} % Command to format
-  [display] % Shape: Allows vertical space, title below label
-  {\clearpage\normalfont\Large\bfseries\centering} % Format: Force new page, normal font, Large, Bold, Centered
-  {\MakeUppercase{CAPÍTULO}~\thesection} % Label: "CAPÍTULO" + number
-  {0pt} % Separation between label and title lines
-  {\vspace{1ex}} % Code before title (add some vertical space)
-  [\vspace{2em}] % Code after title block (add space after)
-
-% Format \subsection (your previous \section) - Keep your previous style or adjust
-\titleformat{\subsection}[hang] % Use hang style like your original \section
-  {\normalfont\large\bfseries} % Format: normal, large, bold
-  {\thesubsection} % Label: subsection number
-  {1em} % Separation
-  {} % Before code
-
-% Format \subsubsection (your previous \subsection)
-\titleformat{\subsubsection}
-  {\normalfont\normalsize\bfseries} % Format: normal, normal size, bold
-  {\thesubsubsection} % Label: subsubsection number
-  {1em} % Separation
-  {} % Before code
-  
 \setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{4}  
+\setcounter{tocdepth}{3}
 
+% --- Metadata for apa7 class ---
 \title{Desarrollo de sistema web para la gestion del calendario academico con prediccion de horarios utilizando machine learning Caso estudio: Jala University}
 \shorttitle{}
+\author{Gabriel Santiago Concha Saavedra}
+\affiliation{Universidad Salesiana de Bolivia}
 
-\authorsaffiliations{
-    \author{Gabriel Santiago Concha Saavedra}
-    \affiliation{Universidad Salesiana de Bolivia}
-}
-
-% \course{PSY 4321}
-% \professor{Dr. Professor}
-\leftheader{Concha}
-% \abstract{introduction.tex}
-% \keywords{modularization, segmentation, recyclable}
 \begin{document}

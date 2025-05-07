@@ -1,0 +1,51 @@
+**/build/*
+*.png
+*.svg
+*.jpeg
+*.jpg
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.fls
+*.fdb_latexmk
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.acn
+*.acr
+*.alg
+*.dvi
+*.synctex.gz
+*.run.xml
+*.xdv
+
+# Editor backup files
+*~
+*.bak
+*.swp
+*.swo
+*.tmp
+
+# MacOS files
+.DS_Store
+
+# VSCode settings (optional, if using VSCode)
+.vscode/
+
+# Output files (optional, if you don't want compiled PDFs in git)
+*.pdf
+
+*.bcf
+*.bbl-SAVE-ERROR
+*.txt
+*.sh
+*.docx

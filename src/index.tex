@@ -1,5 +1,6 @@
 \input{./_preamble}
-\includepdf[pages=1]{"../resources/misc/cover.pdf"}
+\includepdf[pages=1]{"../resources/cover/cover.pdf"}
+
 \newpage
 \tableofcontents
 \thispagestyle{empty}
@@ -12,14 +13,17 @@
 \clearpage
 
 \setcounter{page}{1}
-\input{src/ch1-estructura-propositiva/index}
-\input{src/ch2-marco-teorico/index}
-\input{src/ch3-aplicacion-practica/index}
+\input{ch1-estructura-propositiva/index}
+\input{ch2-marco-teorico/index}
+\input{ch3-aplicacion-practica/index}
 
 \include{glossaryck.tex}
 \printbibliography
 \clearpage
+
 \appendix
-\input{appendix/machine-learning.tex}
-\input{appendix/teach-n-go.tex}
+\input{appendix/machine-learning}
+\input{appendix/teach-n-go}
+\input{appendix/framework-justification}
+
 \input{./_postamble}
