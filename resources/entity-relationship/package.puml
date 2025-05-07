@@ -30,10 +30,21 @@ entity Term {
 	--
 	* num_name
  }
+entity TeacherType {
+	* ID <<key>>
+	--
+	* type
+}
 entity Teacher {
 	* ID <<key>>
 	--
 	* full_name
+}
+entity Course {
+	* ID <<key>>
+	--
+	* Name
+	* Code
  }
 entity Class {
 	* ID <<key>>
@@ -70,4 +81,6 @@ Class ||--|{ Timeslot
 Timeslot ||--|{ Day
 Day ||--|{ Period
 Timetable ||--|{ Timeslot
+Course ||--|{ Class
+Teacher ||-|| TeacherType
 @enduml
