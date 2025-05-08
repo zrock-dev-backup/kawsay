@@ -66,8 +66,65 @@ Student --> Registrar: R: Module timetable
 SS --> Registrar: R: Student schedule
 Director --> Registrar: T: Timetable mmgt
 Director --> Registrar: G: Comply with constraints
-Registrar --> Director: R: Curriculum
+Registrar --> Director: R: Academic Program
 Registrar --> Coordinator: T: teacher hiring
 Registrar --> SIS: R: Student data (name, email address, timezone)
+Registrar --> SIS: R: Students on cohort, group and on section
+Registrar --> Coordinator: R: Teacher availability
+
+package "Registrar" <<actorboundary>> {
+    database "Student Enrollment Data" as R_EnrollmentData <<Resource>>
+    database "Teaching staff data" as R_TeacherData <<Resource>>
+
+rectangle "Generate module timetable without double booked teachers" as G_Timetable <<Goal>>
+    rectangle "Collect module required courses" as T_CollectModule <<Task>>
+    rectangle "Allocate Timeslots" as T_Allocate <<Task>>
+    rectangle "Assign a teacher to a class" as T_FindTeacher <<Task>>
+    rectangle "Verify timeslot is free" as T_VerifyTimeslotFree <<Task>>
+
+	G_Timetable <|-- T_CollectModule: means-end
+    G_Timetable <|-- T_Allocate: means-end
+	T_Allocate --o T_FindTeacher: decomposes into
+	T_Allocate --o T_VerifyTimeslotFree: decomposes into
+
+
+rectangle "Enroll students that need to repeat a class" as G_Manual <<Goal>>
+    rectangle "Collect list of students that have failed a specific class" as T_CollectFailedStudents <<Task>>
+    rectangle "Create class" as T_CreateClass <<Task>>
+    rectangle "When enrolling a student review he/she is available" as T_ReviewStudentAvailability <<Task>>
+
+	G_Manual <|-- T_CollectFailedStudents: means-end
+	G_Manual <|-- T_CreateClass: means-end
+	G_Manual <|-- T_ReviewStudentAvailability: means-end
+
+
+rectangle "Enroll a cohort in a module" as G_CohortEnrollment <<Goal>>
+    rectangle "Select available faculty practitioner" as T_SelectFaculty <<Task>>
+    rectangle "Enroll a section of a cohort to a class" as T_SectionEnrollment <<Task>>
+    rectangle "Select available professor" as T_SelectProfessor <<Task>>
+    rectangle "Enroll a group of a cohort to a class" as T_GroupEnrollement <<Task>>
+
+	G_CohortEnrollment <|-- T_SectionEnrollment: means-end
+	G_CohortEnrollment <|-- T_GroupEnrollement: means-end
+	T_SectionEnrollment --o T_SelectFaculty: decomposes into
+	T_GroupEnrollement --o T_SelectProfessor: decomposes into
+
+
+rectangle "Manage a cohort enrollment status of a specific class in order to plan new classes to open" as G_StudentEnrollment <<Goal>>
+    rectangle "Collect student enrollment status" as T_StudentEnrollmentStatus <<Task>>
+    rectangle "Collect class pre-requirements" as T_CollectClassPreRequirements <<Task>>
+    rectangle "Collect student GPA and SAP grades" as T_CollectStudentGrades <<Task>>
+    rectangle "Predict student eligibility as Yes, Maybe or No" as T_PredictEligibility <<Task>>
+
+	G_StudentEnrollment <|-- T_StudentEnrollmentStatus: means-end
+	T_StudentEnrollmentStatus --o T_CollectStudentGrades: decomposes into
+	T_StudentEnrollmentStatus --o T_PredictEligibility: decomposes into
+	T_StudentEnrollmentStatus --o T_CollectClassPreRequirements: decomposes into
+
+
+cloud "Minimize Administrative Overhead" as SG_Overhead <<Softgoal>>
+    SG_Overhead <.. T_ReviewStudentAvailability: - ' Strongly negative contribution to overhead
+    SG_Overhead <.. T_Allocate: - ' Weakly negative contribution to overhead
+}
 
 @enduml
