@@ -1,9 +1,54 @@
 \subsection{Iteration 2}
-The objective of this iteration was basic design of features.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{planning-sprint-2.png}
-    \caption{Iteration backlog - Fuente: Elaboración propia}
-    \label{fig:sprint2-backlog}
-\end{figure}
+\subsubsection{Initial approach}
+The initial approach for this iteration was the development of basic features such as schedule generation and handling class timetable migration.  
+The iteration backlog contained the following user stories:
+
+\begin{table}[ht]
+\centering
+\caption{Iteration 2 Backlog}
+\label{tab:iteration-2-backlog}
+\begin{tabular}{l p{6cm} p{6cm} c}
+\hline
+\textbf{\#} &
+\textbf{User story} &
+\textbf{Description} &
+\textbf{Score} \\
+\hline
+    7 & 
+    Academic track creation &
+    As a registrar, I want to create a track so that students can be managed under it.
+    Track creation involves selecting cohorts; cohorts involve selecting groups; groups are composed of sections. &
+    0 \\
+
+    8 &
+    Class timetable pre-population &
+    When opening a module, it should come pre-populated with classes.
+    Given that a module has a defined set of courses, the system should generate a timetable for a specific cohort. &
+    0 \\
+
+    6 &
+    Class timeslot migration &
+    As a registrar, I want to change the timeslot of a class so that I can handle the teacher’s request. &
+    0 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Iteration execution}
+During iteration execution, one important challenge was the initial setup of the repository, along with writing the theoretical framework for this case-study research, resulting in less time for developing the user stories.
+To adjust for these challenges, the researcher reduced quality in order to increase velocity.
+Being a solo project, it required much more effort to apply the methodology.
+
+Because of these challenges, acceptance tests and unit testing were not done. Additionally, user stories were not assigned velocity points.
+
+\subsubsection{Retrospective}
+Action items:
+\begin{itemize}
+    \item The researcher needs to read and understand better how to perform eXtreme Programming.
+    \item Either take fewer user stories or invest more time in the project to include acceptance tests, quality assurance, and unit tests.
+\end{itemize}
+
+\subsubsection{Lessons learned}
+Implementing “class timetable pre-population” (user story \#8) with a direct mapping approach was too simple and did not take into account the problem of distributing teaching staff among classes given their availabilities.
+Therefore, it is necessary to research a new algorithm for timetable generation.
