@@ -1,0 +1,73 @@
+@startuml
+!theme vibrant
+
+title i* Framework Example: Student Course Enrollment
+
+' Styling to approximate i* notation
+skinparam defaultTextAlignment center
+skinparam shadowing false
+
+skinparam actor {
+    BorderColor Black
+    BackgroundColor LightBlue
+    StereotypeFontColor Black
+}
+
+skinparam package {
+    BorderColor Gray
+    BackgroundColor White
+    StereotypeFontColor DimGray
+    FontColor Black
+    stereotype<<actorboundary>> {
+        BorderColor Black
+        BackgroundColor LightGray
+    }
+}
+
+skinparam rectangle<<Goal>> {
+    StereotypePosition top
+    borderColor DarkGreen
+    backgroundColor LightGreen
+    roundCorner 25 ' Make it more oval-like
+}
+skinparam cloud<<Softgoal>> {
+    StereotypePosition top
+    borderColor Orange
+    backgroundColor LightYellow
+}
+skinparam rectangle<<Task>> {
+    StereotypePosition top
+    borderColor Blue
+    backgroundColor LightCyan
+}
+skinparam rectangle<<Resource>> {
+    StereotypePosition top
+    borderColor DimGray
+    backgroundColor WhiteSmoke
+}
+skinparam database<<Resource>> {
+    StereotypePosition top
+    borderColor DimGray
+    backgroundColor WhiteSmoke
+}
+
+' Define Actors
+actor Student
+actor Registrar
+actor "Teaching Staff" as Teacher
+actor "Academic Coordinator" as Coordinator
+actor "Program Director" as Director
+agent SIS
+agent "Student Services" as SS
+
+Registrar --> Teacher: R: Grades (GPA, SPA)
+Teacher --> Registrar: R: Class timetable
+Student --> Registrar: R: Module timetable
+SS --> Registrar: R: Student schedule
+Director --> Registrar: T: Timetable mmgt
+Director --> Registrar: G: Comply with constraints
+Registrar --> Director: R: Curriculum
+Registrar --> Coordinator: T: teacher hiring
+Registrar --> SIS: R: Student data (name, email address, timezone)
+
+@enduml
