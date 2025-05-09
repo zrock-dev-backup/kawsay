@@ -1,0 +1,63 @@
+@startuml
+
+title Simple High-Level Component Diagram
+skinparam font Helvetica
+'skinparam linetype ortho
+
+actor User
+
+package "React Application (Frontend)" {
+  component "App.tsx (Main Router)" as App
+  component "Layout.tsx" as Layout
+  component "Page Views" as PageViews
+  component "Shared UI Components" as SharedUI
+  component "ApiService.ts" as ApiService
+  component "React Router" as Router #technology
+  component "MUI (UI Library)" as MUI #technology
+}
+
+User -right-> App : Interacts with
+
+App --> Router : Uses for Navigation & Routing
+App --> Layout : Renders as main structure
+App --> MUI : (ThemeProvider, CssBaseline via main.tsx)
+
+Layout --> PageViews : Displays Current Page (via Router Outlet)
+Layout --> MUI : Uses for AppBar, Container, etc.
+
+PageViews --> ApiService : Data Fetching & Submission
+PageViews --> SharedUI : Uses specific UI elements
+PageViews --> MUI : Uses for forms, tables, alerts, etc.
+
+SharedUI --> ApiService : (e.g., Modal fetching its own details)
+SharedUI --> MUI : Built using MUI components
+
+note right of PageViews
+  This represents the collection of pages:
+  - HomePage.tsx
+  - TimetableCreationPage.tsx
+  - TrackSelectionPage.tsx
+  - TimetableGridPage.tsx
+  - ClassCreationPage.tsx
+  - NotFoundPage.tsx
+end note
+
+note right of SharedUI
+  This represents reusable components like:
+  - ClassDetailsModal.tsx
+end note
+
+note bottom of ApiService
+  Handles all HTTP communication
+  with the backend API.
+  (e.g., fetching courses, creating timetables)
+end note
+
+note top of App
+  The `main.tsx` file initializes the React application,
+  wrapping `App.tsx` with `BrowserRouter` (from React Router)
+  and `ThemeProvider` (from MUI).
+  `App.tsx` then defines the application's routes.
+end note
+
+@enduml
