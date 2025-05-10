@@ -8,3 +8,17 @@ Esto asegura que la documentación arquitectónica se mantenga sincronizada con 
 \subsubsection{PlantUML}
 PlantUML es una herramienta de código abierto que permite generar diversos diagramas \texttt{UML} (secuencia, casos de uso, clases, actividad, componentes), así como otros tipos de diagramas (Arquitectura C4, ERD, Wireframe), a partir de una descripción textual simple \parencite{PlantUML}.
 Es muy útil para crear rápidamente diagramas técnicos y mantenerlos bajo control de versiones junto con el código fuente, facilitando la documentación visual del diseño del sistema.
+
+\subsubsection{SysML}
+La Systems Modeling Language (SysML) es una extensión de UML para aplicaciones de ingeniería de sistemas que proporciona un diagrama de requisitos que sirve como mecanismo de representación gráfica para capturar requisitos textuales y sus relaciones \parencite{Friedenthal2014}.
+Este tipo de diagrama—único de SysML—permite a los ingenieros modelar jerarquías de requisitos, dependencias y métodos de verificación dentro de un marco de modelado unificado.
+
+El fundamento teórico de los diagramas de requisitos de SysML puede formalizarse a través de la teoría de grafos y la teoría de sistemas.
+Un diagrama de requisitos $G = (V, E)$ puede representarse como un grafo dirigido donde los vértices $V$ representan requisitos individuales, y las aristas $E$ representan relaciones entre requisitos \parencite{Weilkiens2011}.
+Estas relaciones incluyen \textit{containment} (descomposición jerárquica), \textit{derive} (inferencia lógica), \textit{satisfy} (implementación), \textit{verify} (pruebas), \textit{refine} (elaboración) y \textit{trace} (dependencia general).
+
+Los requisitos pueden definirse formalmente como tuplas:
+$R = \langle id, texto, tipo, fuente, justificación, riesgo, estado, ...\rangle$
+La representación estructurada que ofrecen los diagramas de requisitos facilita la descomposición jerárquica de requisitos complejos, el análisis de trazabilidad entre requisitos y otros artefactos del sistema, la planificación de verificación mediante la conexión de requisitos con casos de prueba, y la validación de requisitos a través de representaciones visuales que mejoran los procesos de revisión con las partes interesadas \parencite{INCOSE2015}.
+Esta naturaleza dual posiciona a los diagramas de requisitos como herramientas mediadoras fundamentales dentro del proceso de ingeniería de sistemas, cerrando la brecha entre los espacios del problema y la solución.
+

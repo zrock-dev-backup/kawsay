@@ -1,4 +1,4 @@
-\subsection{Backend architecture}
+\subsection{Arquitectura de Backend}
 La arquitectura backend define la estructura interna del servidor, la lógica de negocio y la gestión de datos del sistema web, siendo fundamental para su escalabilidad, mantenibilidad y rendimiento.
 Una arquitectura bien diseñada facilita la evolución del sistema y la integración de nuevas funcionalidades, como el módulo de predicción de horarios con ML, asegurando que la gestión del calendario académico sea robusta y eficiente \parencite{Richards2015}.
 
@@ -10,6 +10,16 @@ Adoptar microservicios para el sistema de gestión académica permitiría desarr
 La Arquitectura Limpia, propuesta por Robert C.
 Martin, es un conjunto de principios de diseño de software que promueve la separación de intereses y la independencia de frameworks, UI y bases de datos, organizando el código en capas concéntricas (Entidades, Casos de Uso, Adaptadores de Interfaz, Frameworks y Drivers) \parencite{Martin2017}.
 Aplicar Clean Architecture en el backend asegura que la lógica de negocio central (reglas académicas, algoritmos de predicción y generación de horarios) esté aislada de detalles externos, facilitando las pruebas, la mantenibilidad y la adaptabilidad a cambios tecnológicos futuros.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\textwidth]{clean-architecture.png}
+	\caption{Fuente: \parencite{CleanCodeBlog}}
+	\label{fig:cleanCodeBlog}
+\end{figure}
+
+The layers in Figure~\ref{fig:cleanCodeBlog} clearly show separation of logic and separation of concerns which allow a highly cohesive and lowly coupled system design.
+
 
 \subsubsection{Domain Driven Design}
 El Diseño Guiado por el Dominio (DDD) es un enfoque para el desarrollo de software complejo que se centra en modelar el dominio del negocio (en este caso, la gestión del calendario académico y la predicción de elegibilidad en Jala University) y plasmar ese modelo en el código, utilizando un lenguaje ubicuo compartido entre expertos del dominio y desarrolladores \parencite{Evans2003}.
