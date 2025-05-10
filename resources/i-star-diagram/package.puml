@@ -4,6 +4,7 @@
 title i* Framework Example: Student Course Enrollment
 
 ' Styling to approximate i* notation
+skinparam defaultFont Helvetica
 skinparam defaultTextAlignment center
 skinparam shadowing false
 
@@ -73,10 +74,7 @@ Registrar --> SIS: R: Students on cohort, group and on section
 Registrar --> Coordinator: R: Teacher availability
 
 package "Registrar" <<actorboundary>> {
-    database "Student Enrollment Data" as R_EnrollmentData <<Resource>>
-    database "Teaching staff data" as R_TeacherData <<Resource>>
-
-rectangle "Generate module timetable without double booked teachers" as G_Timetable <<Goal>>
+rectangle "Generate module timetable" as G_Timetable <<Goal>>
     rectangle "Collect module required courses" as T_CollectModule <<Task>>
     rectangle "Allocate Timeslots" as T_Allocate <<Task>>
     rectangle "Assign a teacher to a class" as T_FindTeacher <<Task>>
@@ -110,21 +108,37 @@ rectangle "Enroll a cohort in a module" as G_CohortEnrollment <<Goal>>
 	T_GroupEnrollement --o T_SelectProfessor: decomposes into
 
 
-rectangle "Manage a cohort enrollment status of a specific class in order to plan new classes to open" as G_StudentEnrollment <<Goal>>
-    rectangle "Collect student enrollment status" as T_StudentEnrollmentStatus <<Task>>
+rectangle "Plan new classes to open" as G_PlanClassesOpen <<Goal>>
+rectangle "Assess Cohort Enrollment Status" as G_StudentEnrollmentStatus <<Goal>>
     rectangle "Collect class pre-requirements" as T_CollectClassPreRequirements <<Task>>
-    rectangle "Collect student GPA and SAP grades" as T_CollectStudentGrades <<Task>>
+    rectangle "Collect student's GPA and SAP grading" as T_CollectStudentGrades <<Task>>
     rectangle "Predict student eligibility as Yes, Maybe or No" as T_PredictEligibility <<Task>>
 
-	G_StudentEnrollment <|-- T_StudentEnrollmentStatus: means-end
-	T_StudentEnrollmentStatus --o T_CollectStudentGrades: decomposes into
-	T_StudentEnrollmentStatus --o T_PredictEligibility: decomposes into
-	T_StudentEnrollmentStatus --o T_CollectClassPreRequirements: decomposes into
+	G_PlanClassesOpen <|-- G_StudentEnrollmentStatus: means-end
+	G_StudentEnrollmentStatus --o T_PredictEligibility: decomposes into
+	G_StudentEnrollmentStatus --o T_CollectStudentGrades: decomposes into
+	G_StudentEnrollmentStatus --o T_CollectClassPreRequirements: decomposes into
 
-
+/'
+++ (MAKE)  | stronly positive
++  (HELP)  | positive
+-  (HURT)  | negative
+-- (BREAK) | stronly negative
+'/
 cloud "Minimize Administrative Overhead" as SG_Overhead <<Softgoal>>
-    SG_Overhead <.. T_ReviewStudentAvailability: - ' Strongly negative contribution to overhead
-    SG_Overhead <.. T_Allocate: - ' Weakly negative contribution to overhead
+    T_ReviewStudentAvailability ..> SG_Overhead: - (HURT)
+    T_Allocate ..> SG_Overhead: - (HURT)
+
+cloud "Ensure no teacher double booking" as SG_NoTeacherClash <<Softgoal>>
+	T_Allocate ..> SG_NoTeacherClash: + (MAKE)
+
+' RESOURCE USAGE
+database "Teaching staff data" as R_TeacherData <<Resource>>
+	T_FindTeacher --> R_TeacherData: uses
+
+database "Student Data" as R_StudentData <<Resource>>
+	T_PredictEligibility --> R_StudentData
+	T_CollectStudentGrades --> R_StudentData
 }
 
 @enduml
