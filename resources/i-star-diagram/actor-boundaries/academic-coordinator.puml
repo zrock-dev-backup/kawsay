@@ -1,0 +1,67 @@
+@startuml
+package "Academic Coordinator" <<actorboundary>> {
+    ' --- Main Goal: Ensuring faculty for scheduled courses (supports Registrar) ---
+    rectangle "Ensure Sufficient Qualified Faculty for Scheduled Courses" as G_EnsureFaculty <<Goal>>
+
+    ' --- Sub-Goal/Tasks: Identifying Staffing Needs (driven by Registrar's schedule) ---
+    rectangle "Identify Staffing Needs (based on timetable requirements)" as G_IdentifyNeeds <<Goal>>
+        rectangle "Receive Course Schedule & Staffing Gaps (from Registrar)" as T_ReceiveScheduleNeeds <<Task>>
+        rectangle "Determine Required Teacher Profiles & Quantities" as T_DetermineProfiles <<Task>>
+
+    G_EnsureFaculty <|-- G_IdentifyNeeds: means-end
+
+    G_IdentifyNeeds <|-- T_ReceiveScheduleNeeds: means-end
+    G_IdentifyNeeds <|-- T_DetermineProfiles: means-end
+
+    ' --- Sub-Goal/Tasks: Recruiting and Hiring Faculty (your G_TeachHiring) ---
+    rectangle "Recruit and Hire Suitable Teaching Staff" as G_RecruitHire <<Goal>>
+        rectangle "Search, Vet, and Select Potential Teachers" as T_SearchVetSelect <<Task>>
+        rectangle "Formalize Hiring (Contracts, Onboarding Prep)" as T_FormalizeHiring <<Task>>
+
+    G_EnsureFaculty <|-- G_RecruitHire: means-end
+
+    G_RecruitHire <|-- T_SearchVetSelect: means-end
+    G_RecruitHire <|-- T_FormalizeHiring: means-end
+        ' T_FormalizeHiring might use R_StaffingRequirements (derived from T_DetermineProfiles)
+
+    ' --- Sub-Goal/Tasks: Communicating Hired Faculty Info to Registrar ---
+    rectangle "Provide Hired Faculty Data to Registrar" as G_ProvideFacultyData <<Goal>>
+        rectangle "Update Registrar with Hired Teacher Details & Assignments" as T_UpdateRegistrarWithFaculty <<Task>>
+
+    G_EnsureFaculty <|-- G_ProvideFacultyData: means-end
+
+    G_ProvideFacultyData <|-- T_UpdateRegistrarWithFaculty: means-end
+
+    ' --- Softgoals: AC Expectations / Quality Criteria ---
+    cloud "Timely Fulfillment of Staffing Needs" as SG_TimelyStaffing <<Softgoal>>
+        G_RecruitHire ..> SG_TimelyStaffing : + (HELP)
+        G_ProvideFacultyData ..> SG_TimelyStaffing : + (HELP)
+
+    cloud "High Quality of Hired Teaching Staff" as SG_QualityStaff <<Softgoal>>
+        T_SearchVetSelect ..> SG_QualityStaff : + (MAKE)
+
+    cloud "Clear Communication of Staffing Requirements (from Registrar)" as SG_ClearRequirements <<Softgoal>>
+        ' This softgoal is about what the AC *expects from* the Registrar.
+        ' T_ReceiveScheduleNeeds would be positively affected if this softgoal is met by the Registrar.
+        ' In an SD model, AC would depend on Registrar for this softgoal.
+        ' Within AC's SR, it represents a desired quality of an input.
+        T_ReceiveScheduleNeeds ..> SG_ClearRequirements : (monitors/benefits from)
+
+    ' --- Resources ---
+    database "Provisional Timetable & Staffing Needs (from Registrar)" as R_ScheduleStaffingNeeds <<Resource>>
+        T_ReceiveScheduleNeeds --> R_ScheduleStaffingNeeds: uses
+
+    database "Candidate Pool & Vetting Data" as R_CandidateData <<Resource>>
+        T_SearchVetSelect --> R_CandidateData: uses
+        T_SearchVetSelect --|> R_CandidateData: produces
+
+    database "Hired Faculty Database / Records" as R_HiredFacultyDB <<Resource>>
+        T_FormalizeHiring --|> R_HiredFacultyDB: produces
+        T_UpdateRegistrarWithFaculty --> R_HiredFacultyDB: uses
+
+    ' Your original resource:
+    ' database "Timetable teaching staff requirements" as R_HiringData <<Resource>>
+    ' This is now partly R_ScheduleStaffingNeeds (input) and information derived by T_DetermineProfiles.
+    ' T_FormalizeHiring might use the output of T_DetermineProfiles (e.g. "Required Teacher Profiles Document")
+}
+@enduml
