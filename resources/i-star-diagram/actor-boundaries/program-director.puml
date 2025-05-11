@@ -1,0 +1,50 @@
+@startuml
+!include ../style.puml
+
+package "Program Director" <<actorboundary>> {
+    ' --- Main Goal: Defining academic program rules for Registrar's implementation ---
+rectangle "Define Academic Program Rules for Implementation by Registrar" as G_DefineProgramRules <<Goal>>
+
+    ' --- Sub-Goal/Tasks: Defining Curriculum Structure ---
+rectangle "Define Curriculum Structure & Content" as G_DefineCurriculum <<Goal>>
+	rectangle "Design/Update Curriculum Map (courses, prerequisites, progression)" as T_DesignCurriculumMap <<Task>>
+	rectangle "Specify Course Details (for catalog)" as T_SpecifyCourseDetails <<Task>>
+
+    G_DefineProgramRules <|-- G_DefineCurriculum: means-end
+
+    G_DefineCurriculum <|-- T_DesignCurriculumMap: means-end
+    G_DefineCurriculum <|-- T_SpecifyCourseDetails: means-end
+
+    ' --- Sub-Goal/Tasks: Defining Enrollment & Progression Policies ---
+rectangle "Define Enrollment & Progression Policies" as G_DefinePolicies <<Goal>>
+	rectangle "Set Course Add/Drop/Withdrawal Rules & Deadlines" as T_SetEnrollmentRules <<Task>>
+	rectangle "Define Academic Standing & Progression Criteria" as T_SetProgressionCriteria <<Task>>
+	rectangle "Establish Graduation Requirements" as T_SetGraduationReqs <<Task>>
+
+    G_DefineProgramRules <|-- G_DefinePolicies: means-end
+
+    G_DefinePolicies <|-- T_SetEnrollmentRules: means-end
+    G_DefinePolicies <|-- T_SetProgressionCriteria: means-end
+    G_DefinePolicies <|-- T_SetGraduationReqs: means-end
+
+    ' --- Softgoals: PD Expectations of Registrar's Implementation ---
+    cloud "Accurate Implementation of Curriculum Rules by Registrar" as SG_AccurateImplementation <<Softgoal>>
+    cloud "Effective Enforcement of Enrollment Constraints by Registrar" as SG_EffectiveEnforcement <<Softgoal>>
+
+    ' --- Resources Produced by Program Director (for Registrar's use) ---
+database "Official Curriculum Map" as R_CurriculumMap <<Resource>>
+        T_DesignCurriculumMap --|> R_CurriculumMap: produces
+
+database "Course Catalog Information" as R_CourseCatalogInfo <<Resource>>
+        T_SpecifyCourseDetails --|> R_CourseCatalogInfo: produces
+
+database "Enrollment Policy & Constraint Document" as R_EnrollmentPolicies <<Resource>>
+        T_SetEnrollmentRules --|> R_EnrollmentPolicies: produces
+        T_SetProgressionCriteria --|> R_EnrollmentPolicies: produces
+        T_SetGraduationReqs --|> R_EnrollmentPolicies: produces
+
+database "Academic Progression & Graduation Rules" as R_ProgressionRules <<Resource>>
+        T_SetProgressionCriteria --|> R_ProgressionRules: produces
+        T_SetGraduationReqs --|> R_ProgressionRules: produces
+}
+@enduml
