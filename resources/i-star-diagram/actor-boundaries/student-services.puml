@@ -1,0 +1,35 @@
+@startuml
+!include ../style.puml
+
+package "Student Services" <<actorboundary>> {
+cloud "Resolve Student Enrollment & Timetable Issues" as SG_ResolveIssues <<Softgoal>>
+    rectangle "Diagnose Enrollment/Timetable Problem" as T_DiagnoseProblem <<Task>>
+    rectangle "Advise Student & Facilitate Resolution" as T_AdviseFacilitate <<Task>>
+    rectangle "Liaise with Registrar/Other Depts (for complex issues)" as T_LiaiseWithRegistrar <<Task>>
+	rectangle "Gather Student Complaint & Context" as T_GatherComplaint <<Task>>
+	rectangle "Set a meeting with student" as T_SetMeeting <<Task>>
+
+    T_DiagnoseProblem ..> SG_ResolveIssues: + (MAKE)
+    T_AdviseFacilitate ..> SG_ResolveIssues: + (MAKE)
+    T_LiaiseWithRegistrar ..> SG_ResolveIssues: + (HELP)
+    T_GatherComplaint ..> SG_ResolveIssues: + (HELP)
+	T_GatherComplaint --o T_SetMeeting : + (HELP)
+
+cloud "Comprehensive Access to Student Data (for diagnostics)" as SG_DataAccess <<Softgoal>>
+        T_DiagnoseProblem ..> SG_DataAccess : (monitors/benefits from)
+
+cloud "Clear Registrar Policies & Procedures Info" as SG_ClearPolicies <<Softgoal>>
+        T_AdviseFacilitate ..> SG_ClearPolicies : (monitors/benefits from)
+
+database "Student Academic & Enrollment Record" as R_StudentData <<Resource>>
+        T_DiagnoseProblem --> R_StudentData: uses
+
+database "Student Personal Timetable" as R_StudentTimetable <<Resource>>
+        T_DiagnoseProblem --> R_StudentTimetable: uses
+        T_SetMeeting --> R_StudentTimetable: uses
+
+database "Registrar Policies & System Knowledge Base" as R_RegistrarKB <<Resource>>
+        T_AdviseFacilitate --> R_RegistrarKB: uses
+        T_DiagnoseProblem --> R_RegistrarKB: uses
+}
+@enduml
