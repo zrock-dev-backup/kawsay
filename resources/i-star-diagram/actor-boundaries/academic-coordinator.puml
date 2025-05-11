@@ -58,10 +58,5 @@ package "Academic Coordinator" <<actorboundary>> {
     database "Hired Faculty Database / Records" as R_HiredFacultyDB <<Resource>>
         T_FormalizeHiring --|> R_HiredFacultyDB: produces
         T_UpdateRegistrarWithFaculty --> R_HiredFacultyDB: uses
-
-    ' Your original resource:
-    ' database "Timetable teaching staff requirements" as R_HiringData <<Resource>>
-    ' This is now partly R_ScheduleStaffingNeeds (input) and information derived by T_DetermineProfiles.
-    ' T_FormalizeHiring might use the output of T_DetermineProfiles (e.g. "Required Teacher Profiles Document")
 }
 @enduml

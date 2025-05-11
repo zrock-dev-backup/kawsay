@@ -1,0 +1,18 @@
+@startuml
+package "Student Information System" <<actorboundary>> {
+cloud "Accurate & Accessible Student Data Provided" as SG_ProvideStudentData <<Softgoal>>
+    rectangle "Manage and Maintain Student Database" as T_ManageDB <<Task>>
+    rectangle "Expose Student Data via Secure API" as T_ExposeDataAPI <<Task>>
+    T_ExposeDataAPI ..> SG_ProvideStudentData: + (MAKE)
+    T_ManageDB ..> SG_ProvideStudentData: + (HELP)
+
+database "Student Database" as R_StudentDB <<Resource>>
+    T_ManageDB --|> R_StudentDB : maintains
+    T_ExposeDataAPI --> R_StudentDB: uses
+
+cloud "High Data Accuracy" as SG_DataAccuracy <<Softgoal>>
+    T_ManageDB ..> SG_DataAccuracy: + (MAKE)
+cloud "High System Availability & Performance" as SG_SystemAvailability <<Softgoal>>
+    T_ExposeDataAPI ..> SG_SystemAvailability: + (HELP)
+}
+@enduml

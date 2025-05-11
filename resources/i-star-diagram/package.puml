@@ -26,5 +26,7 @@ Registrar --> Coordinator: R: Teacher availability
 !include actor-boundaries/registrar.puml
 !include actor-boundaries/teacher.puml
 !include actor-boundaries/student.puml
+!include actor-boundaries/sis.puml
+!include actor-boundaries/academic-coordinator.puml
 
 @enduml
