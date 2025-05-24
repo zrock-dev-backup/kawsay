@@ -1,3 +1,6 @@
+@startuml
+!include ../style.puml
+
 package "Registrar" <<actorboundary>> {
 rectangle "Generate module timetable" as G_Timetable <<Goal>>
     rectangle "Collect module required courses" as T_CollectModule <<Task>>
@@ -65,3 +68,4 @@ database "Student Data" as R_StudentData <<Resource>>
 	T_PredictEligibility --> R_StudentData
 	T_CollectStudentGrades --> R_StudentData
 }
+@enduml

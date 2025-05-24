@@ -2,26 +2,6 @@
 
 !include style.puml
 
-' Define Actors
-actor Student
-actor Registrar
-actor "Teaching Staff" as Teacher
-actor "Academic Coordinator" as Coordinator
-actor "Program Director" as Director
-agent SIS
-agent "Student Services" as SS
-
-Registrar --> Teacher: R: Grades (GPA, SPA)
-Teacher --> Registrar: R: Class timetable
-Student --> Registrar: R: Module timetable
-SS --> Registrar: R: Student schedule
-Director --> Registrar: T: Timetable mmgt
-Director --> Registrar: G: Comply with constraints
-Registrar --> Director: R: Academic Program
-Registrar --> Coordinator: T: teacher hiring
-Registrar --> SIS: R: Student data (name, email address, timezone)
-Registrar --> SIS: R: Students on cohort, group and on section
-Registrar --> Coordinator: R: Teacher availability
 
 !include actor-boundaries/registrar.puml
 !include actor-boundaries/teacher.puml

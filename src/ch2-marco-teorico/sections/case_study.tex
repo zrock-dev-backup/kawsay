@@ -1,50 +1,88 @@
 \subsection{Case study}
-\subsubsection{Context}
-This are the actors
-insert i* figure and the analysis of actors and their relationships
+In JalaU the following actors play a role in the context of academic timetable generation and student enrollment.
+\begin{itemize}
+	\item Registrar: Enrolls students and generates timetable.
+	\item Teacher: Teach students (Professor, Faculty praticioner)
+	\item Student: A registered student that can be enrolled.
+	\item Academic coordinator: In charge of hiring teaching staff.
+	\item SIS: System holds student data.
+	\item Student Services: Student helpers
+\end{itemize}
 
+Figure~\ref{fig:strategicDependenciesDiagram} displays the relationships among the identified actors.
+
+\begin{figure}[htb]
+	\caption{Strategic Dependencies Diagram - Fuente: (Elaboracion propia)}\label{fig:strategicDependenciesDiagram}
+	\begin{center}
+		\includegraphics[width=0.95\textwidth]{strategic-dependencies.pdf}
+	\end{center}
+\end{figure}
 
 \begin{longtable}{p{3in}|p{3in}}
-\caption{Actor} \label{tab:objectivesNactions} \\
+\caption{Detail of relationships} \label{tab:strategicDependencies} \\
+
+\textbf{Relationship} &  \textbf{Description}\\
 \hline
-\textbf{Actor} & \textbf{Definicion} \\
+\endfirsthead
+\textbf{Relationship} & \textbf{Description}\\
+\hline
+\endhead
+\endfoot
+
+Teacher- Registrar & A teacher needs to know his lecture timetables in order to deliver efective education. \\
+Registrar - SIS & Registrar needs student's information in order to enroll them\\
+Registrar - Teacher & Registrar needs to know a student grades in order to asses their elegibility to be enrolled in next courses or repeat one. \\
+Student services - Registrar & Student services wants to help students resolve enrollment and timetable issues which can be achieved through collaboratio with registrar \\
+Registrar - Academic coordinator & In order for registrar to select a suitable teacher for a class they need to have teacher data\\
+
+\end{longtable}
+
+\subsubsection{Registrar}
+Registrar is the actor that generates the timetable, for this purpose depends on Academic Coordinator for teaching staff data and SIS for student data.
+
+As we can se in Figura~\ref{fig:actorBoundaryRegistrar} the registrar office has the following
+\begin{longtable}{p{2in}|p{2in}|p{2in}}
+\caption{Actor} \label{tab:i-star} \\
+\hline
+\textbf{Text} & \textbf{Tasks} &  \textbf{Description}\\
 \hline
 \endfirsthead
 \hline
-\textbf{Actor} & \textbf{Definicion} \\
+\textbf{Text} & \textbf{Tasks} &  \textbf{Description}\\
 \hline
 \endhead
 \hline
 \endfoot
 
-Teaching Staff &
-
-It is defined in two branches
+Generate module timetable &
 \begin{itemize}
-	\item Professor
-	\item Faculty practitioner
-\end{itemize}
-I want to use the system to be hired, I believe that by teaching students will achieve their dreams
+	\item Collect module required courses
+	\item Allocate timeslots
+\end{itemize} &
+The achievement of this goal means a a timetable will be available.
 \\\hline
-
-Student &
-I want to achieve comfort and understanding so that I geto to learing and enjoy not survive.
-\\\hline
-
-Registrar &
-I want the student to go through the curriculum
-
-
-
-
 \end{longtable}
 
-\subsubsection{Timetable generation process}
-Faculty timetable
-Curriculum
-A module lasts 8weeks, there are courses with 10weeks duration
-This is how the periods look like
-\subsubsection{Student enrollment process}
-A student may not be available, not be eligible for enrollment.
-\subsubsection{Clash management}
-Handling a class migration clash, student enrollment clash, opening a new class clash.
+% The main goals for Registrar are:
+% \begin{itemize}
+% 	\item Enroll students that need to repeat a class.
+% 	\item Enroll a cohort in a module.
+% 	\item To plan new classes to open.
+% \end{itemize}
+%
+% The softgoals are:
+% \begin{itemize}
+% 	\item Minimize administrative overhead
+% 	\item Ensure no teacher double booking
+% \end{itemize}
+
+% \begin{figure}
+% 	\includegraphics[width=0.45\textwidth]{registrar.svg}
+% 	\caption{Registrar's actor boundary}
+% 	\label{fig:actorBoundaryRegistrar}
+% \end{figure}
+
+\subsubsection{Student}
+\subsubsection{Teacher}
+\subsubsection{Student Information System}
+\subsubsection{Academic Coordinator}

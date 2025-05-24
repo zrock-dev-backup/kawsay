@@ -1,16 +1,11 @@
 !theme vibrant
 
 ' Styling to approximate i* notation
+skinparam backgroundColor white
 skinparam defaultFont Helvetica
 skinparam defaultTextAlignment center
 skinparam shadowing false
 skinparam wrapWidth 250
-
-skinparam actor {
-    BorderColor Black
-    BackgroundColor LightBlue
-    StereotypeFontColor Black
-}
 
 skinparam package {
     BorderColor Gray

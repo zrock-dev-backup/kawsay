@@ -1,0 +1,55 @@
+@startuml
+!include style.puml
+
+skinparam actor {
+    BorderColor Black
+    BackgroundColor LightBlue
+    StereotypeFontColor Black
+    StereotypeFontSize 10
+}
+
+actor Student
+actor Registrar
+actor Teacher
+actor Coordinator
+actor "Student Information System" AS SIS
+actor "Student Services" AS SS
+
+cloud "Resolve Student Enrollment & Timetable Issues" as SG_ResolveIssues <<Softgoal>>
+database "Student Data" as R_StudentData <<Resource>>
+database "Course Catalog &\n Timetable Information" as R_CourseTimetableInfo <<Resource>>
+database "Student grades" as R_StudentGrades <<Resource>>
+database "Hired Faculty Database / Records" as R_HiredFacultyDB <<Resource>>
+
+' RELATIONSHIPS
+Registrar --> R_StudentGrades
+R_StudentGrades --> Teacher
+
+Teacher --> R_CourseTimetableInfo
+Student --> R_CourseTimetableInfo
+R_CourseTimetableInfo --> Registrar
+
+SS --> SG_ResolveIssues
+SG_ResolveIssues --> Registrar
+
+Registrar --> R_StudentData
+R_StudentData --> SIS
+
+Registrar --> R_HiredFacultyDB
+R_HiredFacultyDB --> Coordinator
+
+
+' Dependencies are visually distinguished by arrow types and [R]/[T]/[G] labels
+/'
+' Legend with proper formatting
+legend top left
+  **i* Dependency Types:**
+  
+  **[G]** <color:#0056B3>Goal Dependency</color> (thick solid line with ==>)
+  **[T]** <color:#28A745>Task Dependency</color> (solid line with -->)
+  **[R]** <color:#6C757D>Resource Dependency</color> (dashed line with -.->)
+  
+endlegend
+'/
+
+@enduml
