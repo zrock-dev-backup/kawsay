@@ -1,57 +1,49 @@
 @startuml
+!include ../style.puml
+
+actor Registrar
+actor "Student Services" AS SS
+rectangle "Enrolled in course" as G_Enrolled <<Goal>>
+
 package "Student" <<actorboundary>> {
-    ' --- Main Goal related to Registrar's Services ---
-    rectangle "Successfully Progress Towards Degree (via Registrar services)" as G_StudentProgress <<Goal>>
+' --- Main Goal related to Registrar's Services ---
+rectangle "Attain career degree" as G_StudentProgress <<Goal>>
+	G_StudentProgress --o G_Enrolled: decomposes into
 
-    ' --- Sub-Goal: Effective Enrollment & Timetable Usage ---
-    rectangle "Be Effectively Enrolled & Utilize Timetable" as G_EffectiveEnrollment <<Goal>>
-        rectangle "View Course Offerings & Timetable" as T_ViewCoursesTimetable <<Task>>
-        rectangle "Verify Enrollment & Access Personal Timetable" as T_VerifyEnrollmentTimetable <<Task>>
-        rectangle "Attend Classes (as per timetable)" as T_AttendClasses <<Task>>
-            rectangle "Attend faculty practicioner classes" as T_TeacherFaculty <<Task>>
-            rectangle "Attend professor classes" as T_TeacherProfessor <<Task>>
-            T_AttendClasses --o T_TeacherFaculty: decomposes into
-            T_AttendClasses --o T_TeacherProfessor: decomposes into
+	rectangle "Verify enrollment & access personal timetable" as T_VerifyEnrollmentTimetable <<Task>>
+	rectangle "Attend to enrolled classes (group, section)" as T_AttendClasses <<Task>>
 
-    G_StudentProgress <|-- G_EffectiveEnrollment: means-end
-    G_EffectiveEnrollment <|-- T_ViewCoursesTimetable: means-end
-    G_EffectiveEnrollment <|-- T_VerifyEnrollmentTimetable: means-end
-    G_EffectiveEnrollment <|-- T_AttendClasses: means-end
+	T_VerifyEnrollmentTimetable --> G_Enrolled
+	T_AttendClasses --> G_Enrolled
 
-    ' --- Sub-Goal: Managing Enrollment Changes (Your G_TakeDrop) ---
-    rectangle "Manage Course Enrollment Changes" as G_ManageEnrollmentChanges <<Goal>>
-        rectangle "Request Course Withdrawal (Drop/LOA)" as T_RequestWithdrawal <<Task>>
-        rectangle "Request Reinstatement in Course" as T_RequestReinstatement <<Task>>
+	rectangle "Request course withdrawal (drop/LOA)" as T_RequestWithdrawal <<Task>>
+	rectangle "Request reinstatement in course" as T_RequestReinstatement <<Task>>
 
-    G_StudentProgress <|-- G_ManageEnrollmentChanges: means-end
-    G_ManageEnrollmentChanges <|-- T_RequestWithdrawal: means-end
-    G_ManageEnrollmentChanges <|-- T_RequestReinstatement: means-end
+rectangle "Attend failed course" as G_RectifyFailures <<Goal>>
+	rectangle "Identify Failed Courses from Record" as T_IdentifyFailed <<Task>>
 
-    ' --- Sub-Goal: Rectifying Failed Courses (Your G_RepeatFailed) ---
-    rectangle "Rectify Failed Courses (via re-enrollment)" as G_RectifyFailures <<Goal>>
-        rectangle "Identify Failed Courses from Record" as T_IdentifyFailed <<Task>>
-        rectangle "Re-Register for Failed Courses" as T_ReRegisterFailed <<Task>>
+	G_RectifyFailures --o G_Enrolled: decomposes into
+	G_RectifyFailures <|-- T_IdentifyFailed: means-end
 
-    G_StudentProgress <|-- G_RectifyFailures: means-end
-    G_RectifyFailures <|-- T_IdentifyFailed: means-end
-    G_RectifyFailures <|-- T_ReRegisterFailed: means-end
+cloud "Accurate & timely timetable information" as SG_AccurateTimetable <<Softgoal>>
+	T_VerifyEnrollmentTimetable ..> SG_AccurateTimetable : + (HELP)
+cloud "Fast timetable generation" as SG_AccurateTimetable <<Softgoal>>
+cloud "Enrollemnt flexibility" as SG_AccurateTimetable <<Softgoal>>
 
-    ' --- Softgoals: Student Expectations of Registrar's Services ---
-    cloud "Accurate & Timely Timetable Information" as SG_AccurateTimetable <<Softgoal>>
-        T_ViewCoursesTimetable ..> SG_AccurateTimetable : + (HELP)
-        T_VerifyEnrollmentTimetable ..> SG_AccurateTimetable : + (HELP)
-
-    cloud "Clear & Efficient Enrollment Procedures" as SG_EfficientEnrollment <<Softgoal>>
-        T_RequestWithdrawal ..> SG_EfficientEnrollment : + (HELP)
-        T_ReRegisterFailed ..> SG_EfficientEnrollment : + (HELP)
-
-    ' --- Resources (Student uses these, often provided/managed by Registrar) ---
-    database "Course Catalog & Timetable Information" as R_CourseTimetableInfo <<Resource>>
-        T_ViewCoursesTimetable --> R_CourseTimetableInfo: uses
-        T_AttendClasses --> R_CourseTimetableInfo: uses
-
-    database "Personal Academic Record (Grades, Enrollment History)" as R_AcademicRecord <<Resource>>
-        T_IdentifyFailed --> R_AcademicRecord: uses
-        T_VerifyEnrollmentTimetable --> R_AcademicRecord: uses
+database "Personal academic record (grades, enrollment history)" as R_AcademicRecord <<Resource>>
+	T_IdentifyFailed --> R_AcademicRecord: uses
+	T_VerifyEnrollmentTimetable --> R_AcademicRecord: uses
 }
+
+database "Module timetable" as R_CourseTimetableInfo <<Resource>>
+	T_AttendClasses --> R_CourseTimetableInfo: uses
+	G_Enrolled <-- Registrar
+	R_CourseTimetableInfo <-- Registrar
+
+rectangle "Enrollment flexibility" as T_EnrollmentFlexibility <<Task>>
+	SS --> T_EnrollmentFlexibility
+	T_RequestWithdrawal --> T_EnrollmentFlexibility
+	T_RequestReinstatement --> T_EnrollmentFlexibility
+
+rectangle "Enrollment compliance" as T_EnrollmentCompliance <<Task>>
 @enduml

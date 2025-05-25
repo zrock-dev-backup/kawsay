@@ -1,5 +1,6 @@
 @startuml
 !include style.puml
+'skinparam linetype ortho
 
 actor Student
 actor Registrar
@@ -8,51 +9,42 @@ actor "Academic Coordinator" AS coordinator
 actor "Student Information System" AS SIS
 actor "Student Services" AS SS
 
-cloud "Resolve Student Enrollment & Timetable Issues" as SG_ResolveIssues <<Softgoal>>
-cloud "Class schedule flexibility" as SG_ClassFlexibility <<Softgoal>>
+cloud "Enrollment flexibility" as SG_EnrollmentFlexibility <<Softgoal>>
+	SS --> SG_EnrollmentFlexibility
+	SG_EnrollmentFlexibility <-- Student
+	'SG_EnrollmentFlexibility --> Registrar
+
 database "Student Data" as R_StudentData <<Resource>>
+	Registrar --> R_StudentData
+	R_StudentData --> SIS
+
 database "Module timetable" as R_CourseTimetableInfo <<Resource>>
+	Teacher --> R_CourseTimetableInfo
+	Student --> R_CourseTimetableInfo
+	R_CourseTimetableInfo --> Registrar
+
 database "Student grades" as R_StudentGrades <<Resource>>
+	SIS --> R_StudentGrades
+	R_StudentGrades --> Teacher
+
 database "Hired faculty records" as R_HiredFacultyDB <<Resource>>
+	Registrar --> R_HiredFacultyDB
+	R_HiredFacultyDB --> coordinator
+
 database "Teaching staff to be hired" as R_RequiredTeachers <<Resource>>
+	R_RequiredTeachers <-- coordinator
+	R_RequiredTeachers --> Registrar
 
 rectangle "Enrolled" as G_Enrolled <<Goal>>
+	Student --> G_Enrolled
+	G_Enrolled --> Registrar
 
-' RELATIONSHIPS
-coordinator --> R_RequiredTeachers
-R_RequiredTeachers --> Registrar
+rectangle "Enrollment compliance" as T_EnrollmentCompliance <<Task>>
+	T_EnrollmentCompliance <-- Student
+	SS --> T_EnrollmentCompliance
 
-SIS --> R_StudentGrades
-R_StudentGrades --> Teacher
-
-Teacher --> R_CourseTimetableInfo
-Student --> R_CourseTimetableInfo
-R_CourseTimetableInfo --> Registrar
-
-Student --> G_Enrolled
-G_Enrolled --> Registrar
-
-SS --> SG_ResolveIssues
-SG_ResolveIssues --> Registrar
-
-Registrar --> R_StudentData
-R_StudentData --> SIS
-
-Registrar --> R_HiredFacultyDB
-R_HiredFacultyDB --> coordinator
-
-
-' Dependencies are visually distinguished by arrow types and [R]/[T]/[G] labels
-/'
-' Legend with proper formatting
-legend top left
-  **i* Dependency Types:**
-  
-  **[G]** <color:#0056B3>Goal Dependency</color> (thick solid line with ==>)
-  **[T]** <color:#28A745>Task Dependency</color> (solid line with -->)
-  **[R]** <color:#6C757D>Resource Dependency</color> (dashed line with -.->)
-  
-endlegend
-'/
+cloud "Class schedule flexibility" as SG_ClassFlexibility <<Softgoal>>
+	SG_ClassFlexibility <-- Teacher
+	Registrar <-- SG_ClassFlexibility
 
 @enduml
