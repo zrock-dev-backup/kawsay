@@ -18,24 +18,22 @@ Figure~\ref{fig:strategicDependenciesDiagram} displays the relationships among t
 	\end{center}
 \end{figure}
 
-\begin{longtable}{p{3in}|p{3in}}
-\caption{Detail of relationships} \label{tab:strategicDependencies} \\
-
-\textbf{Relationship} &  \textbf{Description}\\
-\hline
-\endfirsthead
-\textbf{Relationship} & \textbf{Description}\\
-\hline
-\endhead
-\endfoot
-
-Teacher- Registrar & A teacher needs to know his lecture timetables in order to deliver efective education. \\
-Registrar - SIS & Registrar needs student's information in order to enroll them\\
-Registrar - Teacher & Registrar needs to know a student grades in order to asses their elegibility to be enrolled in next courses or repeat one. \\
-Student services - Registrar & Student services wants to help students resolve enrollment and timetable issues which can be achieved through collaboratio with registrar \\
-Registrar - Academic coordinator & In order for registrar to select a suitable teacher for a class they need to have teacher data\\
-
-\end{longtable}
+\begin{table}
+	\caption{SD relationships description}\label{tab:strategicDependencies}
+	\begin{center}
+		\begin{tabularx}{\textwidth}{p{2in}X} \toprule
+			\textbf{Relationship} &  \textbf{Description}\\
+			\midrule
+			
+			Teacher- Registrar & A teacher needs to know his lecture timetables in order to deliver efective education. \\
+			Registrar - SIS & Registrar needs student's information in order to enroll them\\
+			Registrar - Teacher & Registrar needs to know a student grades in order to asses their elegibility to be enrolled in next courses or repeat one. \\
+			Student services - Registrar & Student services wants to help students resolve enrollment and timetable issues which can be achieved through collaboratio with registrar \\
+			Registrar - Academic coordinator & In order for registrar to select a suitable teacher for a class they need to have teacher data\\
+			\bottomrule
+		\end{tabularx}
+	\end{center}
+\end{table}
 
 \subsubsection{Registrar}
 Registrar is the actor that generates the timetable, for this purpose depends on Academic Coordinator for teaching staff data and SIS for student data.
