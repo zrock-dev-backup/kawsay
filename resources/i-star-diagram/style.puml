@@ -18,6 +18,13 @@ skinparam package {
     }
 }
 
+skinparam actor {
+    BorderColor Black
+    BackgroundColor LightBlue
+    StereotypeFontColor Black
+    StereotypeFontSize 10
+}
+
 skinparam rectangle<<Goal>> {
     StereotypePosition top
     borderColor DarkGreen

@@ -1,33 +1,36 @@
 @startuml
 !include style.puml
 
-skinparam actor {
-    BorderColor Black
-    BackgroundColor LightBlue
-    StereotypeFontColor Black
-    StereotypeFontSize 10
-}
-
 actor Student
 actor Registrar
 actor Teacher
-actor Coordinator
+actor "Academic Coordinator" AS coordinator
 actor "Student Information System" AS SIS
 actor "Student Services" AS SS
 
 cloud "Resolve Student Enrollment & Timetable Issues" as SG_ResolveIssues <<Softgoal>>
+cloud "Class schedule flexibility" as SG_ClassFlexibility <<Softgoal>>
 database "Student Data" as R_StudentData <<Resource>>
-database "Course Catalog &\n Timetable Information" as R_CourseTimetableInfo <<Resource>>
+database "Module timetable" as R_CourseTimetableInfo <<Resource>>
 database "Student grades" as R_StudentGrades <<Resource>>
-database "Hired Faculty Database / Records" as R_HiredFacultyDB <<Resource>>
+database "Hired faculty records" as R_HiredFacultyDB <<Resource>>
+database "Teaching staff to be hired" as R_RequiredTeachers <<Resource>>
+
+rectangle "Enrolled" as G_Enrolled <<Goal>>
 
 ' RELATIONSHIPS
-Registrar --> R_StudentGrades
+coordinator --> R_RequiredTeachers
+R_RequiredTeachers --> Registrar
+
+SIS --> R_StudentGrades
 R_StudentGrades --> Teacher
 
 Teacher --> R_CourseTimetableInfo
 Student --> R_CourseTimetableInfo
 R_CourseTimetableInfo --> Registrar
+
+Student --> G_Enrolled
+G_Enrolled --> Registrar
 
 SS --> SG_ResolveIssues
 SG_ResolveIssues --> Registrar
@@ -36,7 +39,7 @@ Registrar --> R_StudentData
 R_StudentData --> SIS
 
 Registrar --> R_HiredFacultyDB
-R_HiredFacultyDB --> Coordinator
+R_HiredFacultyDB --> coordinator
 
 
 ' Dependencies are visually distinguished by arrow types and [R]/[T]/[G] labels
