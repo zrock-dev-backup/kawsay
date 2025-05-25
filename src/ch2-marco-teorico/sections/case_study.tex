@@ -40,49 +40,32 @@ Registrar - Academic coordinator & In order for registrar to select a suitable t
 \subsubsection{Registrar}
 Registrar is the actor that generates the timetable, for this purpose depends on Academic Coordinator for teaching staff data and SIS for student data.
 
-As we can se in Figura~\ref{fig:actorBoundaryRegistrar} the registrar office has the following
-\begin{longtable}{p{2in}|p{2in}|p{2in}}
-\caption{Actor} \label{tab:i-star} \\
-\hline
-\textbf{Text} & \textbf{Tasks} &  \textbf{Description}\\
-\hline
-\endfirsthead
-\hline
-\textbf{Text} & \textbf{Tasks} &  \textbf{Description}\\
-\hline
-\endhead
-\hline
-\endfoot
+Registrar is the main actor in the timetable and student enrollment management context.
+Figure~\ref{fig:actorBoundaryRegistrar} is a representation of Registrar's strategic rationale.
 
-Generate module timetable &
-\begin{itemize}
-	\item Collect module required courses
-	\item Allocate timeslots
-\end{itemize} &
-The achievement of this goal means a a timetable will be available.
-\\\hline
-\end{longtable}
+Registrar office is concerned with student enrollment and timetable management.
+Student depends upon Registrar to be enrolled in a course meaning Registrar has the task of enrolling students to class implying the generation of a timetable and planning ahead to have resources available for the next module or term.
 
-% The main goals for Registrar are:
-% \begin{itemize}
-% 	\item Enroll students that need to repeat a class.
-% 	\item Enroll a cohort in a module.
-% 	\item To plan new classes to open.
-% \end{itemize}
-%
-% The softgoals are:
-% \begin{itemize}
-% 	\item Minimize administrative overhead
-% 	\item Ensure no teacher double booking
-% \end{itemize}
+This actor is also concerned with minimizing administrative overhead, because it needs to generate other kind of reports outside of the context of this case study, for which the softgoal "Minimize administrative overhead" has been identified.
+She also has the softgoal of "Reducing student double booking" i.e. when a student is enrolled on two classes that happen at the same time.
 
-% \begin{figure}
-% 	\includegraphics[width=0.45\textwidth]{registrar.svg}
-% 	\caption{Registrar's actor boundary}
-% 	\label{fig:actorBoundaryRegistrar}
-% \end{figure}
+\begin{landscape}
+	\begin{figure}
+		\caption{Registrar strategic rationale model - Fuente: Elaboracion propia}
+		\includegraphics[width=1.4\textwidth]{registrar.pdf}
+		\label{fig:actorBoundaryRegistrar}
+	\end{figure}
+\end{landscape}
+
 
 \subsubsection{Student}
 \subsubsection{Teacher}
-\subsubsection{Student Information System}
-\subsubsection{Academic Coordinator}
+
+\subsubsection{Timetable clashes}
+Timetable and student enrollment management is a task that faces two types of clashes.
+
+\paragraph{Student double booking} Produced when a student fails a course and needs to repeated, when enrolling this student to the class sometimes she will also have another class happening in the same hour.
+In this situation the registrar tries to find another class for when the student is available.
+
+\paragraph{Teacher change of schedule} Produced when a teacher requests a change of schedule because of an external reason, in this situation the registrar has to find another available timeslot taking into account the class availability and the teacher.
+Sometimes when this operation is not possible then the teacher is replaced.

@@ -49,3 +49,5 @@
 *.txt
 *.sh
 *.docx
+*.bcf
+*.bcf-*
