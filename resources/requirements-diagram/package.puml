@@ -33,6 +33,9 @@ package "non-functional" {
     stereotype "FERPA compliance" {
         {field} overview: When producing reports, system should comply with FERPA alignments taking into account which user is trying to access which records.
     }
+    stereotype "Dark mode" {
+        {field} overview: Switch to dark mode
+    }
 }
 
 

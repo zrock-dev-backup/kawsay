@@ -8,19 +8,7 @@ skinparam class {
 }
 
 
-package "Timetable generation" {
-    stereotype "Creation hint" AS hint_custom_class{
-        {field} overview: System should hint registrar of available timeslots and teachers.
-    }
-    stereotype "Custom class creation" AS custom_class {
-        {field} overview: I as a registrar want to create a custom class so that it is possible to accomodate failed students.
-    }
-	custom_class <.. hint_custom_class: <<drvReqt>>
-	NOTE LEFT OF custom_class
-		Scenario example:
-			student fails a class and has to take it again.
-		In this case Registrar will create a custom class.
-	END NOTE
+package "Timetable" {
     stereotype "Class-Teacher Timetabling" AS gen_2 {
         {field} overview: I as Registrar want the system to generate a class timetable for the students of a module.
     }
@@ -38,28 +26,20 @@ package "Timetable generation" {
     }
 	module_population +-- gen_1
 	module_population +-- gen_2
-    stereotype "Module view" AS module_view {
-        {field} overview: As registrar I want to have a view of a module.
+    stereotype "Week view" AS timetable_weekView {
+        {field} overview: As a registrar want to see the timetable in week segments being able to appreciate date.
     }
-    stereotype "Open a new module" AS academic_module {
-        {field} overview: I as registrar want to open a module.
+    stereotype "Date range picker" AS timetable_datePicker{
+        {field} overview: As a registrar want to choose a data range for the duration of the timetable so that I can see the timetable by week.
     }
-	academic_module +-- module_population
-	academic_module +-- custom_class
-	academic_module <.. module_view: <<drvReqt>>
-	/'
-	NOTE LEFT OF academic_module
-		A module can have a maximum of 3 courses per group. Students are required to pass prerequisite courses in order to be enrolled in the next module.
-	END NOTE
-	'/
-    stereotype "Term view" AS term_view {
-        {field} overview: As registrar I want to have a view of a term.
+	timetable_datePicker +-- timetable_weekView
+    stereotype "Timetable management" AS timetable_mgmt {
+        {field} overview: I as a registrar want to create a module timetable.
+
+        {field} data: {name, date, [{course}]}
     }
-    stereotype "Open a new Term" AS academic_term {
-        {field} overview: I as registrar want to open a new term for a cohort.
-    }
-	academic_term +-- academic_module
-	academic_term <.. term_view: <<drvReqt>>
+	timetable_mgmt <.. module_population: <<drvReqt>>
+	timetable_mgmt +-- timetable_datePicker
 }
 
 package "Course" {
@@ -107,6 +87,9 @@ package "Enrollment Analysis" AS pk_enrollmentAnalysis {
 }
 
 package "Student" {
+    stereotype "Generate new groups and section combinations" {
+        {field} overview:
+    }
     stereotype "Student filter" AS student_filter{
         {field} overview: I as a registrar want to filter my search of students according to: group, section, cohort, timezone and country.
     }
@@ -121,6 +104,15 @@ package "Student" {
 }
 
 package "Enrollment" AS pkg_enrollment {
+    stereotype "Collect list of failed students" {
+        {field} overview:
+    }
+    stereotype "Automatically advance students to next course" {
+        {field} overview:
+    }
+    stereotype "Enrollment compliance" AS enrollment_compliance {
+        {field} overview: Ensure student is enrolled in 3 courses, taking into account ESP
+    }
     stereotype "Force enrollment" AS enrollment_forced {
         {field} overview: I as registrar want to forcibly enroll a student so that he/she can be enrolled because of a management decision.
 		{field} A forced enrollment should have a justification.
@@ -139,6 +131,18 @@ pkg_enrollment +-- student_selection
 pkg_enrollment +-- student_eligibilityStatus
 
 package "Class" {
+    stereotype "Creation hint" AS hint_custom_class{
+        {field} overview: System should hint registrar of available timeslots and teachers.
+    }
+    stereotype "Custom class creation" AS custom_class {
+        {field} overview: I as a registrar want to create a custom class so that it is possible to accomodate failed students.
+    }
+	custom_class <.. hint_custom_class: <<drvReqt>>
+	NOTE LEFT OF custom_class
+		Scenario example:
+			student fails a class and has to take it again.
+		In this case Registrar will create a custom class.
+	END NOTE
     stereotype "Teacher selection" AS class_teacherSelection {
         {field} overview: I as registrar want to select a teacher to teach a class, so that I can assign him/her.
 		{field} The selection list should only contain the names of teachers that can give the class.
@@ -155,9 +159,9 @@ package "Class" {
     }
     class_creation +-- class_courseSelection
     class_creation +-- class_teacherSelection
-    class_creation +-- pkg_enrollment
+    class_creation <.. custom_class: <<drvReqt>>
 
-    stereotype "Class timeslot migration" AS class_timeslotMigration <<ActiveDevelopment>> {
+    stereotype "Class timeslot migration" AS class_timeslotMigration {
         {field} overview: I as registrar want to change the timeslot of a class so that I can handle the teacher's request.
     }
     stereotype "Class" AS class_mgmt{

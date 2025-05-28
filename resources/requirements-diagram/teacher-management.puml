@@ -6,9 +6,13 @@ skinparam class {
     BackgroundColor<<Requirement>> Beige
 }
 package "Teaching staff" {
+    stereotype "Availability" AS availability {
+        {field} overview: As registrar I want to visualize a teacher's availability.
+    }
     stereotype "Teacher registration" AS teach_mgmt {
         {field} overview: I as registrar want to register/update/delete proffessors and faculty practicioners, so that they are available for selection when creating classes.
     }
+	teach_mgmt <.. availability: <<drvReq>>
 }
 @enduml
     stereotype "" {
