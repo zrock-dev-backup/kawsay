@@ -1,0 +1,8 @@
+skinparam wrapwidth 200
+skinparam defaultFontName Helvetica
+
+skinparam class {
+    BackgroundColor<<Requirement>> Beige
+    BackgroundColor<<ActiveDevelopment>> Yellow
+}
+

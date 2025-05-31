@@ -1,45 +1,5 @@
 @startuml
-skinparam wrapwidth 200
-skinparam defaultFontName Helvetica
-
-skinparam class {
-    BackgroundColor<<Requirement>> Beige
-    BackgroundColor<<ActiveDevelopment>> Yellow
-}
-
-package "Timetable" {
-    stereotype "Class-Teacher Timetabling" AS gen_2 {
-        {field} overview: I as Registrar want the system to generate a class timetable for the students of a module.
-    }
-	NOTE LEFT OF gen_2
-		Distribute group and sections so that no teacher and no class should have no simultaneous lessons.
-	END NOTE
-    stereotype "Faculty timetabling" AS generation_facultyTimetabling  {
-        {field} overview: As a Registrar I want the system to generate a timetable where teachers have been assigned to a class taking into account their availability and our preference of time.
-    }
-	NOTE LEFT OF generation_facultyTimetabling
-		Distribute courses between instructors under specified conditions.
-	END NOTE
-    stereotype "Automated timetable generation" AS module_population{
-        {field} overview: As a Registrar I want the system to generate an academic timetable of the module
-    }
-	module_population +-- generation_facultyTimetabling
-	module_population +-- gen_2
-    stereotype "Week view" AS timetable_weekView {
-        {field} overview: As a registrar want to see the timetable in week segments being able to appreciate date.
-    }
-    stereotype "Date range picker" AS timetable_datePicker{
-        {field} overview: As a registrar want to choose a data range for the duration of the timetable so that I can see the timetable by week.
-    }
-	timetable_datePicker +-- timetable_weekView
-    stereotype "Timetable management" AS timetable_mgmt {
-        {field} overview: I as a registrar want to create a module timetable.
-
-        {field} data: {name, date, [{course}]}
-    }
-	timetable_mgmt <.. module_population: <<drvReqt>>
-	timetable_mgmt +-- timetable_datePicker
-}
+!include ./style.puml
 
 package "Course" {
     stereotype "Academic map graphical view" AS course_dependencyGraphView {
