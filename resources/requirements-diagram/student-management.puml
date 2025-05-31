@@ -6,6 +6,20 @@ skinparam class {
     BackgroundColor<<Requirement>> Beige
 }
 
+package "Student" {
+    stereotype "Generate new groups and section combinations" {
+        {field} overview:
+    }
+    stereotype "Student filter" AS student_filter{
+        {field} overview: I as a registrar want to filter my search of students according to: group, section, cohort, timezone and country.
+    }
+    stereotype "Student search" AS student_search {
+        {field} overview: I as registrar want to search for an student.
+    }
+	student_selection +-- student_search
+	student_selection +-- student_filter
+}
+
 package "Academic Registration" {
     stereotype "Section registration" AS reg_section {
         {field} overview:
@@ -30,6 +44,10 @@ package "Academic Registration" {
 }
 
 package "Student management" AS pck_student_mgmt{
+    stereotype "Student profile View" {
+        {field} overview: As a registrar I want to see the profile of each student.
+        {field} data: {name, emailAddress, {[enrolled courses, sections and groups]}, cohort}
+    }
     stereotype "Grading" AS grading {
         {field} overview: SAP and GPA are grading scales to evaluate a student. System should allow registrar office to browse one or many student grading.
     }

@@ -7,7 +7,6 @@ skinparam class {
     BackgroundColor<<ActiveDevelopment>> Yellow
 }
 
-
 package "Timetable" {
     stereotype "Class-Teacher Timetabling" AS gen_2 {
         {field} overview: I as Registrar want the system to generate a class timetable for the students of a module.
@@ -15,16 +14,16 @@ package "Timetable" {
 	NOTE LEFT OF gen_2
 		Distribute group and sections so that no teacher and no class should have no simultaneous lessons.
 	END NOTE
-    stereotype "Faculty timetabling" AS gen_1  {
+    stereotype "Faculty timetabling" AS generation_facultyTimetabling  {
         {field} overview: As a Registrar I want the system to generate a timetable where teachers have been assigned to a class taking into account their availability and our preference of time.
     }
-	NOTE LEFT OF gen_1
+	NOTE LEFT OF generation_facultyTimetabling
 		Distribute courses between instructors under specified conditions.
 	END NOTE
     stereotype "Automated timetable generation" AS module_population{
         {field} overview: As a Registrar I want the system to generate an academic timetable of the module
     }
-	module_population +-- gen_1
+	module_population +-- generation_facultyTimetabling
 	module_population +-- gen_2
     stereotype "Week view" AS timetable_weekView {
         {field} overview: As a registrar want to see the timetable in week segments being able to appreciate date.
@@ -86,24 +85,11 @@ package "Enrollment Analysis" AS pk_enrollmentAnalysis {
 	student_eligibilityStatus +-- clash_studentEnrollment
 }
 
-package "Student" {
-    stereotype "Generate new groups and section combinations" {
-        {field} overview:
-    }
-    stereotype "Student filter" AS student_filter{
-        {field} overview: I as a registrar want to filter my search of students according to: group, section, cohort, timezone and country.
-    }
-    stereotype "Student search" AS student_search {
-        {field} overview: I as registrar want to search for an student.
-    }
+
+package "Enrollment" AS pkg_enrollment {
     stereotype "Student selection" AS student_selection {
         {field} overview: I as registrar want to select a student from a list, so that him/her would be enrolled to it.
     }
-	student_selection +-- student_search
-	student_selection +-- student_filter
-}
-
-package "Enrollment" AS pkg_enrollment {
     stereotype "Collect list of failed students" {
         {field} overview:
     }
@@ -127,12 +113,15 @@ package "Enrollment" AS pkg_enrollment {
 	enrollment +-- enrollment_forced
 	enrollment +-- notifications
 }
-pkg_enrollment +-- student_selection
-pkg_enrollment +-- student_eligibilityStatus
 
 package "Class" {
+    stereotype "Class periods" AS class_periods {
+		{field} id: 22
+        {field} overview: I as registrar want to define which at which periods would preferable to have the class.
+    }
+	generation_facultyTimetabling <.. class_periods: <<drvReqt>>
     stereotype "Creation hint" AS hint_custom_class{
-        {field} overview: System should hint registrar of available timeslots and teachers.
+        {field} overview: I as a registrar want system to list only available teachers based on class preferred timeslots.
     }
     stereotype "Custom class creation" AS custom_class {
         {field} overview: I as a registrar want to create a custom class so that it is possible to accomodate failed students.
@@ -144,10 +133,12 @@ package "Class" {
 		In this case Registrar will create a custom class.
 	END NOTE
     stereotype "Teacher selection" AS class_teacherSelection {
+		{field} id: 20
         {field} overview: I as registrar want to select a teacher to teach a class, so that I can assign him/her.
 		{field} The selection list should only contain the names of teachers that can give the class.
     }
     stereotype "Course selection" AS class_courseSelection {
+		{field} id: 21
         {field} overview: I as a registrar want to select a course to be imparted in the class.
     }
     stereotype "Class creation" AS class_creation {
@@ -158,6 +149,7 @@ package "Class" {
 		{field} attributes: class name, teacher, students, timeslot, frequency.
     }
     class_creation +-- class_courseSelection
+    class_creation +-- class_periods
     class_creation +-- class_teacherSelection
     class_creation <.. custom_class: <<drvReqt>>
 
@@ -170,7 +162,24 @@ package "Class" {
     class_mgmt +-- class_creation
 	class_mgmt +-- class_timeslotMigration
 }
+
+package "Module report" AS module {
+    stereotype "Auto student advance" AS module_autoAdvance {
+        {field} overview: I as registrar want to automatically advance students
+    }
+    stereotype "Student list" AS module_studentView {
+        {field} overview: I as registrar want a list of students in two groups, passed and failed.
+    }
+    stereotype "End module button" AS module_end {
+        {field} overview: Press button to mark module as ended. This is the first step of new module process.
+    }
+    stereotype "Module student management" AS module_mgmt {
+        {field} overview: I as Registrar want a view to manage the students.
+    }
+}
+
 @enduml
-    stereotype "" {
+    stereotype "" AS {
+		{field} id:
         {field} overview:
     }
