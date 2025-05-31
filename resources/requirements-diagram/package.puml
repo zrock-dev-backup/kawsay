@@ -1,11 +1,5 @@
 @startuml
-skinparam wrapwidth 200
-skinparam defaultFontName Helvetica
-
-skinparam class {
-    BackgroundColor<<Requirement>> Beige
-    BackgroundColor<<ActiveDevelopment>> Yellow
-}
+!include style.puml
 
 title System requirements
 footer SySML requirements diagram
@@ -15,6 +9,7 @@ footer SySML requirements diagram
 !include courses-management.puml
 !include timetable.puml
 !include class.puml
+!include enrollment-analysis.puml
 
 package "Reports" {
     ' OUTPUT

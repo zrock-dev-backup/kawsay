@@ -19,33 +19,6 @@ package "Course" {
 	course +-- course_assignation
 }
 
-package "Enrollment Analysis" AS pk_enrollmentAnalysis {
-    stereotype "Enrollment Hint" AS hint_clash_enrollment {
-        {field} overview: If the system identifies an enrollment clash it should hint the user another timeslot, that is a the same class subject but in another timesslot.
-    }
-    stereotype "Enrollment clash alert" AS notification_clashStudentEnrollment {
-        {field} overview: As a registrar I want to receive an alert when attempting to enroll an already booked student.
-    }
-    stereotype "Student timeslot availability evaluation" AS clash_studentEnrollment {
-        {field} overview: Before enrolling student to class, system should verify if the student isn't already enrolled in another class at the same timeslot.
-    }
-	clash_studentEnrollment <.. notification_clashStudentEnrollment: <<drvReqt>>
-	clash_studentEnrollment <.. hint_clash_enrollment: <<drvReqt>>
-    stereotype "Course pass/fail forecasting hint" AS eligibility_forecasting {
-        {field} overview: When opening next module, grading notes are not in yet, in this situation registrar office ponders if the student should be enrolled. System should do the forecasting based on GPA and SPA.
-    }
-    stereotype "Course dependency evaluation" AS eligibility_courseDepedency {
-        {field} overview: I as a registrar want the sytem to notify me if a student doesn't have the necessary courses required to take the course.
-    }
-	eligibility_courseDepedency <.. eligibility_forecasting
-    stereotype "Student eligibility status" AS student_eligibilityStatus {
-        {field} overview: I as registrar want to have a view of a student eligibility, showing timeslot availability and pre-requisite course.
-    }
-	student_eligibilityStatus +-- eligibility_courseDepedency
-	student_eligibilityStatus +-- clash_studentEnrollment
-}
-
-
 package "Enrollment" AS pkg_enrollment {
     stereotype "Student selection" AS student_selection {
         {field} overview: I as registrar want to select a student from a list, so that him/her would be enrolled to it.
