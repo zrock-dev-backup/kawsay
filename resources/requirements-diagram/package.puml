@@ -13,6 +13,8 @@ footer SySML requirements diagram
 !include student-management.puml
 !include teacher-management.puml
 !include courses-management.puml
+!include timetable.puml
+!include class.puml
 
 package "Reports" {
     ' OUTPUT

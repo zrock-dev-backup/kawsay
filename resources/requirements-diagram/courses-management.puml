@@ -74,55 +74,6 @@ package "Enrollment" AS pkg_enrollment {
 	enrollment +-- notifications
 }
 
-package "Class" {
-    stereotype "Class periods" AS class_periods {
-		{field} id: 22
-        {field} overview: I as registrar want to define which at which periods would preferable to have the class.
-    }
-	generation_facultyTimetabling <.. class_periods: <<drvReqt>>
-    stereotype "Creation hint" AS hint_custom_class{
-        {field} overview: I as a registrar want system to list only available teachers based on class preferred timeslots.
-    }
-    stereotype "Custom class creation" AS custom_class {
-        {field} overview: I as a registrar want to create a custom class so that it is possible to accomodate failed students.
-    }
-	custom_class <.. hint_custom_class: <<drvReqt>>
-	NOTE LEFT OF custom_class
-		Scenario example:
-			student fails a class and has to take it again.
-		In this case Registrar will create a custom class.
-	END NOTE
-    stereotype "Teacher selection" AS class_teacherSelection {
-		{field} id: 20
-        {field} overview: I as registrar want to select a teacher to teach a class, so that I can assign him/her.
-		{field} The selection list should only contain the names of teachers that can give the class.
-    }
-    stereotype "Course selection" AS class_courseSelection {
-		{field} id: 21
-        {field} overview: I as a registrar want to select a course to be imparted in the class.
-    }
-    stereotype "Class creation" AS class_creation {
-        {field} overview: I as registrar want to create a new course either masterclass or faculty practitioner.
-		{field} There are two kinds of classes:
-        {field} Masterclass, given by a professor. A whole group of students attends the masterclass.
-        {field} Practicioner class, given by an industry engineer. A section of students attends this class.
-		{field} attributes: class name, teacher, students, timeslot, frequency.
-    }
-    class_creation +-- class_courseSelection
-    class_creation +-- class_periods
-    class_creation +-- class_teacherSelection
-    class_creation <.. custom_class: <<drvReqt>>
-
-    stereotype "Class timeslot migration" AS class_timeslotMigration {
-        {field} overview: I as registrar want to change the timeslot of a class so that I can handle the teacher's request.
-    }
-    stereotype "Class" AS class_mgmt{
-        {field} overview: I as registrar want to create/update/delete classes (masterclass and faculty practitioner class) of a course.
-    }
-    class_mgmt +-- class_creation
-	class_mgmt +-- class_timeslotMigration
-}
-
 package "Module report" AS module {
     stereotype "Auto student advance" AS module_autoAdvance {
         {field} overview: I as registrar want to automatically advance students
