@@ -3,47 +3,30 @@
 
 actor Registrar
 actor "Student Services" AS SS
-rectangle "Enrolled in course" as G_Enrolled <<Goal>>
+rectangle "Enrolled" as G_Enrolled <<Goal>>
 
 package "Student" <<actorboundary>> {
-' --- Main Goal related to Registrar's Services ---
-rectangle "Attain career degree" as G_StudentProgress <<Goal>>
-	G_StudentProgress --o G_Enrolled: decomposes into
+	rectangle "LOA, Course drop, withdraw" as T_RequestReinstatement <<Task>>
+	rectangle "Verify enrollment" as T_VerifyEnrollmentTimetable <<Task>>
+	rectangle "Attend class" as T_AttendClasses <<Task>>
 
-	rectangle "Verify enrollment & access personal timetable" as T_VerifyEnrollmentTimetable <<Task>>
-	rectangle "Attend to enrolled classes (group, section)" as T_AttendClasses <<Task>>
+	T_AttendClasses --o T_VerifyEnrollmentTimetable: decomposes-into
+	G_Enrolled o-- T_AttendClasses: decomposes-into
 
-	T_VerifyEnrollmentTimetable --> G_Enrolled
-	T_AttendClasses --> G_Enrolled
-
-	rectangle "Request course withdrawal (drop/LOA)" as T_RequestWithdrawal <<Task>>
-	rectangle "Request reinstatement in course" as T_RequestReinstatement <<Task>>
-
-rectangle "Attend failed course" as G_RectifyFailures <<Goal>>
-	rectangle "Identify Failed Courses from Record" as T_IdentifyFailed <<Task>>
-
-	G_RectifyFailures --o G_Enrolled: decomposes into
-	G_RectifyFailures <|-- T_IdentifyFailed: means-end
-
-cloud "Accurate & timely timetable information" as SG_AccurateTimetable <<Softgoal>>
-	T_VerifyEnrollmentTimetable ..> SG_AccurateTimetable : + (HELP)
-cloud "Fast timetable generation" as SG_AccurateTimetable <<Softgoal>>
-cloud "Enrollemnt flexibility" as SG_AccurateTimetable <<Softgoal>>
-
-database "Personal academic record (grades, enrollment history)" as R_AcademicRecord <<Resource>>
-	T_IdentifyFailed --> R_AcademicRecord: uses
-	T_VerifyEnrollmentTimetable --> R_AcademicRecord: uses
+	rectangle "Repeat failed course" as G_RectifyFailures <<Task>>
+	G_Enrolled o-- G_RectifyFailures: decomposes into
 }
 
 database "Module timetable" as R_CourseTimetableInfo <<Resource>>
-	T_AttendClasses --> R_CourseTimetableInfo: uses
-	G_Enrolled <-- Registrar
-	R_CourseTimetableInfo <-- Registrar
+	R_CourseTimetableInfo <-- T_VerifyEnrollmentTimetable: uses
+	Registrar <-- G_Enrolled
+	Registrar <-- R_CourseTimetableInfo
 
-rectangle "Enrollment flexibility" as T_EnrollmentFlexibility <<Task>>
-	SS --> T_EnrollmentFlexibility
-	T_RequestWithdrawal --> T_EnrollmentFlexibility
-	T_RequestReinstatement --> T_EnrollmentFlexibility
+cloud "Enrollment flexibility" as T_EnrollmentFlexibility <<Softgoal>>
+	Registrar <-- T_EnrollmentFlexibility
+	T_EnrollmentFlexibility o-- T_RequestReinstatement: decomposes-into
 
-rectangle "Enrollment compliance" as T_EnrollmentCompliance <<Task>>
+cloud "Enrollment compliance" as T_EnrollmentCompliance <<Softgoal>>
+	T_VerifyEnrollmentTimetable --o T_EnrollmentCompliance: decomposes-into
+	T_EnrollmentCompliance --> SS
 @enduml

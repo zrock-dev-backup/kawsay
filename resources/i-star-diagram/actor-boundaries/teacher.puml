@@ -5,13 +5,14 @@
 
 actor Registrar
 actor "Academic Coordinator" AS coordinator
+actor "Student Information System" AS SIS
 
 rectangle "Hired" as G_Hired <<Goal>>
 	coordinator <-- G_Hired
 cloud "Class schedule flexibility" as SG_ClassFlexibility <<Softgoal>>
 	Registrar <-- SG_ClassFlexibility
 database "Module timetable" as R_CourseTimetableInfo <<Resource>>
-	Registrar --> R_CourseTimetableInfo
+	Registrar <-- R_CourseTimetableInfo
 
 package "Teacher" <<actorboundary>> {
 
@@ -21,15 +22,16 @@ package "Teacher" <<actorboundary>> {
 
 	T_SignContract --o T_ReviewTimetable: decomposes-into
     T_SignContract --o T_GradeWork: decomposes-into
-	G_Hired <|-- T_SignContract: means-end
+	G_Hired o--  T_SignContract: decomposes-into
 
     rectangle "Request change of schedule" as T_RequestMigration <<Task>>
-	SG_ClassFlexibility <-- T_RequestMigration: + (MAKE)
+	SG_ClassFlexibility <-- T_RequestMigration
 
-	R_CourseTimetableInfo --> T_ReviewTimetable: uses
+	R_CourseTimetableInfo <-- T_ReviewTimetable: uses
 }
 database "Student grades" as R_StudentGrades <<Resource>>
 	T_GradeWork --> R_StudentGrades: produces
+	SIS --> R_StudentGrades: uses
 
 @enduml
 

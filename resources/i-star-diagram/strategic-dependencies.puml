@@ -1,37 +1,36 @@
 @startuml
 !include style.puml
-'skinparam linetype ortho
+skinparam linetype ortho
 
+actor "Student Services" AS SS
 actor Student
 actor Registrar
-actor Teacher
 actor "Academic Coordinator" AS coordinator
 actor "Student Information System" AS SIS
-actor "Student Services" AS SS
+actor Teacher
 
 cloud "Enrollment flexibility" as SG_EnrollmentFlexibility <<Softgoal>>
-	SS --> SG_EnrollmentFlexibility
-	SG_EnrollmentFlexibility <-- Student
-	'SG_EnrollmentFlexibility --> Registrar
+	Student --> SG_EnrollmentFlexibility
+	SG_EnrollmentFlexibility --> Registrar
 
 database "Student Data" as R_StudentData <<Resource>>
 	Registrar --> R_StudentData
 	R_StudentData --> SIS
 
 database "Module timetable" as R_CourseTimetableInfo <<Resource>>
-	Teacher --> R_CourseTimetableInfo
-	Student --> R_CourseTimetableInfo
-	R_CourseTimetableInfo --> Registrar
+	R_CourseTimetableInfo <-- Teacher
+	R_CourseTimetableInfo <-- Student
+	Registrar <-- R_CourseTimetableInfo
 
 database "Student grades" as R_StudentGrades <<Resource>>
 	SIS --> R_StudentGrades
 	R_StudentGrades --> Teacher
 
-database "Hired faculty records" as R_HiredFacultyDB <<Resource>>
+database "Hired teachers\ndata" as R_HiredFacultyDB <<Resource>>
 	Registrar --> R_HiredFacultyDB
 	R_HiredFacultyDB --> coordinator
 
-database "Teaching staff to be hired" as R_RequiredTeachers <<Resource>>
+database "Teaching staff\nto be hired" as R_RequiredTeachers <<Resource>>
 	R_RequiredTeachers <-- coordinator
 	Registrar <-- R_RequiredTeachers
 
@@ -43,9 +42,9 @@ rectangle "Hired" as G_Hired <<Goal>>
 	G_Hired <-- Teacher
 	coordinator <-- G_Hired
 
-rectangle "Enrollment compliance" as T_EnrollmentCompliance <<Task>>
-	T_EnrollmentCompliance <-- Student
-	SS --> T_EnrollmentCompliance
+cloud "Enrollment compliance" as T_EnrollmentCompliance <<Softgoal>>
+	Student --> T_EnrollmentCompliance
+	T_EnrollmentCompliance --> SS
 
 cloud "Class schedule flexibility" as SG_ClassFlexibility <<Softgoal>>
 	SG_ClassFlexibility <-- Teacher
