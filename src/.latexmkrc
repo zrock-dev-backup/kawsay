@@ -1,5 +1,8 @@
 $xelatex = 'xelatex -8bit -file-line-error -interaction=errorstopmode -shell-escape %O %S';
-$pdf_mode = 1;
-$pdflatex = $xelatex;
-$recorder = 1;
 
+# 5 -> xelatex
+$pdf_mode = 5;
+$recorder = 1;
+$silent = 1;
+#$rcreport = 1;
+$out_dir = 'tex-build';
