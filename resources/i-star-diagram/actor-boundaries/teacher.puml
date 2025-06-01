@@ -1,6 +1,7 @@
 @startuml
 !include ../style.puml
-skinparam linetype ortho
+
+'skinparam linetype ortho
 
 actor Registrar
 actor "Academic Coordinator" AS coordinator
@@ -13,23 +14,17 @@ database "Module timetable" as R_CourseTimetableInfo <<Resource>>
 	Registrar --> R_CourseTimetableInfo
 
 package "Teacher" <<actorboundary>> {
-rectangle "Deliver Effective Instruction" as G_Teach <<Goal>>
+
+	rectangle "Teach class" as T_SignContract <<Task>>
     rectangle "Review class timetable" as T_ReviewTimetable <<Task>>
-    rectangle "Grade Student Work" as T_GradeWork <<Task>>
+    rectangle "Grade student work" as T_GradeWork <<Task>>
 
-	G_Teach <|-- T_ReviewTimetable: means-end
-    G_Teach <|-- T_GradeWork: means-end
-
-	rectangle "Sign a contract to give classes about an specific area" as T_SignContract <<Task>>
-    rectangle "Make known availability" as T_ProvideAvailability <<Task>>
-    rectangle "Make known area of expertise" as T_ProvideAreaExpertise <<Task>>
-
+	T_SignContract --o T_ReviewTimetable: decomposes-into
+    T_SignContract --o T_GradeWork: decomposes-into
 	G_Hired <|-- T_SignContract: means-end
-	G_Hired <|-- T_ProvideAvailability: means-end
-	G_Hired <|-- T_ProvideAreaExpertise: means-end
 
     rectangle "Request change of schedule" as T_RequestMigration <<Task>>
-	SG_ClassFlexibility <|-- T_RequestMigration
+	SG_ClassFlexibility <-- T_RequestMigration: + (MAKE)
 
 	R_CourseTimetableInfo --> T_ReviewTimetable: uses
 }
