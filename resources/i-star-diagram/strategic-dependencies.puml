@@ -5,8 +5,8 @@ skinparam linetype ortho
 actor "Student Services" AS SS
 actor Student
 actor Registrar
-actor "Academic Coordinator" AS coordinator
-actor "Student Information System" AS SIS
+actor "Academic\nCoordinator" AS coordinator
+actor "Student Information\n System" AS SIS
 actor Teacher
 
 cloud "Enrollment flexibility" as SG_EnrollmentFlexibility <<Softgoal>>
@@ -19,7 +19,7 @@ database "Student Data" as R_StudentData <<Resource>>
 
 database "Module timetable" as R_CourseTimetableInfo <<Resource>>
 	R_CourseTimetableInfo <-- Teacher
-	R_CourseTimetableInfo <-- Student
+	Student --> R_CourseTimetableInfo
 	Registrar <-- R_CourseTimetableInfo
 
 database "Student grades" as R_StudentGrades <<Resource>>
@@ -45,6 +45,10 @@ rectangle "Hired" as G_Hired <<Goal>>
 cloud "Enrollment compliance" as T_EnrollmentCompliance <<Softgoal>>
 	Student --> T_EnrollmentCompliance
 	T_EnrollmentCompliance --> SS
+
+cloud "Resolve student enrollment\n & timetable issues" as T_Resolve <<Softgoal>>
+	SS --> T_Resolve
+	T_Resolve --> Registrar
 
 cloud "Class schedule flexibility" as SG_ClassFlexibility <<Softgoal>>
 	SG_ClassFlexibility <-- Teacher

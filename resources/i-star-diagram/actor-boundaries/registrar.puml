@@ -1,17 +1,17 @@
 @startuml
 !include ../style.puml
-skinparam linetype ortho
+'skinparam linetype ortho
 
 actor Teacher
 actor Student
-actor "Academic Coordinator" AS coordinator
-actor "Student Information System" AS SIS
+actor "Academic\nCoordinator" AS coordinator
+actor "Student Information\nSystem" AS SIS
 actor "Student Services" AS SS
 
-rectangle "Enrolled in course" as G_Enrolled <<Goal>>
+rectangle "Enrolled" as G_Enrolled <<Goal>>
 	Student --> G_Enrolled
-database "Teaching staff to be hired" as R_RequiredTeachers <<Resource>>
-	coordinator <-- R_RequiredTeachers
+database "Teaching staff\nto be hired" as R_RequiredTeachers <<Resource>>
+	coordinator --> R_RequiredTeachers
 
 package "Registrar" <<actorboundary>> {
 	rectangle "Enroll student to course" as T_EnrollStudent <<Task>>
@@ -25,11 +25,9 @@ package "Registrar" <<actorboundary>> {
 		T_Allocate --o T_ReviewStudentAvailability: decomposes into
 
 rectangle "Plan new courses to be open next module" as T_PlanNewCourses <<Task>>
-	R_RequiredTeachers <-- T_PlanNewCourses: produces
-rectangle "Collect list of students that can be enrrolled in next courses" <<Task>> as T_CreateCourses
-	T_PlanNewCourses --o T_CreateCourses: decomposes into
-rectangle "Collect list of courses to be repeated" as T_FailedStudents <<Task>>
-	T_PlanNewCourses --o T_FailedStudents: decomposes into
+	R_RequiredTeachers --> T_PlanNewCourses
+	rectangle "Collect list of passed and failed courses" as T_ListCourses <<Task>>
+	T_PlanNewCourses --o T_ListCourses: decomposes into
 
 /'
 ++ (MAKE)  | stronly positive
@@ -46,19 +44,18 @@ cloud "Reduce student double booking" as SG_AvoidStudentDoubleBooking <<Softgoal
     T_ReviewStudentAvailability ..> SG_AvoidStudentDoubleBooking: + (MAKE)
 }
 database "Module timetable" as R_CourseTimetableInfo <<Resource>>
-	R_CourseTimetableInfo <-- T_Allocate: produces
+	R_CourseTimetableInfo --> T_Allocate
 	Teacher --> R_CourseTimetableInfo
 	Student --> R_CourseTimetableInfo
 database "Student Data" as R_StudentData <<Resource>>
-	T_CreateCourses --> R_StudentData: uses
-	R_StudentData --> SIS
+	R_StudentData <-- T_ListCourses: uses
+	SIS <-- R_StudentData
 database "Hired teachers data" as R_HiredTeacherData <<Resource>>
 	R_HiredTeacherData <-- T_FindTeacher: uses
 	coordinator <-- R_HiredTeacherData
-cloud "Resolve Student Enrollment & Timetable Issues" as SG_ResolveIssues <<Softgoal>>
-	SG_ResolveIssues <-- SS
+cloud "Resolve student enrollment\n & timetable issues" as SG_ResolveIssues <<Softgoal>>
+	SS --> SG_ResolveIssues
 	T_ReviewStudentAvailability ..> SG_ResolveIssues: + (MAKE)
 	T_EnrollStudent ..> SG_ResolveIssues: + (MAKE)
-
-
 @enduml
+
