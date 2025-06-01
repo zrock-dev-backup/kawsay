@@ -33,11 +33,15 @@ database "Hired faculty records" as R_HiredFacultyDB <<Resource>>
 
 database "Teaching staff to be hired" as R_RequiredTeachers <<Resource>>
 	R_RequiredTeachers <-- coordinator
-	R_RequiredTeachers --> Registrar
+	Registrar <-- R_RequiredTeachers
 
 rectangle "Enrolled" as G_Enrolled <<Goal>>
 	Student --> G_Enrolled
 	G_Enrolled --> Registrar
+
+rectangle "Hired" as G_Hired <<Goal>>
+	G_Hired <-- Teacher
+	coordinator <-- G_Hired
 
 rectangle "Enrollment compliance" as T_EnrollmentCompliance <<Task>>
 	T_EnrollmentCompliance <-- Student

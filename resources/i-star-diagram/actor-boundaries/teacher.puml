@@ -1,42 +1,40 @@
 @startuml
 !include ../style.puml
+skinparam linetype ortho
+
+actor Registrar
+actor "Academic Coordinator" AS coordinator
+
+rectangle "Hired" as G_Hired <<Goal>>
+	coordinator <-- G_Hired
+cloud "Class schedule flexibility" as SG_ClassFlexibility <<Softgoal>>
+	Registrar <-- SG_ClassFlexibility
+database "Module timetable" as R_CourseTimetableInfo <<Resource>>
+	Registrar --> R_CourseTimetableInfo
+
 package "Teacher" <<actorboundary>> {
 rectangle "Deliver Effective Instruction" as G_Teach <<Goal>>
     rectangle "Review class timetable" as T_ReviewTimetable <<Task>>
-    rectangle "Elaborate teaching plan" as T_MakeTeachPlan <<Task>>
-    rectangle "Get to know students" as T_KnowStudents <<Task>>
-    rectangle "Deliver Instruction" as T_DeliverInstruction <<Task>>
-    rectangle "Create Assessments" as T_CreateAssessments <<Task>>
     rectangle "Grade Student Work" as T_GradeWork <<Task>>
 
 	G_Teach <|-- T_ReviewTimetable: means-end
-	G_Teach <|-- T_KnowStudents: means-end
-    G_Teach <|-- T_DeliverInstruction: means-end
-    G_Teach <|-- T_CreateAssessments: means-end
     G_Teach <|-- T_GradeWork: means-end
-    T_DeliverInstruction --o T_MakeTeachPlan: decomposes into
 
-rectangle "Sign a contract to give classes about an specific area" as G_BeHired <<Goal>>
+	rectangle "Sign a contract to give classes about an specific area" as T_SignContract <<Task>>
     rectangle "Make known availability" as T_ProvideAvailability <<Task>>
     rectangle "Make known area of expertise" as T_ProvideAreaExpertise <<Task>>
 
-	G_BeHired <|-- T_ProvideAvailability: means-end
-	G_BeHired <|-- T_ProvideAreaExpertise: means-end
+	G_Hired <|-- T_SignContract: means-end
+	G_Hired <|-- T_ProvideAvailability: means-end
+	G_Hired <|-- T_ProvideAreaExpertise: means-end
 
-rectangle "Adjust my class schedule because of external reasons" as G_AdjustSchedule <<Goal>>
     rectangle "Request change of schedule" as T_RequestMigration <<Task>>
+	SG_ClassFlexibility <|-- T_RequestMigration
 
-	G_AdjustSchedule <|-- T_RequestMigration
-
-
-' RESOURCE USAGE
-database "Class timetable" as R_Classtimetable <<Resource>>
-	T_ReviewTimetable --> R_Classtimetable: uses
-
-database "Student list" as R_StudentList <<Resource>>
-	T_KnowStudents --> R_StudentList: uses
-
+	R_CourseTimetableInfo --> T_ReviewTimetable: uses
+}
 database "Student grades" as R_StudentGrades <<Resource>>
 	T_GradeWork --> R_StudentGrades: produces
-}
+
 @enduml
+
