@@ -1,31 +1,36 @@
 \subsection{Machine Learning}
-El Machine Learning (ML), o Aprendizaje Automático, es una rama de la inteligencia artificial que se enfoca en el desarrollo de sistemas capaces de aprender y mejorar a partir de la experiencia, sin ser explícitamente programados para cada tarea específica \parencite{Samuel1959}.
+El Machine Learning (ML), es una rama de la inteligencia artificial que se enfoca en el desarrollo de sistemas capaces de aprender y mejorar a partir de la experiencia, sin ser explícitamente programados para cada tarea específica \parencite{Samuel1959}.
 En el contexto de este proyecto, el ML se aplica para analizar datos históricos académicos y predecir la elegibilidad de los estudiantes para inscribirse en futuras asignaturas, buscando optimizar la asignación de cupos y la planificación académica, abordando así uno de los objetivos principales de entender el impacto del ML en este proceso.
 
-\paragraph{Supervised learning}
-El aprendizaje supervisado es un paradigma del ML donde el algoritmo aprende a partir de un conjunto de datos previamente etiquetado, es decir, cada ejemplo de entrada está asociado a una salida correcta conocida \parencite{Bishop2006}.
-El objetivo es entrenar un modelo que pueda predecir la etiqueta de salida para nuevas entradas no vistas.
-Para la predicción de elegibilidad de estudiantes en Jala University, se utilizarán datos históricos (calificaciones, cursos aprobados, plan de estudios) como entradas etiquetadas (elegible/no elegible para un curso específico) para entrenar un modelo predictivo, como podría ser una regresión logística o una máquina de soporte vectorial.
-
-\paragraph{Unsupervised learning}
-A diferencia del aprendizaje supervisado, el aprendizaje no supervisado trabaja con datos no etiquetados, buscando descubrir patrones, estructuras o relaciones inherentes en la información sin una guía previa sobre las salidas correctas \parencite{Hastie2009}.
+\paragraph{Unsupervised learning} trabaja con datos no etiquetados, buscando descubrir patrones, estructuras o relaciones inherentes en la información sin una guía previa sobre las salidas correctas \parencite{Hastie2009}.
 Técnicas comunes incluyen el clustering (agrupación) y la reducción de dimensionalidad.
 Aunque el enfoque principal del proyecto es supervisado para la predicción de elegibilidad, el análisis exploratorio de datos podría emplear técnicas no supervisadas para identificar grupos de estudiantes con perfiles académicos similares o detectar anomalías en los patrones de inscripción, complementando la comprensión del proceso actual.
 
+\paragraph{Supervised learning} es un paradigma del ML donde el algoritmo aprende a partir de un conjunto de datos previamente etiquetado, es decir, cada ejemplo de entrada está asociado a una salida correcta conocida \parencite{Bishop2006}.
+El objetivo es entrenar un modelo que pueda predecir la etiqueta de salida para nuevas entradas no vistas.
+Para la predicción de elegibilidad de estudiantes en Jala University, se utilizarán datos históricos (calificaciones, cursos aprobados, plan de estudios) como entradas etiquetadas (elegible/no elegible para un curso específico) para entrenar un modelo predictivo, como podría ser una regresión logística o una máquina de soporte vectorial.
+
+Figure~\ref{fig:mlComparison} represents how an unsupervised model uses unlabeled data for classification and supervised learning uses labeled data.
+
+\begin{figure}
+	\caption{Schematic representation of learning paradigms, Fuente: \parencite{morimoto2021}} \label{fig:mlComparison}
+	\begin{center}
+		\includegraphics[width=0.45\textwidth]{comparison-supervised-unsupervised.pdf}
+	\end{center}
+\end{figure}
+
+
+Decision Trees and Random Forest are two models that fit the requirements of the project.
 
 \subsubsection{Decision Trees}
-
-Before delving into the specifics of Random Forests, it is essential to understand decision trees, as they form the core components of the algorithm.
-
 A decision tree is a supervised learning algorithm used for both classification and regression tasks.
-It operates by recursively partitioning the feature space into distinct regions based on a series of decision rules inferred from the data \cite{quinlan1986induction}.
+It operates by recursively partitioning the feature space into distinct regions based on a series of decision rules inferred from the data \parencite{quinlan1986induction}.
 Each internal node in the tree represents a test on an attribute (feature), each branch represents the outcome of the test, and each leaf node represents a class label (for classification) or a prediction (for regression).
 
 The decision tree learning process involves selecting the most informative features to split the data at each node, aiming to create increasingly homogeneous subsets.
 This process continues recursively until a stopping criterion is met, such as reaching a maximum tree depth, a minimum number of samples in a node, or achieving perfect classification (or prediction) within a node.
 
 \paragraph{Splitting Criteria}
-
 The selection of the best feature to split on is crucial in decision tree construction.
 Common splitting criteria include:
 
@@ -36,13 +41,8 @@ Common splitting criteria include:
 \end{itemize}
 
 \subsubsection{Random Forest}
-
-The Random Forest algorithm, introduced by Breiman \cite{breiman2001random}, is a supervised learning algorithm belonging to the ensemble learning paradigm.
-Ensemble methods strategically combine multiple base estimators to enhance overall performance and model robustness.
-Random Forests specifically aggregate predictions from numerous decision trees, each trained on distinct subsets of the data and features, to arrive at a final prediction.
-This multifaceted approach mitigates overfitting and improves generalization capabilities, establishing Random Forests as a prevalent choice for diverse machine learning applications.
-
-A Random Forest is an ensemble of decision trees, where each tree is trained on a random subset of the data and a random subset of the features.
+The Random Forest algorithm, introduced by Breiman \cite{breiman2001random}, is a supervised learning algorithm.
+Is an ensemble of decision trees, where each tree is trained on a random subset of the data and a random subset of the features.
 The final prediction is obtained by aggregating the predictions of all the individual trees.
 For classification tasks, this is typically done by majority voting, while for regression tasks, the average prediction is used.
 
@@ -51,19 +51,17 @@ The core steps involved in constructing a Random Forest are:
 
 \begin{enumerate}
     \item \textbf{Bootstrap Sampling:} The algorithm randomly selects, with replacement, \textit{n} samples from the original training dataset to create a unique training set for each tree.
-This process, termed bootstrapping, ensures that each tree is trained on a slightly different subset of the data.
+    This process, termed bootstrapping, ensures that each tree is trained on a slightly different subset of the data.
     \item \textbf{Feature Randomness:} For each node within a tree, a random subset of \textit{m} features is chosen from the total \textit{p} features available.
-The algorithm then identifies the optimal split for the node based on these \textit{m} features.
-The parameter \textit{m} is typically significantly smaller than \textit{p}, a crucial step for reducing correlation among the trees.
+    The algorithm then identifies the optimal split for the node based on these \textit{m} features.
+    The parameter \textit{m} is typically significantly smaller than \textit{p}, a crucial step for reducing correlation among the trees.
     \item \textbf{Tree Growth:} Each tree is grown to its maximum depth without pruning (or until a predefined minimum node size is reached).
-This allows each tree to capture complex relationships in its training data.
+    This allows each tree to capture complex relationships in its training data.
     \item \textbf{Prediction Aggregation:} For classification problems, the final class label is determined by a majority vote across all trees.
-In regression scenarios, the final prediction is the average of the predictions generated by the individual trees.
+    In regression scenarios, the final prediction is the average of the predictions generated by the individual trees.
 \end{enumerate}
 
-\subsubsection{Hyperparameter Tuning}
-
-Hyperparameter tuning is a critical phase in optimizing the performance of a Random Forest model.
+\paragraph{Hyperparameter Tuning} is a critical phase in optimizing the performance of a Random Forest model.
 Key hyperparameters that significantly impact the model's behavior include:
 
 \begin{itemize}
@@ -76,10 +74,12 @@ Key hyperparameters that significantly impact the model's behavior include:
 
 Two widely used methodologies for hyperparameter tuning are Grid Search and Random Search.
 
-\paragraph{Grid Search} is an exhaustive search technique that systematically evaluates all possible combinations of hyperparameter values within a predefined grid \cite{bergstra2012random}.
-The user specifies a discrete set of values for each hyperparameter, and Grid Search meticulously explores every combination.
+\begin{itemize}
+	\item \textbf{Grid search:} is an exhaustive search technique that systematically evaluates all possible combinations of hyperparameter values within a predefined grid \cite{bergstra2012random}.
+	The user specifies a discrete set of values for each hyperparameter, and Grid Search meticulously explores every combination.
 
-\paragraph{Random Search} is a stochastic search method that randomly samples hyperparameter combinations from specified distributions \cite{bergstra2012random}.
-In contrast to Grid Search's exhaustive exploration, Random Search probes a random subset of the hyperparameter space.
+	\item \textbf{Random search:} is a stochastic search method that randomly samples hyperparameter combinations from specified distributions \cite{bergstra2012random}.
+	In contrast to Grid Search's exhaustive exploration, Random Search probes a random subset of the hyperparameter space.
+\end{itemize}
 
 \paragraph{Conclusion:} For this project we're gonna use random forest.
