@@ -1,39 +1,52 @@
 \subsection{Case study}
-In JalaU the following actors play a role in the context of academic timetable generation and student enrollment.
-\begin{itemize}
-	\item Registrar: Enrolls students and generates timetable.
-	\item Teacher: Teach students (Professor, Faculty praticioner)
-	\item Student: A registered student that can be enrolled.
-	\item Academic coordinator: In charge of hiring teaching staff.
-	\item SIS: System holds student data.
-	\item Student Services: Student helpers
-\end{itemize}
 
-Figure~\ref{fig:strategicDependenciesDiagram} displays the relationships among the identified actors.
+In the context of academic timetable generation and student enrollment, six actors have been identified.
+\textit{Registrar}, \textit{Student} and \textit{Teacher} are strategic stakeholders because they directly require timetable and enrollment.
+\textit{Academic coordinator} \footnote{In charge of hiring teaching staff}, \textit{Student Information System} \footnote{Internal system to handle student data} and \textit{Student Services} are actors whom require Registrar services to function properly.
 
-\begin{figure}[htb]
-	\caption{Strategic Dependencies Diagram - Fuente: (Elaboracion propia)}\label{fig:strategicDependenciesDiagram}
-	\begin{center}
-		\includegraphics[width=0.95\textwidth]{strategic-dependencies.pdf}
-	\end{center}
-\end{figure}
-
+Figure~\ref{fig:strategicDependenciesDiagram} is a model representing how this six actors interact with each other.
+Table~\ref{tab:strategicDependencies} explains each relationship.
 \begin{table}
-	\caption{SD relationships description}\label{tab:strategicDependencies}
-	\begin{center}
-		\begin{tabularx}{\textwidth}{p{2in}X} \toprule
-			\textbf{Relationship} &  \textbf{Description}\\
-			\midrule
-			
-			Teacher- Registrar & A teacher needs to know his lecture timetables in order to deliver efective education. \\
-			Registrar - SIS & Registrar needs student's information in order to enroll them\\
-			Registrar - Teacher & Registrar needs to know a student grades in order to asses their elegibility to be enrolled in next courses or repeat one. \\
-			Student services - Registrar & Student services wants to help students resolve enrollment and timetable issues which can be achieved through collaboratio with registrar \\
-			Registrar - Academic coordinator & In order for registrar to select a suitable teacher for a class they need to have teacher data\\
-			\bottomrule
-		\end{tabularx}
-	\end{center}
+\centering
+\caption{SD relationships description} \label{tab:strategicDependencies}
+	\begin{tabularx}{\linewidth}{@{} p{0.8in} p{1.2in} p{1.6in} X @{}}
+	\toprule
+	\multicolumn{2}{c}{\textbf{Relationship}} & \textbf{Dependum} & \textbf{Description} \\
+	\cmidrule(lr){1-2}
+	\textbf{Dependant} & \textbf{Dependee} & & \\
+	\midrule
+	% Student
+	\multirow{4}{*}{Student} & Student Services & Enrollment compliance & To ensure appropiate module enrollment. \\
+	& Registrar & Enrollment flexibility & LOA and course drop \\
+	& Registrar & Enrolled & Effective enrollment to module courses \\
+	& Registrar & Module timetable & Courses, time periods, section, groups \\
+	\hline
+	% Student Services
+	Student Services & Registrar & Resolve student enrollment \& timetable issues & Handle a student's enrollment issues\\
+	\hline
+	% Teacher
+	\multirow{3}{*}{Teacher} & Academic Coordinator & Hired & Effective assignation to class \\
+	& Registrar & Class schedule flexibility & Move class timeslot \\
+	& Registrar & Module timetable & Specific class timetable \\
+	\hline
+	% Academic Coordinator
+	Academic Coordinator & Registrar & Teaching staff to be hired & Course and times \\
+	\hline
+	% Student Information System
+	SIS & Teacher & Student grades & GPA and SAP\\
+	\hline
+	% Registrar
+	\multirow{2}{*}{Registrar} & SIS & Student data & Student personal data and grades\\
+	& Academic Coordinator & Hired teachers data & Names, availability and course\\
+	\bottomrule
+	\end{tabularx}
 \end{table}
+
+\begin{figure}
+	\caption{Strategic Dependencies Diagram - Fuente: (Elaboracion propia)}\label{fig:strategicDependenciesDiagram}
+	\centering
+	\includegraphics[width=.70\textwidth]{strategic-dependencies.pdf}
+\end{figure}
 
 \subsubsection{Registrar}
 Registrar is the actor that generates the timetable, for this purpose depends on Academic Coordinator for teaching staff data and SIS for student data.
@@ -49,22 +62,22 @@ She also has the softgoal of "Reducing student double booking" i.e. when a stude
 
 \begin{landscape}
 	\begin{figure}
+		\centering
 		\caption{Registrar strategic rationale model - Fuente: Elaboracion propia}
-		\includegraphics[width=1.4\textwidth]{registrar.pdf}
+		\includegraphics[width=\textwidth]{registrar.pdf}
 		\label{fig:actorBoundaryRegistrar}
 	\end{figure}
 \end{landscape}
 
 \subsubsection{Student}
-Figure~\ref{fig:actorBoundaryStudent} describes a Student's strategic rationale.
 Student needs Registrar to be enrolled in a course, this actor peforms tasks to graduate from university and is interested in protecting their scolarship by following the university's guidelines.
-\begin{landscape}
-	\begin{figure}
-		\caption{Student strategic rationale model - Fuente: Elaboracion propia}
-		\includegraphics[width=1.4\textwidth]{student.pdf}
-		\label{fig:actorBoundaryStudent}
-	\end{figure}
-\end{landscape}
+Figure~\ref{fig:actorBoundaryStudent} describes a Student's strategic rationale.
+\begin{figure}
+	\centering
+	\caption{Student strategic rationale model - Fuente: Elaboracion propia}
+	\includegraphics[width=\textwidth]{student.pdf}
+	\label{fig:actorBoundaryStudent}
+\end{figure}
 
 \subsubsection{Teacher}
 As we can see in Figure~\ref{fig:actorBoundaryTeacher} a teacher is interested in becoming \textit{Hired} to be able to teach a class.
@@ -74,7 +87,7 @@ Teacher needs \textit{Class schedule flexibility} to request schedule changes.
 	\centering
 	\caption{Teacher strategic rationale model - Fuente: Elaboracion propia}
 	\label{fig:actorBoundaryTeacher}
-	\includegraphics[width=.8\textwidth]{teacher.pdf}
+	\includegraphics[width=\textwidth]{teacher.pdf}
 \end{figure}
 
 \subsubsection{Timetable clashes}
