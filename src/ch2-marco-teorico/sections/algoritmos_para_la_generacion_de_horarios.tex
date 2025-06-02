@@ -20,9 +20,7 @@ The number of possible schedules grows exponentially with the number of courses,
 Finding an optimal timetable (one that satisfies all constraints and maximizes some objective function like minimizing student conflicts or faculty preferences) is often computationally intractable, especially for large institutions.
 Therefore, heuristic algorithms are crucial for tackling this challenge.
 
-\paragraph{Conclusion}, timetable generation will be developed using Yule's heuristic algorithm. \\
-
-Yule's approach to faculty timetabling, as described in his paper "Extensions to the heuristic algorithm for University timetables" \cite{Yule1969}, relies on a specific heuristic strategy.
+\paragraph{Conclusion}, timetable generation will be developed using Yule's \cite{Yule1969} heuristic algorithm. This algorithm has the following features:
 
 \begin{enumerate}
     \item \textbf{Constraint-Based Allocation}: Yule's algorithm emphasizes handling constraints effectively.
@@ -48,34 +46,31 @@ Yule's approach to faculty timetabling, as described in his paper "Extensions to
 
     \item \textbf{Availability Matrix Representation:} Yule's algorithm uses availability matrices to efficiently represent the availability of faculty, rooms, and classes over time.
 	These matrices allow the algorithm to quickly check for conflicts and determine feasible time slots.
-	Formula~\ref{eq:1} computes the line availability, Formulas \ref{eq:2} and \ref{eq:3} test for available times, and Formula~\ref{eq:4} updates the matrices.
+	Formula 1 computes the line availability, Formulas 2 and 3 test for available times, and Formula 4 updates the matrices.
 
     \item \textbf{Line Availability Heuristic:} The concept of a "requirement line" (a single row in Yule's data structure representing a class, lecturer, and possibly a room) is key.
 	The algorithm focuses on allocating entire requirement lines at once, which simplifies the problem and ensures that all components of a course (lecturer, class, room) are considered together.
 
     \item \textbf{Preference Handling:} Yule's algorithm incorporates faculty preferences for specific time slots or days off.
 	These preferences are treated as "soft" constraints; the algorithm tries to satisfy them but will violate them if necessary to achieve a feasible timetable.
-	Formula~\ref{eq:4a} handles preferences, marking times as "preferentially unavailable."
+	Formula 4 handles preferences, marking times as "preferentially unavailable."
 
     \item \textbf{Dynamic Free Day Allocation:} The algorithm can dynamically adjust faculty free days based on scheduling difficulties.
 	If a particular faculty member is causing a scheduling bottleneck, the algorithm may try changing their free day.
 \end{enumerate}
 
-\paragraph{Key Heuristic Decisions in Yule's Algorithm}
-
 Yule's algorithm makes several heuristic choices, including:
 
 \begin{itemize}
     \item \textbf{Order of Class Scheduling:} The order in which classes are scheduled can significantly impact the outcome.
-	Yule's algorithm uses reordering as a way to escape local optima.
     \item \textbf{Free Day Allocation Strategy:} Deciding which faculty members to give free days to and when to adjust those days is a heuristic process.
     \item \textbf{Handling Preferences:} The balance between satisfying preferences and meeting hard constraints is a heuristic trade-off.
     \item \textbf{Backtracking Strategy:} Deciding when to backtrack, how far to backtrack, and which changes to make during backtracking are heuristic decisions.
 \end{itemize}
 
-\paragraph{Formula 1: Line Availability Matrix}
+Yule's algorithm has 4 basic formulas used for timetable generation.
 
-The first formula, shown in Equation \ref{eq:1}, calculates the elements of the line availability matrix \( _iE_{dp} \).
+Formula 1: \textbf{Line Availability Matrix} The first formula, shown in Equation \ref{eq:1}, calculates the elements of the line availability matrix \( _iE_{dp} \).
 This matrix determines the overall availability of a particular lecture line \( i \) at a specific day \( d \) and period \( p \).
 
 \begin{equation}
@@ -95,9 +90,7 @@ Where:
     \item The entire formula calculates whether a time slot is unavailable because either an element in the requirement \( S_i \) is unavailable or the period \( p \) is unsuitable for a lecture of length \( z_i \).
 \end{itemize}
 
-\paragraph{Formulas 2 and 3: Testing for Available Place}
-
-Formulas 2 and 3, shown in Equations \ref{eq:2} and \ref{eq:3}, test whether a lecture can be scheduled in a specific time slot.
+Formulas 2 and 3: \textbf{Testing for Available Place}, shown in Equations \ref{eq:2} and \ref{eq:3}, test whether a lecture can be scheduled in a specific time slot.
 Formula 2 tests single period lectures, while formula 3 tests multi-period lectures.
 
 \begin{equation}
@@ -120,9 +113,7 @@ Where:
     \item If the logical OR of these terms equals 0, then all periods in the block are available, and the lecture can be scheduled.
 \end{itemize}
 
-\paragraph{Formula 4: Updating Availability Matrices}
-
-Formula 4, shown in Equation \ref{eq:4}, updates the availability matrices after a lecture has been scheduled.
+Formula 4: \textbf{Updating Availability Matrices}, shown in Equation \ref{eq:4}, updates the availability matrices after a lecture has been scheduled.
 
 \begin{equation}
 \label{eq:4}
@@ -136,21 +127,3 @@ Where:
     \item The formula sets the availability element \( _jC_{d, p+k} \) to 1 (unavailable) by performing a logical OR with 1.
 This ensures that the scheduled class, lecturer, or room is marked as unavailable for the duration of the lecture.
 \end{itemize}
-
-\paragraph{Formula4a: Alternative Updating Availability Matrices}
-Formula 4a, shown in Equation \ref{eq:4a}, provides an alternative method of updating the availability matrices after a lecture has been scheduled, specifically when accounting for preferences.
-
-\begin{equation}
-\label{eq:4a}
-_jC_{dp} (\text{updated}) = _jC_{dp} (\text{old}) \vee 8
-\end{equation}
-
-Where:
-\begin{itemize}
-    \item \( _jC_{dp} \) represents the availability matrix element for item \( j \) (class, lecturer, or room) at day \( d \) and period \( p \).
-    \item The formula sets the availability element \( _jC_{dp} \) by performing a logical OR with 8.
-This signifies that some class, lecturer, or room is not available at some time due to an allocation performed by the program, as opposed to an initial allocation or non-availability.
-The use of 8 here allows the algorithm to distinguish program-allocated unavailability from initial constraints or preferences.
-\end{itemize}
-
-These formulas form the core of Yule's algorithm, allowing for the construction of complex university timetables while satisfying a variety of constraints and preferences.
