@@ -1,0 +1,39 @@
+\subsection{i* Framework}
+The i* framework \parencite{yu1995} is a modeling framework used in requirements engineering and software development.
+It offers a way to model and analyze stakeholders' intentional relationships.
+Intentional relationships are relationships that include actors, goals, tasks, resources, and social dependencies within an organizational context.
+It assists in understanding the why behind system requirements and identifying potential trade-offs between different stakeholders' goals.
+
+The framework is actor-oriented, meaning it uses the notion of \textit{actor} as a primitive concept.
+Actors can be anything, from individuals to organizations, that have strategic interests and intentionality.
+An actor's intentionality is captured through \textit{goals}.
+A goal represents a condition or state of affairs that the actor wants to achieve.
+Goals can be hard goals or soft goals.
+Hard goals are precise and have clear criteria for satisfaction, while soft goals are less precise and represent desired qualities or considerations.
+
+Table~\ref{tab:istarDependencyTypes} represents the dependency type along with its corresponding ontology.
+\begin{table}
+	\caption{Dependency types}\label{tab:istarDependencyTypes}
+	\begin{tabularx}{\textwidth}{@{} llX @{}}
+		\toprule
+		\textbf{Ontology} & \textbf{Type} & \textbf{Description} \\
+		\midrule
+		Entities & Resource & Used to represent the world as objects. \\
+		Activities & Task & Produce a change in the world. \\
+		Assertions & Goals & Expression of a condition or state in the world. \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\subsubsection{Models}
+The framework consists of two main models: the Strategic Dependency (SD) model and the Strategic Rationale (SR) model.
+
+\begin{itemize}
+    \item \textbf{Strategic Dependency (SD) Model:} This model shows the network of actors and their dependencies.
+    It illustrates how actors depend on each other for goals, tasks, and resources.
+    This model is useful for identifying critical dependencies and potential vulnerabilities in a system.
+    \item \textbf{Strategic Rationale (SR) Model:} This model focuses on the internal rationale of actors, showing how their goals are achieved through tasks, and how these tasks utilize resources.
+    It represents the reasons behind actor's actions and their intentional relationships.
+    This model is used to explore alternative ways of achieving goals and understanding the trade-offs involved.
+\end{itemize}
+
