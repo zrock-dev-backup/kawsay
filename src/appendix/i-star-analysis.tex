@@ -1,11 +1,9 @@
-\section{Case study}
+\section{I-star Framework Analysis}
+\label{sec:appendixIStarAnalysis}
 
-In the context of academic timetable generation and student enrollment, six actors have been identified.
-\textit{Registrar}, \textit{Student} and \textit{Teacher} are strategic stakeholders because they directly require timetable and enrollment.
-\textit{Academic coordinator} \footnote{In charge of hiring teaching staff}, \textit{Student Information System} \footnote{Internal system to handle student data} and \textit{Student Services} are actors whom require Registrar services to function properly.
-
-Figure~\ref{fig:strategicDependenciesDiagram} is a model representing how this six actors interact with each other.
-Table~\ref{tab:strategicDependencies} explains each relationship.
+\subsection{Strategic Dependency}
+Figure~\ref{fig:strategicDependenciesDiagram} is a model representing how actors interact with each other.
+Table~\ref{tab:strategicDependencies} explains their relationships.
 \begin{table}
 \centering
 \caption{SD relationships description} \label{tab:strategicDependencies}
@@ -48,17 +46,12 @@ Table~\ref{tab:strategicDependencies} explains each relationship.
 	\includegraphics[width=.70\textwidth]{strategic-dependencies.pdf}
 \end{figure}
 
+\subsection{Strategic Rationale}
 \subsubsection{Registrar}
-Registrar is the actor that generates the timetable, for this purpose depends on Academic Coordinator for teaching staff data and SIS for student data.
-
-Registrar is the main actor in the timetable and student enrollment management context.
-Figure~\ref{fig:actorBoundaryRegistrar} is a representation of Registrar's strategic rationale.
-
-Registrar office is concerned with student enrollment and timetable management.
-Student depends upon Registrar to be enrolled in a course meaning Registrar has the task of enrolling students to class implying the generation of a timetable and planning ahead to have resources available for the next module or term.
-
-This actor is also concerned with minimizing administrative overhead, because it needs to generate other kind of reports outside of the context of this case study, for which the softgoal "Minimize administrative overhead" has been identified.
+Strategic stakeholder concerned with student enrollment, timetable management and minimizing administrative overhead, because it needs to generate other kind of reports outside of the context of this case study, for which the softgoal "Minimize administrative overhead" has been identified.
 She also has the softgoal of "Reducing student double booking" i.e. when a student is enrolled on two classes that happen at the same time.
+
+Figure~\ref{fig:actorBoundaryRegistrar} is a representation of Registrar's strategic rationale.
 
 \begin{landscape}
 	\begin{figure}
@@ -70,8 +63,8 @@ She also has the softgoal of "Reducing student double booking" i.e. when a stude
 \end{landscape}
 
 \subsubsection{Student}
-Student needs Registrar to be enrolled in a course, this actor peforms tasks to graduate from university and is interested in protecting their scolarship by following the university's guidelines.
-Figure~\ref{fig:actorBoundaryStudent} describes a Student's strategic rationale.
+A student is an strategic stakeholder concerned with obtaining required credits.
+Figure~\ref{fig:actorBoundaryStudent} describes their strategic rationale.
 \begin{figure}
 	\centering
 	\caption{Student strategic rationale model - Fuente: Elaboracion propia}
@@ -90,7 +83,7 @@ Teacher needs \textit{Class schedule flexibility} to request schedule changes.
 	\includegraphics[width=\textwidth]{teacher.pdf}
 \end{figure}
 
-\subsubsection{Timetable clashes}
+\subsection{Timetable clashes}
 Timetable and student enrollment management is a task that faces two types of clashes.
 
 \paragraph{Student double booking} Produced when a student fails a course and needs to repeated, when enrolling this student to the class sometimes she will also have another class happening in the same hour.
