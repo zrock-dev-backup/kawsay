@@ -9,9 +9,32 @@ Podría utilizarse para gestionar el backlog del producto, planificar sprints, a
 Taskwarrior es una herramienta de gestión de tareas de código abierto y basada en línea de comandos, que permite organizar listas de tareas pendientes de forma eficiente y flexible \parencite{Taskwarrior}.
 Es una opción potente para desarrolladores que prefieren trabajar en la terminal, aunque requiere una curva de aprendizaje y es más adecuada para la gestión individual de tareas dentro del proyecto.
 
+As seen in Figure~\ref{fig:taskWarriorTaskOutput} Taskwarrior keeps metadata of each class allowing post processing to create burndown charts and is possible to add UAD \footnote{User Defined Attribute (UAD): TaskWarrior let's a user define attributes} for better personalization.
+
+\begin{figure}
+	\caption{Taskwarrior output example}\label{fig:taskWarriorTaskOutput}
+	\begin{verbatim}
+Name               Value
+------------------ ---------------------------------------------------------
+Description        add figures to marco teorico
+Status             Pending
+Project            kawsay
+Entered            2025-06-02 17:57:24 (45min)
+Start              2025-06-02 18:09:17
+Last modified      2025-06-02 18:09:17 (33min)
+Tags               marco_teorico
+Virtual tags       ACTIVE LATEST PENDING PROJECT READY TAGGED UDA UNBLOCKED
+UUID               59a7c053-bc1d-4dcb-8b21-ea91646f6f41
+Urgency            5.8
+Estimate           45
+	\end{verbatim}
+\end{figure}
+
 \subsubsection{Taiga}
 Taiga es una plataforma de gestión de proyectos ágil, de código abierto y centrada en Scrum y Kanban, que ofrece tableros visuales, gestión de backlogs, seguimiento de issues y wikis \parencite{Taiga}.
 Representa una alternativa open-source a herramientas como Jira o ClickUp, adecuada para equipos que buscan una solución auto-alojada o gratuita para implementar Scrum o Scrumban en el desarrollo del proyecto.
+
+
 
 \paragraph{Conclusion:} For the development of the system TaskWarrior and Taiga will be used.
 Because both tools can be combined for a granular management of tasks and high level as well; Taiga's API opens possibilities for other automations related to project management.

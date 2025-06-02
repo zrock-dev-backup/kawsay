@@ -68,6 +68,14 @@ Yule's algorithm makes several heuristic choices, including:
     \item \textbf{Backtracking Strategy:} Deciding when to backtrack, how far to backtrack, and which changes to make during backtracking are heuristic decisions.
 \end{itemize}
 
+Yule's algorithm seeks to populate an availability matrix per requirement line, each cell looks like Figure~\ref{fig:yuleAlgorithm} where the superposition of each entity will define if the requirement line is available in the defined timeslot.
+\begin{figure}
+    \centering
+    \caption{Visualization of requirement line availability cell}
+    \includegraphics[width=.5\textwidth]{yule-algo.pdf}
+    \label{fig:yuleAlgorithm}
+\end{figure}
+
 Yule's algorithm has 4 basic formulas used for timetable generation.
 
 Formula 1: \textbf{Line Availability Matrix} The first formula, shown in Equation \ref{eq:1}, calculates the elements of the line availability matrix \( _iE_{dp} \).
@@ -127,3 +135,4 @@ Where:
     \item The formula sets the availability element \( _jC_{d, p+k} \) to 1 (unavailable) by performing a logical OR with 1.
 This ensures that the scheduled class, lecturer, or room is marked as unavailable for the duration of the lecture.
 \end{itemize}
+
