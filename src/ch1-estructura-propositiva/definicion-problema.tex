@@ -1,11 +1,14 @@
 \subsection{Planteamiento del problema}
-La Oficina del Registro necesita procesar una cantidad cada vez mayor de datos descentralizados, donde las reglas de negocio están en constante evolución.
+La Oficina del Registro necesita procesar una cantidad cada vez mayor de datos descentralizados\footnote{Los \textbf{datos descentralizados} se refieren a información que se almacena o gestiona en múltiples ubicaciones o sistemas, en lugar de estar centralizada en un único punto.
+Esto puede dificultar la consolidación y el análisis coherente de los datos.}, donde las reglas de negocio\footnote{Las \textbf{reglas de negocio} son directrices, principios o restricciones que definen o limitan algún aspecto de un negocio.
+Determinan cómo opera una organización o cómo se deben realizar ciertos procesos.} están en constante evolución.
 También debe generar informes y crear horarios que necesitan ser actualizados y ajustados en tiempo real a medida que avanza el calendario académico y surgen situaciones del mundo real.
 
 Un horario debe ser actualizado en los siguientes escenarios:
 \begin{itemize}
     \item Las calificaciones de los estudiantes aún no están disponibles.
-Dado que las calificaciones no están, la Oficina del Registro evalúa la elegibilidad de un estudiante en función de la probabilidad de aprobar. Este análisis se realiza considerando el GPA del estudiante y el estado del SAP.
+Dado que las calificaciones no están, la Oficina del Registro evalúa la elegibilidad de un estudiante en función de la probabilidad de aprobar.
+Este análisis se realiza considerando el GPA del estudiante y el estado del SAP.
     \item El estudiante reprobó un curso.
     \item La elegibilidad del estudiante fue evaluada como "No", pero logró aprobar el curso.
 El estudiante no fue considerado para su siguiente curso y ahora necesita ser asignado a él.
@@ -18,19 +21,20 @@ Actualmente, la Oficina del Registro depende de hojas de cálculo, lo que presen
 Trabajar con hojas de cálculo en un contexto académico es problemático debido a la naturaleza descentralizada de los datos, lo que requiere la entrada manual de múltiples fuentes.
 Este proceso consume mucho tiempo y es propenso a errores, especialmente cuando se necesitan actualizaciones de datos en tiempo real.
 
-La configuración de la hoja de cálculo en sí requiere un esfuerzo considerable, que implica definir celdas, crear fórmulas y macros, y establecer formato condicional para hacer que el documento se asemeje a un panel de control funcional.
+La configuración de la hoja de cálculo en sí requiere un esfuerzo considerable, que implica definir celdas, crear fórmulas y macros\footnote{Una \textbf{macro} en el contexto de hojas de cálculo es una secuencia de comandos o instrucciones que se agrupan para automatizar tareas repetitivas.}, y establecer formato condicional\footnote{El \textbf{formato condicional} es una característica de las hojas de cálculo que permite aplicar automáticamente un formato específico (como colores, fuentes o bordes) a las celdas que cumplen ciertas condiciones o criterios.} para hacer que el documento se asemeje a un panel de control funcional.
 Aunque esta configuración es necesaria para organizar e interpretar grandes conjuntos de datos, puede hacerse abrumadora sin una planificación cuidadosa.
 
 Las hojas de cálculo también tienen dificultades con tareas como la evaluación y la detección de conflictos.
-Los cálculos manuales para la elegibilidad de los estudiantes son laboriosos y propensos a errores, y las hojas de cálculo carecen de verificaciones automáticas para problemas como estudiantes con doble asignación o conflictos de cursos. Sin alertas incorporadas o detección automatizada de errores, las hojas de cálculo pueden llevar a errores e ineficiencias en la gestión académica.
+Los cálculos manuales para la elegibilidad de los estudiantes son laboriosos y propensos a errores, y las hojas de cálculo carecen de verificaciones automáticas para problemas como estudiantes con doble asignación o conflictos de cursos.
+Sin alertas incorporadas o detección automatizada de errores, las hojas de cálculo pueden llevar a errores e ineficiencias en la gestión académica.
 
 Dado el enorme volumen de datos, actividades como la inscripción de estudiantes o el traslado de una clase a otro periodo se hacen tediosas y consumen mucho tiempo, ya que es necesario tener en cuenta toda esa información al editar el calendario académico o gestionar la inscripción de un estudiante.
 
 \begin{figure}[H]
     \centering
-    \caption{Diagrama de causa y efecto} \label{fig:ishikawa}
+    \caption{Diagrama Ishikawa} \label{fig:ishikawa}
     \includegraphics[width=0.8\textwidth]{ishikawa-spanish.pdf}
 \end{figure}
 
 \subsubsection{Formulación del problema}
-¿Qué impacto tendría aplicar machine learning al proceso de matrícula y algoritmos heurísticos a la programación de horarios en la reducción del tiempo y aumento de la precisión en la planificación del calendario academico?
+¿Qué impacto tendría aplicar machine learning al proceso de matrícula y algoritmos heurísticos\footnote{Los \textbf{algoritmos heurísticos} son métodos o enfoques para resolver problemas que no garantizan encontrar la solución óptima.} a la programación de horarios en la reducción del tiempo y aumento de la precisión en la planificación del calendario academico?

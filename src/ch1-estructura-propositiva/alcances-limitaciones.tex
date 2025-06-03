@@ -1,19 +1,19 @@
 \subsection{Alcances y limitaciones}
-El alcance del proyecto de desarrollo del sistema de planificación académica abarca la creación de un sistema automatizado que permita la gestión del calendario académico y los procesos de inscripción y seguimiento modular de estudiantes.
+El alcance del proyecto de desarrollo del sistema de planificación académica abarca la creación de un sistema automatizado que permita la gestión del calendario académico y los procesos de inscripción de estudiantes.
 El sistema concierne de las siguientes funcionalidades:
 
 \begin{itemize}
-\item \textbf{Gestión de Estudiantes (enfocada en inscripción y seguimiento modular):}
+\item \textbf{Gestión de Estudiantes (enfocada en inscripción):}
     \begin{itemize}
-	\item Registro y gestión de la estructura académica de los estudiantes (tracks, cohortes, grupos y secciones).
-	\item Inscripción de estudiantes en clases, incluyendo la capacidad de realizar inscripciones forzadas con justificación.
-	\item Recepción de notificaciones durante el proceso de inscripción (e.g., si el estudiante no cumple prerrequisitos o tiene conflictos de horario).
+	\item Registro y gestión de la estructura académica de los estudiantes (cohortes\footnote{Una \textbf{cohorte} es un grupo de estudiantes que inician sus estudios al mismo tiempo y avanzan juntos a través de un programa académico.}, grupos y secciones).
+	\item Inscripción de estudiantes en clases.
+	\item Recepción de notificaciones durante el proceso de inscripción (e.g., si el estudiante no cumple prerrequisitos\footnote{Los \textbf{prerrequisitos} son cursos o requisitos que un estudiante debe haber completado satisfactoriamente antes de poder inscribirse en un curso de nivel superior o relacionado.} o tiene conflictos de horario).
 	\item Visualización de listas de estudiantes agrupados por estado (aprobados/reprobados) al finalizar un módulo.
 	\item Evaluación de la elegibilidad del estudiante para un curso, mostrando disponibilidad horaria y cumplimiento de prerrequisitos.
     \end{itemize}
 \item \textbf{Gestión de Clases:}
     \begin{itemize}
-	\item Creación, actualización y eliminación de clases (magistrales y prácticas).
+	\item Creación, actualización y eliminación de clases (magistrales\footnote{Las \textbf{clases magistrales} son lecciones teóricas impartidas por un profesor a un grupo grande de estudiantes.} y prácticas).
 	\item Selección de cursos (previamente existentes) para ser impartidos en las clases.
 	\item Selección de docentes (previamente existentes y con disponibilidad definida) para impartir clases, con sugerencias de docentes disponibles según horarios preferentes.
 	\item Definición de periodos (franjas horarias) preferentes para la impartición de clases.
@@ -22,7 +22,7 @@ El sistema concierne de las siguientes funcionalidades:
 \item \textbf{Creación y Gestión de Horarios:}
     \begin{itemize}
 	\item Creación de horarios académicos para los módulos.
-	\item Funcionalidad para generar automáticamente horarios académicos, optimizando la asignación de cursos a clases y la disponibilidad de los docentes, y considerando preferencias de horario.
+	\item Funcionalidad para generar automáticamente horarios académicos, optimizando\footnote{La \textbf{optimización} en este contexto se refiere al proceso de encontrar la mejor asignación posible de recursos (como clases y docentes).} la asignación de cursos a clases y la disponibilidad de los docentes, y considerando preferencias de horario.
 	\item Distribución de grupos y secciones en el horario para evitar que docentes y clases tengan lecciones simultáneas.
 	\item Visualización de horarios en segmentos semanales, con capacidad para seleccionar rangos de fechas.
     \end{itemize}
@@ -47,12 +47,12 @@ El sistema concierne de las siguientes funcionalidades:
 
 El proyecto no abarcará las siguientes áreas:
 \begin{itemize}
-    \item \textbf{Gestión completa de Cursos:} No se incluye la creación, modificación detallada, asignación de prerrequisitos a nivel de la definición del curso, ni la gestión de la oferta académica general o el mapa académico gráfico.
+    \item \textbf{Gestión completa de Cursos:} No se incluye la creación, modificación detallada, asignación de prerrequisitos a nivel de la definición del curso, ni la gestión de la oferta académica general o el mapa académico gráfico\footnote{Un \textbf{mapa académico gráfico} (o malla curricular gráfica) es una representación visual de la estructura de un plan de estudios, mostrando los cursos, sus secuencias y prerrequisitos.}.
     El sistema consumirá cursos ya definidos.
     \item \textbf{Gestión completa de Personal Docente:} No se incluye el registro, actualización o la gestión de la disponibilidad del personal docente.
     El sistema utilizará la información de disponibilidad existente para la asignación a clases.
-    \item \textbf{Gestión detallada de Estudiantes más allá de la inscripción y el módulo:} No se incluyen funcionalidades completas de búsqueda y filtrado avanzado de estudiantes a nivel general del sistema, ni la visualización detallada de perfiles completos de estudiante (e.g., historial académico completo, datos personales extensos) más allá de lo necesario para la inscripción y el seguimiento modular.
-    La integración con SIS para calificaciones y estado académico detallado es limitada.
+    \item \textbf{Gestión detallada de Estudiantes más allá de la inscripción y el módulo:} No se incluyen funcionalidades completas de búsqueda y filtrado avanzado de estudiantes a nivel general del sistema, ni la visualización detallada de perfiles completos de estudiante (e.g., historial académico completo, datos personales extensos) más allá de lo necesario para la inscripción.
+    La integración con SIS\footnote{\textbf{SIS} (Sistema de Información Estudiantil) es una plataforma de software que las instituciones educativas utilizan para gestionar los datos de los estudiantes, como información personal, registros académicos, inscripciones y calificaciones.} para calificaciones y estado académico detallado es limitada.
     \item \textbf{Generación de Reportes Avanzados:} La generación de reportes se limitará a listas de estudiantes por módulo (aprobados/reprobados).
     No se generarán reportes específicos detallados sobre la carga docente total, horarios por profesor/curso para la Oficina del Registro, o informes de necesidades de personal docente para próximos periodos.
     \item \textbf{Modificación de sistemas existentes:} No se realizarán cambios o mejoras en otros sistemas existentes fuera del sistema de planificación académica.
@@ -61,5 +61,5 @@ El proyecto no abarcará las siguientes áreas:
     No se contemplan otras integraciones con sistemas externos de la universidad en este proyecto.
     \item \textbf{Capacitación externa:} El proyecto no incluirá programas de capacitación para usuarios fuera de la Oficina del Registro o personal involucrado directamente con la gestión académica cubierta por el sistema.
     \item \textbf{Desarrollo de nuevas funcionalidades fuera del alcance académico:} No se desarrollarán funcionalidades para la gestión de áreas fuera del contexto académico, como gestión de recursos humanos o financieros de la universidad.
-    \item \textbf{Cumplimiento de normativas como funcionalidad explícita y auditable:} Si bien el sistema se desarrollará buscando proteger la privacidad de los datos estudiantiles, funcionalidades explícitas y auditables diseñadas específicamente para el cumplimiento de regulaciones como FERPA (más allá de las buenas prácticas generales de seguridad y privacidad) no están dentro del alcance del desarrollo activo.
+    \item \textbf{Cumplimiento de normativas como funcionalidad explícita y auditable:} Si bien el sistema se desarrollará buscando proteger la privacidad de los datos estudiantiles, funcionalidades explícitas y auditables diseñadas específicamente para el cumplimiento de regulaciones como FERPA\footnote{\textbf{FERPA} (Family Educational Rights and Privacy Act) es una ley federal de los Estados Unidos que protege la privacidad de los registros educativos de los estudiantes.} (más allá de las buenas prácticas generales de seguridad y privacidad) no están dentro del alcance del desarrollo activo.
 \end{itemize}
