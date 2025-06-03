@@ -1,39 +1,40 @@
 \subsection{i* Framework}
-The i* framework \parencite{yu1995} is a modeling framework used in requirements engineering and software development.
-It offers a way to model and analyze stakeholders' intentional relationships.
-Intentional relationships are relationships that include actors, goals, tasks, resources, and social dependencies within an organizational context.
-It assists in understanding the why behind system requirements and identifying potential trade-offs between different stakeholders' goals.
+El marco de trabajo i* \parencite{yu1995} es un marco de modelado utilizado en la ingeniería de requisitos y el desarrollo de software.
+Ofrece una forma de modelar y analizar las relaciones intencionales de los interesados.
+Las relaciones intencionales son relaciones que incluyen actores, objetivos, tareas, recursos y dependencias sociales dentro de un contexto organizacional.
+Ayuda a comprender el porqué detrás de los requisitos del sistema e identificar posibles compensaciones entre los objetivos de los diferentes interesados.
 
-The framework is actor-oriented, meaning it uses the notion of \textit{actor} as a primitive concept.
-Actors can be anything, from individuals to organizations, that have strategic interests and intentionality.
-An actor's intentionality is captured through \textit{goals}.
-A goal represents a condition or state of affairs that the actor wants to achieve.
-Goals can be hard goals or soft goals.
-Hard goals are precise and have clear criteria for satisfaction, while soft goals are less precise and represent desired qualities or considerations.
+El marco está orientado a actores, lo que significa que utiliza la noción de \textit{actor} como concepto primitivo.
+Los actores pueden ser cualquier cosa, desde individuos hasta organizaciones, que tengan intereses estratégicos e intencionalidad.
+La intencionalidad de un actor se captura a través de \textit{objetivos}.
+Un objetivo representa una condición o estado de cosas que el actor desea alcanzar.
+Los objetivos pueden ser objetivos duros u objetivos blandos.
+Los objetivos duros son precisos y tienen criterios claros de satisfacción, mientras que los objetivos blandos son menos precisos y representan cualidades o consideraciones deseadas.
 
-Table~\ref{tab:istarDependencyTypes} represents the dependency type along with its corresponding ontology.
+La Tabla~\ref{tab:istarDependencyTypes} presenta los tipos de dependencia junto con su ontología correspondiente.
 \begin{table}
-	\caption{Dependency types}\label{tab:istarDependencyTypes}
+	\caption{Tipos de dependencia}\label{tab:istarDependencyTypes}
 	\begin{tabularx}{\textwidth}{@{} llX @{}}
 		\toprule
-		\textbf{Ontology} & \textbf{Type} & \textbf{Description} \\
+		\textbf{Ontología} & \textbf{Tipo} & \textbf{Descripción} \\
 		\midrule
-		Entities & Resource & Used to represent the world as objects. \\
-		Activities & Task & Produce a change in the world. \\
-		Assertions & Goals & Expression of a condition or state in the world. \\
+		Entidades & Recurso & Utilizado para representar el mundo como objetos. \\
+		Actividades & Tarea & Producen un cambio en el mundo. \\
+		Aserciones & Objetivos & Expresión de una condición o estado en el mundo. \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
 
-\subsubsection{Models}
-The framework consists of two main models: the Strategic Dependency (SD) model and the Strategic Rationale (SR) model.
+\subsubsection{Modelos}
+El marco de trabajo consta de dos modelos principales: el modelo de Dependencia Estratégica (DE) y el modelo de Racionalidad Estratégica (RE).
 
 \begin{itemize}
-    \item \textbf{Strategic Dependency (SD) Model:} This model shows the network of actors and their dependencies.
-    It illustrates how actors depend on each other for goals, tasks, and resources.
-    This model is useful for identifying critical dependencies and potential vulnerabilities in a system.
-    \item \textbf{Strategic Rationale (SR) Model:} This model focuses on the internal rationale of actors, showing how their goals are achieved through tasks, and how these tasks utilize resources.
-    It represents the reasons behind actor's actions and their intentional relationships.
-    This model is used to explore alternative ways of achieving goals and understanding the trade-offs involved.
+    \item \textbf{Modelo de Dependencia Estratégica (DE):}
+    Este modelo muestra la red de actores y sus dependencias.
+    Ilustra cómo los actores dependen unos de otros para alcanzar objetivos, realizar tareas y obtener recursos.
+    Este modelo es útil para identificar dependencias críticas y posibles vulnerabilidades en un sistema.
+    \item \textbf{Modelo de Racionalidad Estratégica (RE):}
+    Este modelo se centra en la racionalidad interna de los actores, mostrando cómo se alcanzan sus objetivos a través de tareas y cómo estas tareas utilizan recursos.
+    Representa las razones detrás de las acciones de los actores y sus relaciones intencionales.
+    Este modelo se utiliza para explorar formas alternativas de alcanzar objetivos y comprender las compensaciones involucradas.
 \end{itemize}
-

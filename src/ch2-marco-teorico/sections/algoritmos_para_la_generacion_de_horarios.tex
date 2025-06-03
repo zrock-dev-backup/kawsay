@@ -2,137 +2,137 @@
 La generación de horarios académicos es un problema complejo de optimización combinatoria, clasificado como NP-difícil, que busca asignar recursos (profesores, aulas, horarios) a eventos (clases) respetando un conjunto de restricciones duras (inviolables) y blandas (deseables) \parencite{Schaerf1999}.
 El desarrollo de algoritmos eficientes para esta tarea es crucial para instituciones educativas como Jala University, ya que impacta directamente en la satisfacción de estudiantes y docentes, y en la utilización de recursos, siendo un pilar para mejorar el proceso actual de gestión del calendario.
 
-\subsubsection{Constraint-based reasoning}
+\subsubsection{Razonamiento basado en restricciones}
 El razonamiento basado en restricciones (Constraint Satisfaction Problems - CSP) modela el problema de generación de horarios definiendo un conjunto de variables (clases), dominios (posibles asignaciones de tiempo/aula/profesor) y restricciones (reglas como no solapamiento, disponibilidad, capacidad) \parencite{Rossi2006}.
 Algoritmos como backtracking, forward checking o arc consistency se utilizan para encontrar asignaciones que satisfagan todas las restricciones.
 Este enfoque es útil para garantizar la viabilidad de los horarios generados, asegurando que se cumplan las reglas fundamentales del calendario académico de la universidad.
 
-\subsubsection{Linear programming/Integer programming}
-La programación lineal (LP) y la programación entera (IP) son técnicas de investigación de operaciones que permiten modelar problemas de optimización mediante funciones objetivo lineales y restricciones lineales (con variables continuas en LP y enteras o binarias en IP) \parencite{Winston2004}.
-La generación de horarios puede formularse como un problema de IP, donde las variables representan decisiones de asignación (e.g., si una clase se asigna a un horario específico) y el objetivo es optimizar alguna métrica (minimizar huecos, maximizar preferencias) sujeto a las restricciones académicas.
+\subsubsection{Programación lineal/Programación entera}
+La programación lineal y la programación entera son técnicas de investigación de operaciones que permiten modelar problemas de optimización mediante funciones objetivo lineales y restricciones lineales (con variables continuas en PL y enteras o binarias en PE) \parencite{Winston2004}.
+La generación de horarios puede formularse como un problema de PE, donde las variables representan decisiones de asignación (e.g., si una clase se asigna a un horario específico) y el objetivo es optimizar alguna métrica (minimizar huecos, maximizar preferencias) sujeto a las restricciones académicas.
 Aunque computacionalmente intensivos, pueden garantizar soluciones óptimas para instancias de tamaño moderado.
 
-\subsubsection{Heuristic algorithm}
+\subsubsection{Algoritmo heurístico}
 
-In the context of faculty timetabling, a heuristic is a practical rule, strategy, or method used to find a feasible, though not necessarily optimal, schedule.
-The problem of creating a university timetable is notoriously complex.
-The number of possible schedules grows exponentially with the number of courses, faculty, rooms, and time slots.
-Finding an optimal timetable (one that satisfies all constraints and maximizes some objective function like minimizing student conflicts or faculty preferences) is often computationally intractable, especially for large institutions.
-Therefore, heuristic algorithms are crucial for tackling this challenge.
+En el contexto de la generación de horarios académicos, una heurística es una regla práctica, estrategia o método utilizado para encontrar un horario factible, aunque no necesariamente óptimo.
+El problema de crear un horario universitario es notoriamente complejo.
+El número de horarios posibles crece exponencialmente con el número de cursos, profesores, aulas e intervalos de tiempo.
+Encontrar un horario óptimo (uno que satisfaga todas las restricciones y maximice alguna función objetivo como minimizar los conflictos de los estudiantes o las preferencias del profesorado) es a menudo computacionalmente intratable, especialmente para instituciones grandes.
+Por lo tanto, los algoritmos heurísticos son cruciales para abordar este desafío.
 
-\paragraph{Conclusion}, timetable generation will be developed using Yule's \cite{Yule1969} heuristic algorithm. This algorithm has the following features:
+\paragraph{Conclusión}
+, la generación de horarios se desarrollará utilizando el algoritmo heurístico de Yule \cite{Yule1969}. Este algoritmo tiene las siguientes características:
 
 \begin{enumerate}[label=\alph*.]
-    \item \textbf{Constraint-Based Allocation}: Yule's algorithm emphasizes handling constraints effectively.
-	These constraints can include:
+    \item \textbf{Asignación Basada en Restricciones (Constraint-Based Allocation)}: El algoritmo de Yule enfatiza el manejo efectivo de las restricciones.
+	Estas restricciones pueden incluir:
     \begin{itemize}
-        \item Faculty availability (days and times they are unavailable).
-        \item Room availability (size, equipment, conflicts).
-        \item Course prerequisites.
-        \item Student course preferences (avoiding clashes).
-        \item Institutional rules (e.g., limits on class sizes, specific times reserved for certain activities).
+        \item Disponibilidad del profesorado (días y horas en que no están disponibles).
+        \item Disponibilidad de aulas (tamaño, equipamiento, conflictos).
+        \item Prerrequisitos de los cursos.
+        \item Preferencias de cursos de los estudiantes (evitando conflictos).
+        \item Reglas institucionales (p. ej., límites en el tamaño de las clases, horarios específicos reservados para ciertas actividades).
     \end{itemize}
 
-    \item \textbf{Iterative Allocation:} The algorithm iteratively attempts to schedule classes one at a time, considering the current state of the timetable and the constraints associated with the class being scheduled.
-	The order in which classes are scheduled is itself a heuristic; Yule mentions reordering classes that prove difficult to schedule.
+    \item \textbf{Asignación Iterativa (Iterative Allocation):} El algoritmo intenta iterativamente programar las clases una por una, considerando el estado actual del horario y las restricciones asociadas con la clase que se está programando.
+	El orden en que se programan las clases es en sí mismo una heurística; Yule menciona la reordenación de las clases que resultan difíciles de programar.
 
-    \item \textbf{Backtracking and Reordering:} If the algorithm reaches a point where it cannot schedule a class without violating constraints, it employs a form of backtracking.
-	This may involve:
+    \item \textbf{Retroceso y Reordenación (Backtracking and Reordering):} Si el algoritmo llega a un punto en el que no puede programar una clase sin violar las restricciones, emplea una forma de retroceso.
+	Esto puede implicar:
     \begin{itemize}
-        \item Reordering the classes to be scheduled.
-        \item Resetting the timetable to a previous state and trying a different allocation for an earlier class.
-        \item Modifying "soft" constraints (preferences) to make a schedule feasible.
+        \item Reordenar las clases a programar.
+        \item Restablecer el horario a un estado anterior e intentar una asignación diferente para una clase anterior.
+        \item Modificar restricciones "blandas" (preferencias) para hacer factible un horario.
     \end{itemize}
 
-    \item \textbf{Availability Matrix Representation:} Yule's algorithm uses availability matrices to efficiently represent the availability of faculty, rooms, and classes over time.
-	These matrices allow the algorithm to quickly check for conflicts and determine feasible time slots.
-	Formula 1 computes the line availability, Formulas 2 and 3 test for available times, and Formula 4 updates the matrices.
+    \item \textbf{Representación mediante Matriz de Disponibilidad (Availability Matrix Representation):} El algoritmo de Yule utiliza matrices de disponibilidad para representar eficientemente la disponibilidad del profesorado, las aulas y las clases a lo largo del tiempo.
+	Estas matrices permiten al algoritmo verificar rápidamente los conflictos y determinar franjas horarias factibles.
+	La Fórmula 1 calcula la disponibilidad de línea, las Fórmulas 2 y 3 prueban los tiempos disponibles, y la Fórmula 4 actualiza las matrices.
 
-    \item \textbf{Line Availability Heuristic:} The concept of a "requirement line" (a single row in Yule's data structure representing a class, lecturer, and possibly a room) is key.
-	The algorithm focuses on allocating entire requirement lines at once, which simplifies the problem and ensures that all components of a course (lecturer, class, room) are considered together.
+    \item \textbf{Heurística de Disponibilidad de Línea (Line Availability Heuristic):} El concepto de una "línea de requerimiento" (una única fila en la estructura de datos de Yule que representa una clase, un profesor y posiblemente un aula) es clave.
+	El algoritmo se enfoca en asignar líneas de requerimiento completas de una vez, lo que simplifica el problema y asegura que todos los componentes de un curso (profesor, clase, aula) se consideren juntos.
 
-    \item \textbf{Preference Handling:} Yule's algorithm incorporates faculty preferences for specific time slots or days off.
-	These preferences are treated as "soft" constraints; the algorithm tries to satisfy them but will violate them if necessary to achieve a feasible timetable.
-	Formula 4 handles preferences, marking times as "preferentially unavailable."
+    \item \textbf{Manejo de Preferencias (Preference Handling):} El algoritmo de Yule incorpora las preferencias del profesorado por franjas horarias o días libres específicos.
+	Estas preferencias se tratan como restricciones "blandas"; el algoritmo intenta satisfacerlas, pero las violará si es necesario para lograr un horario factible.
+	La Fórmula 4 maneja las preferencias, marcando los tiempos como "preferentemente no disponibles".
 
-    \item \textbf{Dynamic Free Day Allocation:} The algorithm can dynamically adjust faculty free days based on scheduling difficulties.
-	If a particular faculty member is causing a scheduling bottleneck, the algorithm may try changing their free day.
+    \item \textbf{Asignación Dinámica de Días Libres (Dynamic Free Day Allocation):} El algoritmo puede ajustar dinámicamente los días libres del profesorado basándose en las dificultades de programación.
+	Si un profesor en particular está causando un cuello de botella en la programación, el algoritmo puede intentar cambiar su día libre.
 \end{enumerate}
 
-Yule's algorithm makes several heuristic choices, including:
+El algoritmo de Yule toma varias decisiones heurísticas, incluyendo:
 
 \begin{itemize}
-    \item \textbf{Order of Class Scheduling:} The order in which classes are scheduled can significantly impact the outcome.
-    \item \textbf{Free Day Allocation Strategy:} Deciding which faculty members to give free days to and when to adjust those days is a heuristic process.
-    \item \textbf{Handling Preferences:} The balance between satisfying preferences and meeting hard constraints is a heuristic trade-off.
-    \item \textbf{Backtracking Strategy:} Deciding when to backtrack, how far to backtrack, and which changes to make during backtracking are heuristic decisions.
+    \item \textbf{Orden de Programación de Clases (Order of Class Scheduling):} El orden en que se programan las clases puede impactar significativamente el resultado.
+    \item \textbf{Estrategia de Asignación de Días Libres (Free Day Allocation Strategy):} Decidir a qué miembros del profesorado dar días libres y cuándo ajustar esos días es un proceso heurístico.
+    \item \textbf{Manejo de Preferencias (Handling Preferences):} El equilibrio entre satisfacer las preferencias y cumplir con las restricciones duras es una compensación heurística.
+    \item \textbf{Estrategia de Retroceso (Backtracking Strategy):} Decidir cuándo retroceder, cuánto retroceder y qué cambios realizar durante el retroceso son decisiones heurísticas.
 \end{itemize}
 
-Yule's algorithm seeks to populate an availability matrix per requirement line, each cell looks like Figure~\ref{fig:yuleAlgorithm} where the superposition of each entity will define if the requirement line is available in the defined timeslot.
-\begin{figure}
+El algoritmo de Yule busca poblar una matriz de disponibilidad por línea de requerimiento, cada celda se ve como en la Figura~\ref{fig:yuleAlgorithm} donde la superposición de cada entidad definirá si la línea de requerimiento está disponible en la celda.
+\begin{figure}[H]
     \centering
-    \caption{Visualization of requirement line availability cell}
-    \includegraphics[width=.5\textwidth]{yule-algo.pdf}
+    \caption{Visualización de una celda de disponibilidad de línea de requerimiento}
+    \includegraphics[width=.45\textwidth]{yule-algo.pdf}
     \label{fig:yuleAlgorithm}
 \end{figure}
 
-Yule's algorithm has 4 basic formulas used for timetable generation.
+El algoritmo de Yule tiene 4 fórmulas básicas utilizadas para la generación de horarios.
 
-Formula 1: \textbf{Line Availability Matrix} The first formula, shown in Equation \ref{eq:1}, calculates the elements of the line availability matrix \( _iE_{dp} \).
-This matrix determines the overall availability of a particular lecture line \( i \) at a specific day \( d \) and period \( p \).
+Fórmula 1: \textbf{Matriz de Disponibilidad de Línea (Line Availability Matrix)} La primera fórmula, mostrada en la Ecuación \ref{eq:1}, calcula los elementos de la matriz de disponibilidad de línea \( _iE_{dp} \).
+Esta matriz determina la disponibilidad general de una línea de clase particular \( i \) en un día específico \( d \) y período \( p \).
 
 \begin{equation}
 \label{eq:1}
 _iE_{dp} = \left[\bigvee_{j \in S_i} (_jC_{dp})\right] \bigvee {}_zC'_{p}
 \end{equation}
 
-Where:
+Donde:
 \begin{itemize}
-    \item \( _iE_{dp} \) represents the availability of line \( i \) at day \( d \) and period \( p \).
-    \item \( S_i \) is the set of classes, lecturers, and rooms involved in the \( i \)-th requirement.
-    \item \( _jC_{dp} \) is an element of the availability matrix \( C \) for item \( j \) (class, lecturer, or room) indicating whether item \( j \) is unavailable (1) or available (0) in period \( p \) of day \( d \).
-    \item The symbol \(\bigvee\) denotes the logical OR operation (union in the paper).
-	The expression \(\bigvee_{j \in S_i} (_jC_{dp})\) calculates the union of availabilities for all items in set \( S_i \).
-	If any item is unavailable, the result will be 1, meaning the time slot is generally unavailable.
-    \item \( _zC'_{p} \) is an element of the vector \( C' \), which limits the times of day at which multi-period lectures may start. 
-    \item The entire formula calculates whether a time slot is unavailable because either an element in the requirement \( S_i \) is unavailable or the period \( p \) is unsuitable for a lecture of length \( z_i \).
+    \item \( _iE_{dp} \) representa la disponibilidad de la línea \( i \) en el día \( d \) y período \( p \).
+    \item \( S_i \) es el conjunto de clases, profesores y aulas involucrados en el \( i \)-ésimo requerimiento.
+    \item \( _jC_{dp} \) es un elemento de la matriz de disponibilidad \( C \) para el elemento \( j \) (clase, profesor o aula) que indica si el elemento \( j \) no está disponible (1) o está disponible (0) en el período \( p \) del día \( d \).
+    \item El símbolo \(\bigvee\) denota la operación OR lógica (unión en el artículo original).
+	La expresión \(\bigvee_{j \in S_i} (_jC_{dp})\) calcula la unión de las disponibilidades para todos los elementos en el conjunto \( S_i \).
+	Si algún elemento no está disponible, el resultado será 1, lo que significa que la franja horaria generalmente no está disponible.
+    \item \( _zC'_{p} \) es un elemento del vector \( C' \), que limita las horas del día en las que pueden comenzar las clases de múltiples períodos.
+    \item La fórmula completa calcula si una franja horaria no está disponible porque un elemento en el requerimiento \( S_i \) no está disponible o el período \( p \) no es adecuado para una clase de duración \( z_i \).
 \end{itemize}
 
-Formulas 2 and 3: \textbf{Testing for Available Place}, shown in Equations \ref{eq:2} and \ref{eq:3}, test whether a lecture can be scheduled in a specific time slot.
-Formula 2 tests single period lectures, while formula 3 tests multi-period lectures.
+Fórmulas 2 y 3: \textbf{Prueba de Lugar Disponible (Testing for Available Place)}, mostradas en las Ecuaciones \ref{eq:2} y \ref{eq:3}, prueban si una clase puede ser programada en una franja horaria específica.
+La Fórmula 2 prueba clases de un solo período, mientras que la Fórmula 3 prueba clases de múltiples períodos.
 
 \begin{equation}
 \label{eq:2}
-_iE_{dp} = 0 \quad \text{for a single period lecture}
+_iE_{dp} = 0 \quad \text{para una clase de un solo período}
 \end{equation}
 
-This formula simply states that for a single-period lecture to be scheduled at day \( d \) and period \( p \), the corresponding element in the line availability matrix \( _iE_{dp} \) must be 0, indicating the slot is available.
+Esta fórmula simplemente establece que para que una clase de un solo período sea programada en el día \( d \) y período \( p \), el elemento correspondiente en la matriz de disponibilidad de línea \( _iE_{dp} \) debe ser 0, indicando que la franja está disponible.
 
 \begin{equation}
 \label{eq:3}
 _iE_{dp} \vee (_iE_{d,p+1} \wedge 1) \vee \dots \vee (_iE_{d,k} \wedge 1) = 0
 \end{equation}
 
-Where:
+Donde:
 \begin{itemize}
-    \item \( k = p + z_i - 1 \), where \( z_i \) is the length of the lecture (number of periods).
-    \item The formula tests whether there is a continuous block of time slots available for a multi-period lecture of length \( z_i \) starting at period \( p \).
-    \item  Each term \( _iE_{d,p+n} \) for \( n \) in the range \( 0 \) to \( z_i-1 \) represents the availability of the period \( p+n \).  The term \(  (_iE_{d,p+n} \wedge 1)  \) effectively masks any bits in  \( _iE_{d,p+n} \) except the least significant bit which represents availability in the most basic sense.
-    \item If the logical OR of these terms equals 0, then all periods in the block are available, and the lecture can be scheduled.
+    \item \( k = p + z_i - 1 \), donde \( z_i \) es la duración de la clase (número de períodos).
+    \item La fórmula prueba si hay un bloque continuo de franjas horarias disponibles para una clase de múltiples períodos de duración \( z_i \) que comienza en el período \( p \).
+    \item Cada término \( _iE_{d,p+n} \) para \( n \) en el rango de \( 0 \) a \( z_i-1 \) representa la disponibilidad del período \( p+n \). El término \( (_iE_{d,p+n} \wedge 1) \) enmascara eficazmente cualquier bit en \( _iE_{d,p+n} \) excepto el bit menos significativo, que representa la disponibilidad en el sentido más básico.
+    \item Si el OR lógico de estos términos es igual a 0, entonces todos los períodos en el bloque están disponibles y la clase puede ser programada.
 \end{itemize}
 
-Formula 4: \textbf{Updating Availability Matrices}, shown in Equation \ref{eq:4}, updates the availability matrices after a lecture has been scheduled.
+Fórmula 4: \textbf{Actualización de Matrices de Disponibilidad (Updating Availability Matrices)}, mostrada en la Ecuación \ref{eq:4}, actualiza las matrices de disponibilidad después de que una clase ha sido programada.
 
 \begin{equation}
 \label{eq:4}
-_jC_{d, p+k} (\text{updated}) = _jC_{d, p+k} (\text{old}) \vee 1
+_jC_{d, p+k} (\text{actualizado}) = _jC_{d, p+k} (\text{antiguo}) \vee 1
 \end{equation}
 
-Where:
+Donde:
 \begin{itemize}
-    \item \( _jC_{d, p+k} \) represents the availability matrix element for item \( j \) (class, lecturer, or room) at day \( d \) and period \( p+k \).
-    \item \( k \) ranges from 0 to \( z_i - 1 \), covering all periods spanned by the scheduled lecture.
-    \item The formula sets the availability element \( _jC_{d, p+k} \) to 1 (unavailable) by performing a logical OR with 1.
-This ensures that the scheduled class, lecturer, or room is marked as unavailable for the duration of the lecture.
+    \item \( _jC_{d, p+k} \) representa el elemento de la matriz de disponibilidad para el ítem \( j \) (clase, profesor o aula) en el día \( d \) y período \( p+k \).
+    \item \( k \) varía de 0 a \( z_i - 1 \), cubriendo todos los períodos abarcados por la clase programada.
+    \item La fórmula establece el elemento de disponibilidad \( _jC_{d, p+k} \) en 1 (no disponible) realizando un OR lógico con 1.
+    Esto asegura que la clase, profesor o aula programados se marquen como no disponibles durante la duración de la clase.
 \end{itemize}
-
