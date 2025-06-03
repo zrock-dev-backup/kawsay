@@ -1,5 +1,5 @@
 \subsection{Algoritmos para la generacion de horarios}
-La generación de horarios académicos es un problema complejo de optimización combinatoria, clasificado como NP-difícil\footnote{\textbf{NP-difícil} (Non-deterministic Polynomial-time hard) es una clase de problemas de decisión en teoría de la complejidad computacional que son "al menos tan difíciles como los problemas más difíciles en NP".}, que busca asignar recursos (profesores, aulas, horarios) a eventos (clases) respetando un conjunto de restricciones duras\footnote{Las \textbf{restricciones duras} son condiciones que deben ser satisfechas obligatoriamente en una solución válida.
+La generación de horarios académicos es un problema complejo de optimización combinatoria, que busca asignar recursos (profesores, aulas, horarios) a eventos (clases) respetando un conjunto de restricciones duras\footnote{Las \textbf{restricciones duras} son condiciones que deben ser satisfechas obligatoriamente en una solución válida.
 Violar una restricción dura invalida la solución (por ejemplo, un profesor no puede estar en dos lugares al mismo tiempo).} (inviolables) y blandas\footnote{Las \textbf{restricciones blandas} son condiciones deseables pero no obligatorias.
 Violar una restricción blanda no invalida la solución, pero disminuye su calidad o preferencia (por ejemplo, un profesor prefiere dar clases por la mañana).} (deseables) \parencite{Schaerf1999}.
 El desarrollo de algoritmos eficientes para esta tarea es crucial para instituciones educativas como Jala University, ya que impacta directamente en la satisfacción de estudiantes y docentes, y en la utilización de recursos, siendo un pilar para mejorar el proceso actual de gestión del calendario.
@@ -19,7 +19,7 @@ Aunque computacionalmente intensivos, pueden garantizar soluciones óptimas para
 
 En el contexto de la generación de horarios académicos, una heurística es una regla práctica, estrategia o método utilizado para encontrar un horario factible, aunque no necesariamente óptimo.
 El problema de crear un horario universitario es notoriamente complejo.
-El número de horarios posibles crece exponencialmente\footnote{Un crecimiento \textbf{exponencial} significa que la cantidad aumenta multiplicándose por un factor constante en cada intervalo de tiempo o paso, llevando a un aumento muy rápido.} con el número de cursos, profesores, aulas e intervalos de tiempo.
+El número de horarios posibles crece exponencialmente con el número de cursos, profesores, aulas e intervalos de tiempo.
 Encontrar un horario óptimo es a menudo computacionalmente intratable\footnote{\textbf{Computacionalmente intratable} se refiere a un problema que no puede ser resuelto por ningún algoritmo en un tiempo razonable (generalmente tiempo polinomial) a medida que el tamaño de la entrada del problema crece.}, especialmente para instituciones grandes.
 Por lo tanto, los algoritmos heurísticos son cruciales para abordar este desafío.
 
