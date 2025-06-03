@@ -1,85 +1,84 @@
-\section{I-star Framework Analysis}
+\section{Análisis del Marco de Trabajo i*}
 \label{sec:appendixIStarAnalysis}
 
-\subsection*{Strategic Dependency}
-Figure~\ref{fig:strategicDependenciesDiagram} is a model representing how actors interact with each other.
-Table~\ref{tab:strategicDependencies} explains their relationships.
+\subsection*{Diagrama strategico de dependencias}
+La Figura~\ref{fig:strategicDependenciesDiagram} es un modelo que representa cómo los actores interactúan entre sí.
+La Tabla~\ref{tab:strategicDependencies} explica sus relaciones.
 \begin{table}
 \centering
-\caption{SD relationships description} \label{tab:strategicDependencies}
+\caption{Detalle diagrama SD} \label{tab:strategicDependencies}
 	\begin{tabularx}{\linewidth}{@{} p{0.8in} p{1.2in} p{1.6in} X @{}}
 	\toprule
-	\multicolumn{2}{c}{\textbf{Relationship}} & \textbf{Dependum} & \textbf{Description} \\
+	\multicolumn{2}{c}{\textbf{Relación}} & \textbf{Dependum} & \textbf{Descripción} \\
 	\cmidrule(lr){1-2}
-	\textbf{Dependant} & \textbf{Dependee} & & \\
+	\textbf{Dependiente} & \textbf{Dependido} & & \\
 	\midrule
 	% Student
-	\multirow{4}{*}{Student} & Student Services & Enrollment compliance & To ensure appropiate module enrollment. \\
-	& Registrar & Enrollment flexibility & LOA and course drop \\
-	& Registrar & Enrolled & Effective enrollment to module courses \\
-	& Registrar & Module timetable & Courses, time periods, section, groups \\
+	\multirow{4}{*}{Student} & Student Services & Cumplimiento de la inscripción & Para asegurar la inscripción apropiada en el módulo. \\
+	& Registrar & Flexibilidad de inscripción & Permiso de ausencia (LOA) y baja de curso \\
+	& Registrar & Inscrito & Inscripción efectiva en los cursos del módulo \\
+	& Registrar & Horario del módulo & Cursos, períodos, sección, grupos \\
 	\hline
 	% Student Services
-	Student Services & Registrar & Resolve student enrollment \& timetable issues & Handle a student's enrollment issues\\
+	Student Services & Registrar & Resolver problemas de inscripción y horarios de los estudiantes & Gestionar los problemas de inscripción de un estudiante\\
 	\hline
 	% Teacher
-	\multirow{3}{*}{Teacher} & Academic Coordinator & Hired & Effective assignation to class \\
-	& Registrar & Class schedule flexibility & Move class timeslot \\
-	& Registrar & Module timetable & Specific class timetable \\
+	\multirow{3}{*}{Teacher} & Academic Coordinator & Contratado & Asignación efectiva a la clase \\
+	& Registrar & Flexibilidad del horario de clase & Cambiar el horario de la clase \\
+	& Registrar & Horario del módulo & Horario específico de la clase \\
 	\hline
 	% Academic Coordinator
-	Academic Coordinator & Registrar & Teaching staff to be hired & Course and times \\
+	Academic Coordinator & Registrar & Personal docente a contratar & Curso y horarios \\
 	\hline
 	% Student Information System
-	SIS & Teacher & Student grades & GPA and SAP\\
+	SIS & Teacher & Calificaciones del estudiante & GPA y SAP\\
 	\hline
 	% Registrar
-	\multirow{2}{*}{Registrar} & SIS & Student data & Student personal data and grades\\
-	& Academic Coordinator & Hired teachers data & Names, availability and course\\
+	\multirow{2}{*}{Registrar} & SIS & Datos del estudiante & Datos personales y calificaciones del estudiante\\
+	& Academic Coordinator & Datos de los profesores contratados & Nombres, disponibilidad y curso\\
 	\bottomrule
 	\end{tabularx}
 \end{table}
 
 \begin{figure}
-	\caption{Strategic Dependencies Diagram}\label{fig:strategicDependenciesDiagram}
+	\caption{Diagrama de Dependencias Estratégicas}\label{fig:strategicDependenciesDiagram}
 	\centering
 	\includegraphics[width=.70\textwidth]{strategic-dependencies.pdf}
 \end{figure}
 
-\subsection*{Strategic Rationale}
-\subsubsection*{Registrar}
-Strategic stakeholder concerned with student enrollment, timetable management and minimizing administrative overhead, because it needs to generate other kind of reports outside of the context of this case study, for which the softgoal "Minimize administrative overhead" has been identified.
-She also has the softgoal of "Reducing student double booking" i.e. when a student is enrolled on two classes that happen at the same time.
+\subsection*{Diagrama strategico de razones}
+\subsubsection*{Oficina de registros}
+Interesado en la inscripción de estudiantes, gestión de horarios y reducción de la sobrecarga administrativa para lo cual se ha identificado el objetivo flexible "Minimizar la sobrecarga administrativa".
+Ella también tiene el objetivo flexible de "Reducir la doble inscripción de estudiantes", es decir, cuando un estudiante está inscrito en dos clases que ocurren al mismo tiempo.
 
-Figure~\ref{fig:actorBoundaryRegistrar} is a representation of Registrar's strategic rationale.
+La Figura~\ref{fig:actorBoundaryRegistrar} es una representación de la justificación estratégica de la Registrar.
 
 \begin{landscape}
 	\begin{figure}
 		\centering
-		\caption{Registrar strategic rationale model}
-		\includegraphics[width=\textwidth]{registrar.pdf}
+		\caption{Modelo de justificación estratégica de la Registrar}
+		\includegraphics[width=1.2\textwidth]{registrar.pdf}
 		\label{fig:actorBoundaryRegistrar}
 	\end{figure}
 \end{landscape}
 
-\subsubsection*{Student}
-A student is an strategic stakeholder concerned with obtaining required credits.
-Figure~\ref{fig:actorBoundaryStudent} describes their strategic rationale.
+\subsubsection*{Estudiante}
+Un estudiante es un actor estratégico interesado en obtener los créditos requeridos.
+La Figura~\ref{fig:actorBoundaryStudent} describe su justificación estratégica.
 \begin{figure}
 	\centering
-	\caption{Student strategic rationale model}
+	\caption{Modelo de justificación estratégica del Estudiante}
 	\includegraphics[width=\textwidth]{student.pdf}
 	\label{fig:actorBoundaryStudent}
 \end{figure}
 
-\subsubsection*{Teacher}
-As we can see in Figure~\ref{fig:actorBoundaryTeacher} a teacher is interested in becoming \textit{Hired} to be able to teach a class.
-Teacher needs \textit{Class schedule flexibility} to request schedule changes.
+\subsubsection*{Profesor}
+Como podemos ver en la Figura~\ref{fig:actorBoundaryTeacher}, un profesor está interesado en ser \textit{Contratado} para poder impartir una clase.
+El profesor necesita \textit{Flexibilidad del horario de clase} para solicitar cambios de horario.
 
 \begin{figure}
 	\centering
-	\caption{Teacher strategic rationale model}
+	\caption{Modelo de justificación estratégica del Profesor}
 	\label{fig:actorBoundaryTeacher}
 	\includegraphics[width=\textwidth]{teacher.pdf}
 \end{figure}
-
