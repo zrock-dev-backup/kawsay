@@ -1,14 +1,17 @@
 \subsection{Algoritmos para la generacion de horarios}
-La generación de horarios académicos es un problema complejo de optimización combinatoria, clasificado como NP-difícil, que busca asignar recursos (profesores, aulas, horarios) a eventos (clases) respetando un conjunto de restricciones duras (inviolables) y blandas (deseables) \parencite{Schaerf1999}.
+La generación de horarios académicos es un problema complejo de optimización combinatoria, clasificado como NP-difícil\footnote{\textbf{NP-difícil} (Non-deterministic Polynomial-time hard) es una clase de problemas de decisión en teoría de la complejidad computacional que son "al menos tan difíciles como los problemas más difíciles en NP".}, que busca asignar recursos (profesores, aulas, horarios) a eventos (clases) respetando un conjunto de restricciones duras\footnote{Las \textbf{restricciones duras} son condiciones que deben ser satisfechas obligatoriamente en una solución válida.
+Violar una restricción dura invalida la solución (por ejemplo, un profesor no puede estar en dos lugares al mismo tiempo).} (inviolables) y blandas\footnote{Las \textbf{restricciones blandas} son condiciones deseables pero no obligatorias.
+Violar una restricción blanda no invalida la solución, pero disminuye su calidad o preferencia (por ejemplo, un profesor prefiere dar clases por la mañana).} (deseables) \parencite{Schaerf1999}.
 El desarrollo de algoritmos eficientes para esta tarea es crucial para instituciones educativas como Jala University, ya que impacta directamente en la satisfacción de estudiantes y docentes, y en la utilización de recursos, siendo un pilar para mejorar el proceso actual de gestión del calendario.
 
 \subsubsection{Razonamiento basado en restricciones}
-El razonamiento basado en restricciones (Constraint Satisfaction Problems - CSP) modela el problema de generación de horarios definiendo un conjunto de variables (clases), dominios (posibles asignaciones de tiempo/aula/profesor) y restricciones (reglas como no solapamiento, disponibilidad, capacidad) \parencite{Rossi2006}.
-Algoritmos como backtracking, forward checking o arc consistency se utilizan para encontrar asignaciones que satisfagan todas las restricciones.
+El razonamiento basado en restricciones (Constraint Satisfaction Problems - CSP) modela el problema de generación de horarios definiendo un conjunto de variables (clases), dominios\footnote{En un CSP, el \textbf{dominio} de una variable es el conjunto de todos los valores posibles que esa variable puede tomar.} (posibles asignaciones de tiempo/aula/profesor) y restricciones (reglas como no solapamiento, disponibilidad, capacidad) \parencite{Rossi2006}.
+Algoritmos como backtracking\footnote{El \textbf{backtracking} (vuelta atrás) es una técnica algorítmica general para encontrar todas (o algunas) soluciones a problemas computacionales}, forward checking o arc consistency\footnote{La \textbf{consistencia de arco (arc consistency)} Un arco entre dos variables es consistente si para cada valor en el dominio de la primera variable, existe algún valor en el dominio de la segunda variable tal que la restricción entre ellas se satisface.} se utilizan para encontrar asignaciones que satisfagan todas las restricciones.
 Este enfoque es útil para garantizar la viabilidad de los horarios generados, asegurando que se cumplan las reglas fundamentales del calendario académico de la universidad.
 
 \subsubsection{Programación lineal/Programación entera}
-La programación lineal y la programación entera son técnicas de investigación de operaciones que permiten modelar problemas de optimización mediante funciones objetivo lineales y restricciones lineales (con variables continuas en PL y enteras o binarias en PE) \parencite{Winston2004}.
+La programación lineal\footnote{La \textbf{programación lineal (PL)} es un método matemático para optimizar (maximizar o minimizar) una función objetivo lineal, sujeta a un conjunto de restricciones lineales (igualdades y desigualdades).} y la programación entera\footnote{La \textbf{programación entera (PE)} es un tipo de problema de optimización matemática en el que algunas o todas las variables están restringidas a ser números enteros.
+Es una extensión de la programación lineal.} son técnicas de investigación de operaciones que permiten modelar problemas de optimización mediante funciones objetivo lineales y restricciones lineales (con variables continuas en PL y enteras o binarias en PE) \parencite{Winston2004}.
 La generación de horarios puede formularse como un problema de PE, donde las variables representan decisiones de asignación (e.g., si una clase se asigna a un horario específico) y el objetivo es optimizar alguna métrica (minimizar huecos, maximizar preferencias) sujeto a las restricciones académicas.
 Aunque computacionalmente intensivos, pueden garantizar soluciones óptimas para instancias de tamaño moderado.
 
@@ -16,12 +19,13 @@ Aunque computacionalmente intensivos, pueden garantizar soluciones óptimas para
 
 En el contexto de la generación de horarios académicos, una heurística es una regla práctica, estrategia o método utilizado para encontrar un horario factible, aunque no necesariamente óptimo.
 El problema de crear un horario universitario es notoriamente complejo.
-El número de horarios posibles crece exponencialmente con el número de cursos, profesores, aulas e intervalos de tiempo.
-Encontrar un horario óptimo (uno que satisfaga todas las restricciones y maximice alguna función objetivo como minimizar los conflictos de los estudiantes o las preferencias del profesorado) es a menudo computacionalmente intratable, especialmente para instituciones grandes.
+El número de horarios posibles crece exponencialmente\footnote{Un crecimiento \textbf{exponencial} significa que la cantidad aumenta multiplicándose por un factor constante en cada intervalo de tiempo o paso, llevando a un aumento muy rápido.} con el número de cursos, profesores, aulas e intervalos de tiempo.
+Encontrar un horario óptimo es a menudo computacionalmente intratable\footnote{\textbf{Computacionalmente intratable} se refiere a un problema que no puede ser resuelto por ningún algoritmo en un tiempo razonable (generalmente tiempo polinomial) a medida que el tamaño de la entrada del problema crece.}, especialmente para instituciones grandes.
 Por lo tanto, los algoritmos heurísticos son cruciales para abordar este desafío.
 
 \paragraph{Conclusión}
-, la generación de horarios se desarrollará utilizando el algoritmo heurístico de Yule \cite{Yule1969}. Este algoritmo tiene las siguientes características:
+, la generación de horarios se desarrollará utilizando el algoritmo heurístico de Yule \cite{Yule1969}.
+Este algoritmo tiene las siguientes características:
 
 \begin{enumerate}[label=\alph*.]
     \item \textbf{Asignación Basada en Restricciones (Constraint-Based Allocation)}: El algoritmo de Yule enfatiza el manejo efectivo de las restricciones.
@@ -49,8 +53,8 @@ Por lo tanto, los algoritmos heurísticos son cruciales para abordar este desaf�
 	Estas matrices permiten al algoritmo verificar rápidamente los conflictos y determinar franjas horarias factibles.
 	La Fórmula 1 calcula la disponibilidad de línea, las Fórmulas 2 y 3 prueban los tiempos disponibles, y la Fórmula 4 actualiza las matrices.
 
-    \item \textbf{Heurística de Disponibilidad de Línea (Line Availability Heuristic):} El concepto de una "línea de requerimiento" (una única fila en la estructura de datos de Yule que representa una clase, un profesor y posiblemente un aula) es clave.
-	El algoritmo se enfoca en asignar líneas de requerimiento completas de una vez, lo que simplifica el problema y asegura que todos los componentes de un curso (profesor, clase, aula) se consideren juntos.
+    \item \textbf{Heurística de Disponibilidad de Línea (Line Availability Heuristic):} El concepto de una "línea de requerimiento"\footnote{Una \textbf{"línea de requerimiento"} en el contexto del algoritmo de Yule es una estructura de datos que representa una unidad de programación, como una clase específica con su profesor y aula asignados (o por asignar).} es clave.
+    El algoritmo se enfoca en asignar líneas de requerimiento completas de una vez, lo que simplifica el problema y asegura que todos los componentes de un curso (profesor, clase, aula) se consideren juntos.
 
     \item \textbf{Manejo de Preferencias (Preference Handling):} El algoritmo de Yule incorpora las preferencias del profesorado por franjas horarias o días libres específicos.
 	Estas preferencias se tratan como restricciones "blandas"; el algoritmo intenta satisfacerlas, pero las violará si es necesario para lograr un horario factible.
@@ -93,8 +97,8 @@ Donde:
     \item \( S_i \) es el conjunto de clases, profesores y aulas involucrados en el \( i \)-ésimo requerimiento.
     \item \( _jC_{dp} \) es un elemento de la matriz de disponibilidad \( C \) para el elemento \( j \) (clase, profesor o aula) que indica si el elemento \( j \) no está disponible (1) o está disponible (0) en el período \( p \) del día \( d \).
     \item El símbolo \(\bigvee\) denota la operación OR lógica (unión en el artículo original).
-	La expresión \(\bigvee_{j \in S_i} (_jC_{dp})\) calcula la unión de las disponibilidades para todos los elementos en el conjunto \( S_i \).
-	Si algún elemento no está disponible, el resultado será 1, lo que significa que la franja horaria generalmente no está disponible.
+    La expresión \(\bigvee_{j \in S_i} (_jC_{dp})\) calcula la unión de las disponibilidades para todos los elementos en el conjunto \( S_i \).
+    Si algún elemento no está disponible, el resultado será 1, lo que significa que la franja horaria generalmente no está disponible.
     \item \( _zC'_{p} \) es un elemento del vector \( C' \), que limita las horas del día en las que pueden comenzar las clases de múltiples períodos.
     \item La fórmula completa calcula si una franja horaria no está disponible porque un elemento en el requerimiento \( S_i \) no está disponible o el período \( p \) no es adecuado para una clase de duración \( z_i \).
 \end{itemize}
@@ -118,7 +122,8 @@ Donde:
 \begin{itemize}
     \item \( k = p + z_i - 1 \), donde \( z_i \) es la duración de la clase (número de períodos).
     \item La fórmula prueba si hay un bloque continuo de franjas horarias disponibles para una clase de múltiples períodos de duración \( z_i \) que comienza en el período \( p \).
-    \item Cada término \( _iE_{d,p+n} \) para \( n \) en el rango de \( 0 \) a \( z_i-1 \) representa la disponibilidad del período \( p+n \). El término \( (_iE_{d,p+n} \wedge 1) \) enmascara eficazmente cualquier bit en \( _iE_{d,p+n} \) excepto el bit menos significativo, que representa la disponibilidad en el sentido más básico.
+    \item Cada término \( _iE_{d,p+n} \) para \( n \) en el rango de \( 0 \) a \( z_i-1 \) representa la disponibilidad del período \( p+n \).
+    El término \( (_iE_{d,p+n} \wedge 1) \) enmascara eficazmente cualquier bit en \( _iE_{d,p+n} \) excepto el bit menos significativo, que representa la disponibilidad en el sentido más básico.
     \item Si el OR lógico de estos términos es igual a 0, entonces todos los períodos en el bloque están disponibles y la clase puede ser programada.
 \end{itemize}
 

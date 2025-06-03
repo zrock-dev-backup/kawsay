@@ -3,12 +3,14 @@ La arquitectura backend define la estructura interna del servidor, la lógica de
 Una arquitectura bien diseñada facilita la evolución del sistema y la integración de nuevas funcionalidades, como el módulo de predicción de horarios con ML, asegurando que la gestión del calendario académico sea robusta y eficiente \parencite{Richards2015}.
 
 \subsubsection{Microservicios}
-La arquitectura de microservicios estructura una aplicación como una colección de servicios pequeños, autónomos y débilmente acoplados, cada uno enfocado en una capacidad de negocio específica y comunicándose a través de APIs (\textit{Application Programming Interfaces}) ligeras, usualmente sobre \texttt{HTTP} \parencite{Newman2015}.
+La arquitectura de microservicios estructura una aplicación como una colección de servicios pequeños, autónomos y débilmente acoplados\footnote{El \textbf{acoplamiento débil} (loose coupling) en diseño de software es un enfoque donde los componentes de un sistema tienen poca o ninguna dependencia directa entre sí.
+Esto permite que los cambios en un componente tengan un impacto mínimo en otros.}, cada uno enfocado en una capacidad de negocio específica y comunicándose a través de APIs (\textit{Application Programming Interfaces}) ligeras, usualmente sobre \texttt{HTTP} \parencite{Newman2015}.
 Adoptar microservicios para el sistema de gestión académica permitiría desarrollar, desplegar y escalar independientemente componentes como la gestión de cursos, la generación de horarios, la predicción de elegibilidad y la gestión de usuarios, aumentando la resiliencia y flexibilidad del sistema global en Jala University.
 
 \subsubsection{Arquitectura Limpia}
 La Arquitectura Limpia, propuesta por Robert C.
-Martin, es un conjunto de principios de diseño de software que promueve la separación de intereses y la independencia de frameworks, UI y bases de datos, organizando el código en capas concéntricas (Entidades, Casos de Uso, Adaptadores de Interfaz, Frameworks y Drivers) \parencite{Martin2017}.
+Martin, es un conjunto de principios de diseño de software que promueve la separación de intereses\footnote{La \textbf{separación de intereses (Separation of Concerns - SoC)} es un principio de diseño para separar un programa informático en distintas secciones, de modo que cada sección aborde una preocupación o aspecto distinto.
+Esto mejora la modularidad y la mantenibilidad.} y la independencia de frameworks, UI y bases de datos, organizando el código en capas concéntricas (Entidades, Casos de Uso, Adaptadores de Interfaz, Frameworks y Drivers) \parencite{Martin2017}.
 Aplicar Clean Architecture en el backend asegura que la lógica de negocio central (reglas académicas, algoritmos de predicción y generación de horarios) esté aislada de detalles externos, facilitando las pruebas, la mantenibilidad y la adaptabilidad a cambios tecnológicos futuros.
 
 \begin{figure}
@@ -25,6 +27,9 @@ Aplicar Clean Architecture en el backend asegura que la lógica de negocio centr
 Las capas en la Figura~\ref{fig:cleanCodeBlog} muestran claramente la separación de la lógica y la separación de responsabilidades, lo que permite un diseño de sistema altamente cohesivo y débilmente acoplado.
 
 
-\subsubsection{Diseño Guiado por el Dominio}
-El Diseño Guiado por el Dominio (DDD) es un enfoque para el desarrollo de software complejo que se centra en modelar el dominio del negocio (en este caso, la gestión del calendario académico y la predicción de elegibilidad en Jala University) y plasmar ese modelo en el código, utilizando un lenguaje ubicuo compartido entre expertos del dominio y desarrolladores \parencite{Evans2003}.
-DDD ayuda a gestionar la complejidad mediante conceptos como Entidades, Objetos Valor, Agregados, Repositorios y Servicios de Dominio, asegurando que el software refleje fielmente las reglas y procesos académicos.
+% \subsubsection{Diseño Guiado por el Dominio}
+% El Diseño Guiado por el Dominio (DDD) es un enfoque para el desarrollo de software complejo que se centra en modelar el dominio del negocio (en este caso, la gestión del calendario académico y la predicción de elegibilidad en Jala University) y plasmar ese modelo en el código, utilizando un lenguaje ubicuo\footnote{El \textbf{lenguaje ubicuo (ubiquitous language)} en DDD es un lenguaje común y compartido desarrollado por el equipo (desarrolladores, expertos del dominio, usuarios) para describir todos los aspectos del dominio del software.
+% Ayuda a evitar malentendidos y a asegurar que el modelo de software refleje fielmente el negocio.} compartido entre expertos del dominio y desarrolladores \parencite{Evans2003}.
+% DDD ayuda a gestionar la complejidad mediante conceptos como Entidades, Objetos Valor, Agregados\footnote{Un \textbf{Agregado (Aggregate)} en DDD es un clúster de entidades y objetos valor que se tratan como una única unidad conceptual.
+% Tiene una raíz (la Entidad Raíz del Agregado) que es el único punto de entrada para acceder o modificar el agregado.}, Repositorios\footnote{Un \textbf{Repositorio (Repository)} en DDD es un patrón de diseño que media entre el dominio y las capas de mapeo de datos, utilizando una interfaz similar a una colección para acceder a los objetos del dominio.} y Servicios de Dominio\footnote{Un \textbf{Servicio de Dominio (Domain Service)} en DDD encapsula lógica de dominio que no encaja naturalmente dentro de una entidad u objeto valor.
+% Representa una operación o proceso significativo en el dominio.}, asegurando que el software refleje fielmente las reglas y procesos académicos.

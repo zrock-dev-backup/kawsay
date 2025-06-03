@@ -9,7 +9,8 @@ Podría utilizarse para gestionar el backlog del producto, planificar sprints, a
 Taskwarrior es una herramienta de gestión de tareas de código abierto y basada en línea de comandos, que permite organizar listas de tareas pendientes de forma eficiente y flexible \parencite{Taskwarrior}.
 Es una opción potente para desarrolladores que prefieren trabajar en la terminal, aunque requiere una curva de aprendizaje y es más adecuada para la gestión individual de tareas dentro del proyecto.
 
-Como se observa en la Figura~\ref{fig:taskWarriorTaskOutput}, Taskwarrior mantiene metadatos de cada tarea, lo que permite el postprocesamiento para crear gráficos de trabajo pendiente (burndown charts) y es posible agregar ADU \footnote{Atributo Definido por el Usuario (ADU): TaskWarrior permite al usuario definir atributos.} para una mejor personalización.
+Como se observa en la Figura~\ref{fig:taskWarriorTaskOutput}, Taskwarrior mantiene metadatos de cada tarea, lo que permite el postprocesamiento\footnote{El \textbf{postprocesamiento} se refiere al procesamiento de datos que se realiza después de que han sido generados o recopilados.
+En este caso, sería analizar los datos de Taskwarrior para crear visualizaciones o informes adicionales.} para crear gráficos de trabajo pendiente (burndown charts) y es posible agregar ADU \footnote{Un \textbf{Atributo Definido por el Usuario (ADU)} permite al usuario definir atributos.} para una mejor personalización.
 
 \begin{figure}
 	\caption{Ejemplo de salida de Taskwarrior}\label{fig:taskWarriorTaskOutput}
@@ -31,8 +32,8 @@ Estimate           45
 \end{figure}
 
 \subsubsection{Taiga}
-Taiga es una plataforma de gestión de proyectos ágil, de código abierto y centrada en Scrum y Kanban, que ofrece tableros visuales, gestión de backlogs, seguimiento de issues y wikis \parencite{Taiga}.
-Representa una alternativa open-source a herramientas como Jira o ClickUp, adecuada para equipos que buscan una solución auto-alojada o gratuita para implementar Scrum o Scrumban en el desarrollo del proyecto.
+Taiga es una plataforma de gestión de proyectos ágil, de código abierto y centrada en Scrum y Kanban, que ofrece tableros visuales, gestión de backlogs, seguimiento de issues\footnote{Un \textbf{issue} (incidencia o problema) en el contexto de la gestión de proyectos de software es una unidad de trabajo para rastrear una tarea, mejora, error o cualquier otro elemento que necesite ser abordado.} y wikis \parencite{Taiga}.
+Representa una alternativa open-source a herramientas como Jira o ClickUp, adecuada para equipos que buscan una solución auto-alojada o gratuita para implementar metodologias agiles en el desarrollo del proyecto.
 
 \paragraph{Conclusión:}
 Para el desarrollo del sistema se utilizarán TaskWarrior y Taiga.

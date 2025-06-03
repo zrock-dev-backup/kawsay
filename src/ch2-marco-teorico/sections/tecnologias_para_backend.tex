@@ -5,20 +5,30 @@ La elección de las tecnologías para el backend es crucial, ya que impacta dire
 La selección del lenguaje de programación para el backend depende de factores como el rendimiento requerido, el ecosistema de librerías disponibles (especialmente para ML y web), la experiencia del equipo y la compatibilidad con la infraestructura existente.
 
 \paragraph{C\#}
-es un lenguaje de programación moderno, orientado a objetos y fuertemente tipado, desarrollado por Microsoft y ejecutado sobre la plataforma \texttt{.NET}.
-Ofrece un ecosistema robusto para el desarrollo web (\texttt{ASP.NET Core}), buen rendimiento y herramientas maduras, además de contar con librerías para ML (\texttt{ML.NET}), lo que lo convierte en una opción viable y productiva para construir los servicios backend del sistema \parencite{MicrosoftCSharp}.
+Es un lenguaje de programación moderno, orientado a objetos y fuertemente tipado, desarrollado por Microsoft y ejecutado sobre la plataforma \texttt{.NET}\footnote{La \textbf{plataforma .NET} es un marco de desarrollo de software gratuito y de código abierto para crear diferentes tipos de aplicaciones, como web, móviles, de escritorio, juegos e IoT.
+Desarrollado por Microsoft, incluye lenguajes como C\#, F\# y VB.NET, y un amplio conjunto de bibliotecas y herramientas.}.
+Ofrece un ecosistema robusto para el desarrollo web (\texttt{ASP.NET Core}\footnote{\textbf{ASP.NET Core} es un framework de código abierto y multiplataforma para crear aplicaciones web modernas, basadas en la nube y conectadas a Internet, desarrollado por Microsoft.
+Es una reescritura de ASP.NET y funciona sobre .NET Core o .NET Framework.}), buen rendimiento y herramientas maduras.
 
 \paragraph{Python}
-es un lenguaje interpretado, dinámico y multipropósito, extremadamente popular en el ámbito de la ciencia de datos y el Machine Learning gracias a su sintaxis sencilla y a un vasto ecosistema de librerías especializadas (como \texttt{Scikit-learn}, \texttt{TensorFlow}, \texttt{PyTorch}) \parencite{PythonSoftwareFoundation}.
+es un lenguaje interpretado, dinámico y multipropósito, extremadamente popular en el ámbito de la ciencia de datos y el Machine Learning gracias a su sintaxis sencilla y a un vasto ecosistema de librerías especializadas como \texttt{Scikit-learn}\footnote{\textbf{Scikit-learn} es una popular biblioteca de machine learning de código abierto para Python.
+Proporciona herramientas simples y eficientes para el análisis predictivo de datos, construida sobre NumPy, SciPy y matplotlib.}.
 Su facilidad de uso y las potentes capacidades para ML lo hacen ideal para desarrollar el servicio de predicción de elegibilidad, pudiendo integrarse con otros servicios backend desarrollados en \texttt{C\#} u otros lenguajes a través de APIs.
 
 \subsubsection{Bases de datos}
 La elección de la base de datos adecuada es fundamental para almacenar y recuperar eficientemente la información académica, los horarios generados, los datos de entrenamiento para ML y la configuración del sistema.
 
 \paragraph{Relacionales}
-Las bases de datos relacionales (como \texttt{PostgreSQL}, \texttt{SQL Server}, \texttt{MySQL}) organizan los datos en tablas con esquemas predefinidos y utilizan \texttt{SQL} (Structured Query Language) para las consultas, garantizando la consistencia de los datos a través de transacciones \texttt{ACID} \parencite{Date2003}.
+Las bases de datos relacionales (como \texttt{PostgreSQL}\footnote{\textbf{PostgreSQL} es un potente sistema de gestión de bases de datos relacionales de objetos de código abierto, conocido por su fiabilidad, robustez de características y rendimiento.}, \texttt{SQL Server}\footnote{\textbf{SQL Server} es un sistema de gestión de bases de datos relacionales desarrollado por Microsoft.
+Ofrece una amplia gama de herramientas de análisis de datos, generación de informes e integración.}, \texttt{MySQL}\footnote{\textbf{MySQL} es un popular sistema de gestión de bases de datos relacionales de código abierto, ampliamente utilizado en aplicaciones web y como parte de la pila de software LAMP (Linux, Apache, MySQL, PHP/Python/Perl).}) organizan los datos en tablas con esquemas predefinidos y utilizan \texttt{SQL} (Structured Query Language)\footnote{\textbf{SQL (Structured Query Language)} es un lenguaje estándar utilizado para gestionar y manipular bases de datos relacionales.
+Permite realizar consultas, insertar, actualizar y eliminar datos, así como definir y modificar la estructura de la base de datos.} para las consultas, garantizando la consistencia de los datos a través de transacciones \texttt{ACID} \parencite{Date2003}.
 Son ideales para almacenar datos estructurados con relaciones bien definidas, como la información de cursos, estudiantes, profesores y asignaciones académicas, que forman el núcleo del sistema de gestión del calendario academíco.
 
 \paragraph{No relacionales}
-Las bases de datos \texttt{NoSQL} (Not Only SQL) ofrecen modelos de datos más flexibles (documental, clave-valor, columnar, grafo) y suelen priorizar la escalabilidad y la disponibilidad sobre la consistencia estricta (modelo \texttt{BASE}) \parencite{SadalegeFowler2012}.
+Las bases de datos \texttt{NoSQL} (Non SQL) ofrecen modelos de datos más flexibles que los relacionales tradicionales. Estos modelos incluyen:
+el documental, donde una \textbf{base de datos documental} (un tipo de base de datos NoSQL) almacena datos en forma de documentos, a menudo en formato JSON o BSON, y cada documento es una estructura de datos auto-contenida;
+el de clave-valor, en el que una \textbf{base de datos clave-valor} (un tipo simple de base de datos NoSQL) almacena datos como una colección de pares clave-valor, donde cada clave es única;
+el columnar, mediante el cual una \textbf{base de datos columnar} almacena datos en columnas en lugar de filas, lo que puede ser más eficiente para ciertas cargas de trabajo analíticas donde se accede a subconjuntos de columnas;
+y el de grafos, implementado por una \textbf{base de datos de grafos} que utiliza nodos, ejes y propiedades para representar y almacenar datos, resultando ideal para modelar relaciones complejas entre entidades.
+Estos diversos modelos \texttt{NoSQL} suelen priorizar la escalabilidad y la disponibilidad sobre la consistencia estricta (modelo \texttt{BASE}) \parencite{SadalegeFowler2012}.
 Podrían ser útiles para almacenar datos menos estructurados o de gran volumen, como logs del sistema, resultados intermedios de la generación de horarios, o quizás para perfiles de usuario o configuraciones flexibles, complementando a la base de datos relacional principal.
