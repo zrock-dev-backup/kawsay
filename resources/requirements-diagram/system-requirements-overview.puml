@@ -1,0 +1,24 @@
+--- START OF FILE system-requirements-overview.puml ---
+@startuml
+!include style.puml
+
+title System Requirements Model (Scenario-Based View)
+footer End-to-End System Requirements
+
+' --- Include all functional area packages --- '
+!include core-academic-objects.puml
+!include end-of-module-processing.puml
+!include individual-enrollment-management.puml
+!include predictive-analytics.puml
+
+
+' --- Define high-level relationships between the packages --- '
+' The workflows USE the core objects '
+pkg_EOM_Processing ..> pkg_CoreObjects : <<uses>>
+pkg_Individual_Enrollment ..> pkg_CoreObjects : <<uses>>
+
+' The predictive analytics package ENHANCES the end-of-module process '
+pkg_Predictive_Analytics ..> pkg_EOM_Processing : <<enhances>>
+
+
+@enduml

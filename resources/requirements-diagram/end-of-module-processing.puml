@@ -1,0 +1,29 @@
+--- START OF FILE end-of-module-processing.puml ---
+@startuml
+package "End-of-Module Processing" as pkg_EOM_Processing {
+    stereotype "End Module Trigger" AS module_end {
+        {field} overview: Registrar can mark a module as "Ended", which initiates the entire end-of-module workflow.
+    }
+    stereotype "Grade Ingestion & Synchronization" AS grade_ingestion {
+        {field} overview: The system will ingest student grades from the SIS or a Teacher-provided source to serve as the data foundation for student segmentation.
+    }
+    stereotype "Student Cohort Segmentation" AS cohort_segmentation {
+        {field} overview: Upon module end, the system automatically processes ingested grades to segment students into "Ready for Advancement" and "Requires Retake" cohorts.
+    }
+    stereotype "Guided Bulk Advancement" AS bulk_advancement {
+        {field} overview: For the 'Ready for Advancement' cohort, the system will propose and pre-validate enrollment into the next logical courses for one-click confirmation by the Registrar.
+    }
+    stereotype "Retake Enrollment Management" AS retake_mgmt {
+        {field} overview: For the 'Requires Retake' cohort, the system will aggregate demand per course and guide the Registrar through creating retake classes and bulk-enrolling students.
+    }
+     stereotype "Ad-Hoc Class Creation" AS custom_class {
+        {field} overview: I as registrar want to create a non-standard class to accommodate special circumstances, such as student retakes or special program needs.
+    }
+
+    module_end <.. grade_ingestion : <<triggers>>
+    grade_ingestion <.. cohort_segmentation : <<enables>>
+    cohort_segmentation +-- bulk_advancement
+    cohort_segmentation +-- retake_mgmt
+    retake_mgmt ..> custom_class : <<uses>>
+}
+@enduml

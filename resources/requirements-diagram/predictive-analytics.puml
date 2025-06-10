@@ -1,0 +1,27 @@
+--- START OF FILE predictive-analytics.puml ---
+@startuml
+package "Predictive Analytics & Planning" as pkg_Predictive_Analytics {
+    package "Phase 1: Foundation" {
+        stereotype "Data Collection for Predictive Analytics" AS pa_foundation {
+            {field} overview: The system must be capable of capturing and storing in-progress student academic data to serve as the foundation for a future forecasting model.
+        }
+        stereotype "In-Progress Grade API Endpoint" AS api_endpoint {
+            {field} overview: The system must expose a secure API endpoint to allow authorized systems to submit in-progress academic data points.
+        }
+        pa_foundation +-- api_endpoint
+    }
+    package "Phase 2: Forecasting" {
+        stereotype "Course Pass/Fail Forecasting Hint" AS ml_forecasting_hint {
+            {field} overview: The system will provide a predictive forecast of a student's final pass/fail status to support provisional planning.
+        }
+        stereotype "Model Explainability" AS nfr_explainability <<NFR>> {
+            {field} overview: The system must expose the key drivers for each prediction. It cannot be a "black box".
+        }
+        stereotype "Manual Override & Justification" as ml_manual_override {
+            {field} overview: The Registrar must have the ability to manually override the system's forecasted eligibility status for a student with justification.
+        }
+        ml_forecasting_hint +-- ml_manual_override
+        ml_forecasting_hint ..> nfr_explainability : <<satisfy>>
+    }
+}
+@enduml

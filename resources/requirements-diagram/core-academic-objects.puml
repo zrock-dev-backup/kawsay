@@ -1,0 +1,42 @@
+--- START OF FILE core-academic-objects.puml ---
+@startuml
+package "Core Academic Objects" as pkg_CoreObjects {
+    package "Student Management" {
+        stereotype "Student Profile Management" AS stu_mgmt {
+            {field} overview: Registrar can create, view, update, and manage student profiles and academic records.
+        }
+    }
+    package "Teacher Management" {
+        stereotype "Teacher Profile Management" AS teach_mgmt {
+            {field} overview: Registrar can create, view, update, and manage profiles for professors and faculty practitioners.
+        }
+    }
+    package "Course Management" {
+        stereotype "Course Catalog Management" AS course_mgmt {
+            {field} overview: Registrar can manage the course catalog, including creating courses and defining their dependencies.
+        }
+        stereotype "Course Dependency" AS course_dependency {
+             {field} overview: I as a registrar want to register that a course depends in other courses.
+        }
+        course_mgmt +-- course_dependency
+    }
+    package "Class Management" {
+        stereotype "Class Section Management" AS class_mgmt {
+            {field} overview: Registrar can manage class sections for a course, including assigning teachers and defining basic attributes.
+        }
+    }
+    package "Timetable Management" {
+        stereotype "Master Timetable Management" AS timetable_mgmt {
+            {field} overview: Registrar can create and manage the master academic timetable for a module.
+        }
+    }
+    package "Non-Functional Requirements" {
+         stereotype "FERPA compliance" {
+            {field} overview: When producing reports, system should comply with FERPA alignments taking into account which user is trying to access which records.
+        }
+        stereotype "Dark mode" {
+            {field} overview: Switch to dark mode
+        }
+    }
+}
+@enduml

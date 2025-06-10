@@ -1,0 +1,24 @@
+--- START OF FILE individual-enrollment-management.puml ---
+@startuml
+package "Individual Enrollment Management" as pkg_Individual_Enrollment {
+    stereotype "Student Academic Plan View" AS stu_plan_view {
+        {field} overview: As a registrar, I want to view a student's academic plan to see which courses are required, completed, and available to be taken next.
+    }
+    stereotype "Real-time Eligibility Check" AS student_eligibilityStatus {
+        {field} overview: As courses are selected for enrollment, the system provides real-time feedback on prerequisite compliance and timetable availability.
+    }
+    stereotype "Pre-Enrollment Validation" AS pre_enroll_validation {
+        {field} overview: Before finalizing an enrollment, the system runs a validation check on the student's entire proposed schedule to preview any issues.
+    }
+    stereotype "Forced Enrollment" AS enrollment_forced {
+        {field} overview: Registrar can forcibly enroll a student to bypass a system rule, with mandatory justification.
+    }
+    stereotype "Enrollment Conflict Notification" AS notifications {
+        {field} overview: The system will notify the Registrar of any rule violations or conflicts during the enrollment process.
+    }
+
+    student_eligibilityStatus <.. stu_plan_view : <<uses>>
+    pre_enroll_validation <.. student_eligibilityStatus : <<uses>>
+    enrollment_forced <.. notifications : <<triggers>>
+}
+@enduml
