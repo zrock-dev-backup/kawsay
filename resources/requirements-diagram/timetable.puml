@@ -26,6 +26,10 @@ package "Timetable" {
         {field} overview: As a registrar want to choose a data range for the duration of the timetable so that I can see the timetable by week.
     }
 	timetable_datePicker +-- timetable_weekView
+    stereotype "Timetable creation" AS timetable_creation {
+		{field} id:
+        {field} overview: As a Registrar, I want to create a timetable so that I can schedule classes and assign resources
+    }
     stereotype "Timetable management" AS timetable_mgmt {
         {field} overview: I as a registrar want to create a module timetable.
 
@@ -33,5 +37,10 @@ package "Timetable" {
     }
 	timetable_mgmt <.. module_population: <<drvReqt>>
 	timetable_mgmt +-- timetable_datePicker
+	timetable_mgmt +-- timetable_creation
 }
 @enduml
+    stereotype "" AS {
+		{field} id:
+        {field} overview:
+    }

@@ -48,6 +48,9 @@ package "Student management" AS pck_student_mgmt{
         {field} overview: As a registrar I want to see the profile of each student.
         {field} data: {name, emailAddress, {[enrolled courses, sections and groups]}, cohort}
     }
+    stereotype "Student Academic Plan View" AS stu_plan_view {
+        {field} overview: As a registrar, I want to view a student's academic plan to see which courses are required, which are completed, and which are available to be taken next. This view should clearly distinguish between mandatory courses and electives.
+    }
     stereotype "Grading" AS grading {
         {field} overview: SAP and GPA are grading scales to evaluate a student. System should allow registrar office to browse one or many student grading.
     }
@@ -71,9 +74,7 @@ package "Student management" AS pck_student_mgmt{
     stu_mgmt +-- grading
     stu_mgmt +-- stu_c
 	stu_mgmt +-- reg_track
+    stu_mgmt +-- stu_plan_view
 }
 
 @enduml
-    stereotype "" {
-        {field} overview:
-    }

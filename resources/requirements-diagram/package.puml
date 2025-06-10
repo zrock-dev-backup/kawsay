@@ -10,6 +10,7 @@ footer SySML requirements diagram
 !include timetable.puml
 !include class.puml
 !include enrollment-analysis.puml
+!include predictive_analytics.puml
 
 package "Reports" {
     ' OUTPUT

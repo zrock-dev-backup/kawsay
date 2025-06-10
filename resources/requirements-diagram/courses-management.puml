@@ -23,11 +23,11 @@ package "Enrollment" AS pkg_enrollment {
     stereotype "Student selection" AS student_selection {
         {field} overview: I as registrar want to select a student from a list, so that him/her would be enrolled to it.
     }
-    stereotype "Collect list of failed students" {
-        {field} overview:
+    stereotype "Grade Ingestion & Synchronization" AS grade_ingestion {
+        {field} overview: The system will ingest student grades from the SIS or a Teacher-provided source. This process is triggered when a module is marked as 'Ended' and serves as the data foundation for student segmentation.
     }
-    stereotype "Automatically advance students to next course" {
-        {field} overview:
+    stereotype "Retake Enrollment Management" AS retake_mgmt {
+        {field} overview: For the 'Requires Retake' cohort, the system will aggregate demand per course and guide the Registrar through creating the necessary retake classes and bulk-enrolling the cohort.
     }
     stereotype "Enrollment compliance" AS enrollment_compliance {
         {field} overview: Ensure student is enrolled in 3 courses, taking into account ESP
@@ -45,14 +45,15 @@ package "Enrollment" AS pkg_enrollment {
     }
 	enrollment +-- enrollment_forced
 	enrollment +-- notifications
+    enrollment +-- retake_mgmt
 }
 
-package "Module report" AS module {
-    stereotype "Auto student advance" AS module_autoAdvance {
-        {field} overview: I as registrar want to automatically advance students
+package "Module Report" AS module {
+    stereotype "Guided Bulk Advancement" AS module_autoAdvance {
+        {field} overview: For the 'Ready for Advancement' cohort, the system will propose and pre-validate enrollment into the next logical courses based on the academic map. The Registrar can confirm the bulk enrollment in a single action.
     }
-    stereotype "Student list" AS module_studentView {
-        {field} overview: I as registrar want a list of students in two groups, passed and failed.
+    stereotype "Student Cohort Segmentation" AS module_studentView {
+        {field} overview: Upon module end, the system will automatically process ingested grades to segment students into two cohorts: 'Ready for Advancement' and 'Requires Retake'.
     }
     stereotype "End module button" AS module_end {
         {field} overview: Press button to mark module as ended. This is the first step of new module process.
@@ -60,10 +61,10 @@ package "Module report" AS module {
     stereotype "Module student management" AS module_mgmt {
         {field} overview: I as Registrar want a view to manage the students.
     }
+    module_mgmt +-- module_studentView
+    module_mgmt +-- module_autoAdvance
+    module_studentView <.. grade_ingestion : <<drvReqt>>
+    module_end <.. grade_ingestion : <<drvReqt>>
 }
 
 @enduml
-    stereotype "" AS {
-		{field} id:
-        {field} overview:
-    }

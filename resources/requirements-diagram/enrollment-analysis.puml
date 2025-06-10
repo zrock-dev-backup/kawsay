@@ -19,11 +19,14 @@ package "Enrollment Analysis" AS pk_enrollmentAnalysis {
         {field} overview: I as a registrar want the sytem to notify me if a student doesn't have the necessary courses required to take the course.
     }
 	eligibility_courseDepedency <.. eligibility_forecasting
+    stereotype "Pre-Enrollment Validation" AS pre_enroll_validation {
+        {field} overview: As a registrar, before finalizing an enrollment, I want the system to run a validation check that simulates the enrollment and previews any resulting issues, such as timetable clashes, prerequisite violations, or credit load warnings.
+    }
     stereotype "Student eligibility status" AS student_eligibilityStatus {
         {field} overview: I as registrar want to have a view of a student eligibility, showing timeslot availability and pre-requisite course.
     }
 	student_eligibilityStatus +-- eligibility_courseDepedency
 	student_eligibilityStatus +-- clash_studentEnrollment
+    student_eligibilityStatus +-- pre_enroll_validation
 }
 @enduml
-
