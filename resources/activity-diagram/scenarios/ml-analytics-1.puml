@@ -1,0 +1,42 @@
+@startuml
+title Activity Diagram: Scenario 5 - Data Ingestion for Predictive Analytics (Phase 1)
+
+header
+  <font size=14><b>Process Boundary Conditions</b></font>
+  --
+  <font color=blue><b>Pre-condition:</b></font>
+  - The secure API endpoint for in-progress grades is active.
+  - An external system is authorized to submit data.
+endheader
+
+footer
+  <font color=green><b>Post-condition:</b></font>
+  - Valid in-progress academic data is securely stored.
+  - Invalid submissions are rejected and logged.
+endfooter
+
+skinparam activity {
+    BackgroundColor<<System>> LightBlue
+    BorderColor<<System>> #0000FF
+    BackgroundColor<<External>> LightGrey
+    BorderColor<<External>> #696969
+}
+
+|External System|
+start
+:Sends API request with\nin-progress grade data;
+
+|System| <<System>>
+:Receives API request;
+:Validates data payload\n(student ID, course ID, score format, etc.);
+
+if (Data is valid?) then (yes)
+  :Saves data to the database;
+  :Returns "Success" response to API caller;
+else (no)
+  :Logs the validation error;
+  :Returns "Error" response with details to API caller;
+endif
+
+stop
+@enduml

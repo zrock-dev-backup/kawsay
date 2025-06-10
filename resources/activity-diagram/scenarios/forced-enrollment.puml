@@ -1,0 +1,49 @@
+@startuml
+title Activity Diagram: Scenario 4 - Forced Enrollment with Justification
+
+header
+  <font size=14><b>Process Boundary Conditions</b></font>
+  --
+  <font color=blue><b>Pre-condition:</b></font>
+  - Registrar is performing a manual enrollment.
+  - An authorized decision has been made to grant an exception.
+endheader
+
+footer
+  <font color=green><b>Post-condition:</b></font>
+  - The student is enrolled, bypassing the specific rule.
+  - An immutable audit log of the override action is created.
+endfooter
+
+skinparam activity {
+    BackgroundColor<<System>> LightBlue
+    BorderColor<<System>> #0000FF
+    BackgroundColor<<Registrar>> Beige
+    BorderColor<<Registrar>> #8B4513
+}
+
+|Registrar|
+start
+:Attempts to enroll student in a course;
+
+|System| <<System>>
+if (Rule violation detected?) then (yes)
+  :Blocks the enrollment action;
+  :Displays a notification explaining the violation\n(e.g., "Prerequisite not met");
+  |Registrar|
+  :Activates the "Force Enrollment" option;
+  |System| <<System>>
+  :Presents a mandatory justification dialog;
+  |Registrar|
+  :Selects a reason from a list and adds a note;
+  :Confirms the override;
+  |System| <<System>>
+  :Bypasses the rule and enrolls the student;
+  :Creates a detailed entry in the audit log;
+else (no)
+  :Enrolls the student normally;
+endif
+|System| <<System>>
+:Displays confirmation of the enrollment;
+stop
+@enduml

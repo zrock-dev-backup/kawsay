@@ -1,0 +1,66 @@
+@startuml
+title Activity Diagram: Managing Retake Enrollment
+
+header
+  <font size=14><b>Process Boundary Conditions</b></font>
+  --
+  <font color=blue><b>Pre-condition:</b></font>
+  - Previous module's grades are finalized.
+  - System has generated a list of students requiring retakes.
+endheader
+
+footer
+  <font color=green><b>Post-condition:</b></font>
+  - All students in the initial cohort are either enrolled in a retake class or are on an exception list for manual resolution.
+  - The master timetable is updated with all new retake classes.
+endfooter
+
+skinparam activity {
+    BackgroundColor<<System>> LightBlue
+    BorderColor<<System>> #0000FF
+    BackgroundColor<<Registrar>> Beige
+    BorderColor<<Registrar>> #8B4513
+}
+skinparam note {
+    BackgroundColor LightYellow
+    BorderColor #A0A0A0
+}
+
+|Registrar|
+start
+:Accesses the "Retake Management" view;
+
+|System| <<System>>
+:Analyzes cohort list to aggregate demand per course;
+:Displays demand report to Registrar;
+
+|Registrar|
+:Reviews course demand;
+
+repeat
+  :Defines a new retake class section\n(course, time, teacher);
+  |System| <<System>>
+  :Validates and saves new class;
+|Registrar|
+  :Confirms class creation;
+repeat while (More classes needed?) is (yes)
+-> no;
+
+:Initiates enrollment for the cohort;
+
+|System| <<System>>
+:For each student, attempts enrollment\nagainst the updated timetable;
+
+if (Enrollment successful?) then (no - clash)
+  :Adds student to an "Exception List";
+else (yes)
+  :Enrolls student in class;
+endif
+
+:Generates and displays final summary;
+
+|Registrar|
+:Reviews enrollment results\nand resolves exceptions;
+
+stop
+@enduml

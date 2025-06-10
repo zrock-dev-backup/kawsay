@@ -1,0 +1,52 @@
+@startuml
+title Activity Diagram: Scenario 3 - Manual Enrollment of an Individual Student
+
+header
+  <font size=14><b>Process Boundary Conditions</b></font>
+  --
+  <font color=blue><b>Pre-condition:</b></font>
+  - The student's profile exists in the system.
+  - The course catalog and master timetable are available.
+endheader
+
+footer
+  <font color=green><b>Post-condition:</b></font>
+  - The student is successfully enrolled in the selected courses.
+  - The student's academic record and class rosters are updated.
+endfooter
+
+skinparam activity {
+    BackgroundColor<<System>> LightBlue
+    BorderColor<<System>> #0000FF
+    BackgroundColor<<Registrar>> Beige
+    BorderColor<<Registrar>> #8B4513
+}
+
+|Registrar|
+start
+:Searches for and selects a student profile;
+:Views the student's Academic Plan\nto determine course needs;
+:Initiates the enrollment process;
+
+repeat
+  :Selects a course to add to the enrollment;
+  |System| <<System>>
+  :Provides real-time validation feedback\n(prerequisites, timeslot availability);
+|Registrar|
+repeat while (More courses to add?) is (yes)
+-> no;
+
+:Finalizes enrollment selections;
+
+|System| <<System>>
+:Runs a final validation on the entire proposed schedule;
+:Presents summary for confirmation;
+
+|Registrar|
+:Confirms the enrollment;
+
+|System| <<System>>
+:Completes enrollment and updates all relevant records;
+:Displays success confirmation;
+stop
+@enduml

@@ -1,0 +1,51 @@
+@startuml
+title Activity Diagram: Scenario 1 - Bulk Enrollment of Advancing Students
+
+header
+  <font size=14><b>Process Boundary Conditions</b></font>
+  --
+  <font color=blue><b>Pre-condition:</b></font>
+  - Previous module's final grades have been ingested.
+  - The academic map defining course sequences is up-to-date.
+endheader
+
+footer
+  <font color=green><b>Post-condition:</b></font>
+  - All eligible students are enrolled in their next courses.
+  - A summary report of enrollments and any exceptions is available to the Registrar.
+endfooter
+
+skinparam activity {
+    BackgroundColor<<System>> LightBlue
+    BorderColor<<System>> #0000FF
+    BackgroundColor<<Registrar>> Beige
+    BorderColor<<Registrar>> #8B4513
+}
+
+|Registrar|
+start
+:Accesses "End of Module" view;
+
+|System| <<System>>
+:Segments students into "Advancing" and "Retake" cohorts;
+:Presents the two cohorts to the Registrar;
+
+|Registrar|
+:Selects the "Ready for Advancement" cohort;
+
+|System| <<System>>
+:Proposes an enrollment plan for the entire cohort\nbased on their academic map;
+:Runs pre-enrollment validation in the background\n(e.g., checking for potential timetable clashes);
+:Displays the proposed plan and validation results;
+
+|Registrar|
+:Reviews and confirms the bulk enrollment plan;
+
+|System| <<System>>
+:Executes enrollment for all students in the cohort;
+:Confirms completion and provides a summary report;
+
+|Registrar|
+:Reviews final confirmation;
+stop
+@enduml
