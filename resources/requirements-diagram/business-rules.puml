@@ -1,0 +1,158 @@
+@startuml
+!include style.puml
+
+title "Business Rules from Student Catalog v4.0"
+footer "Source: Jala University Student Catalog 2025-2026"
+
+skinparam object {
+    BackgroundColor<<Business Rule>> LightGoldenRodYellow
+    BorderColor<<Business Rule>> #B8860B
+}
+
+package "Business Rules" {
+    
+    package "Program and Course Structure" {
+        object "BR-CRS-001" <<Business Rule>> {
+            ID: BR-CRS-001
+            Name: Course Prerequisites
+            Description: Specific courses require the successful completion of other courses before a student can enroll. For example, 'Calculus 2' requires 'Calculus 1'.
+            Source: Page 19-20
+            Type: Constraint
+        }
+
+        object "BR-CRS-002" <<Business Rule>> {
+            ID: BR-CRS-002
+            Name: Course and Lab Combination
+            Description: Courses are composed of two distinct components: a 'Masterclass' (theoretical lecture by a Professor) and a 'Lab' (practical session by a Faculty Practitioner).
+            Source: Page 24, 26
+            Type: Policy
+        }
+
+        object "BR-CRS-003" <<Business Rule>> {
+            ID: BR-CRS-003
+            Name: Non-Credit ESP Program
+            Description: The English for Specific Purposes (ESP) program is required for all students but its courses are non-credit bearing and do not count towards the program GPA.
+            Source: Page 21, 32
+            Type: Policy
+        }
+    }
+
+    package "Class and Enrollment Rules" {
+        object "BR-CLS-001" <<Business Rule>> {
+            ID: BR-CLS-001
+            Name: Class Size Dependency
+            Description: The student-teacher ratio for a class is not fixed but is dependent on enrollment and the needs of the University.
+            Source: Page 38
+            Type: Policy
+        }
+
+        object "BR-CLS-002" <<Business Rule>> {
+            ID: BR-CLS-002
+            Name: Under-Enrollment Cancellation
+            Description: The University may cancel a course (class section) if it is under-enrolled.
+            Source: Page 38
+            Type: Policy
+        }
+
+        object "BR-CLS-003" <<Business Rule>> {
+            ID: BR-CLS-003
+            Name: Instructional Roles
+            Description: Professors provide the theoretical foundation in masterclasses. Faculty Practitioners supplement this with hands-on learning in labs and tutoring sessions.
+            Source: Page 24
+            Type: Policy
+        }
+    }
+
+    package "Student Academic Progress & Grading" {
+        object "BR-GRD-001" <<Business Rule>> {
+            ID: BR-GRD-001
+            Name: Course Failure Definition
+            Description: A grade of D- (60-62%) or lower is considered a failure and requires the course to be repeated.
+            Source: Page 26
+            Type: Constraint
+        }
+
+        object "BR-GRD-002" <<Business Rule>> {
+            ID: BR-GRD-002
+            Name: Course Repetition Limit
+            Description: A student may not repeat a failed course more than two times. A third failure in the same course leads to dismissal.
+            Source: Page 31, 32
+            Type: Constraint
+        }
+
+        object "BR-GRD-003" <<Business Rule>> {
+            ID: BR-GRD-003
+            Name: ESP Course Failure Limit
+            Description: If a student fails a singular ESP course or lab three times, they will be dismissed from the ESP program and, concurrently, from their degree program.
+            Source: Page 23, 38
+            Type: Constraint
+        }
+
+        object "BR-GRD-004" <<Business Rule>> {
+            ID: BR-GRD-004
+            Name: GPA and ROP Calculation
+            Description: Cumulative GPA is calculated on a 4.0 scale. Rate of Progress (ROP) is calculated as (cumulative earned credits / cumulative attempted credits).
+            Source: Page 32
+            Type: Calculation
+        }
+
+        object "BR-GRD-005" <<Business Rule>> {
+            ID: BR-GRD-005
+            Name: Satisfactory Academic Progress (SAP)
+            Description: A student must maintain a minimum CGPA of 2.0 and a Rate of Progress (ROP) of 67% to be in good academic standing.
+            Source: Page 30
+            Type: Constraint
+        }
+    }
+
+    package "Misc" {
+        object "<ID>" <<Business Rule>> {
+            ID: <ID>
+            Name: Student distribution
+            Description: They are distributed in cohorts, groups and sections. A group is enrolled to masterclass and a section to a faculty practitioner
+            Source: interview
+            Type: Description
+        }
+
+        object "<ID>" <<Business Rule>> {
+            ID: <ID>
+            Name: Lecture duration
+            Description: Lectures can last between 8 to 10 weeks.
+            Source: interview
+            Type: Description
+        }
+
+        object "<ID>" <<Business Rule>> {
+            ID: <ID>
+            Name: Academic year
+            Description: An academic year is distributed in terms and modules. A term is composed of 3 modules.
+            Source: interview
+            Type: Description
+        }
+
+        object "<ID>" <<Business Rule>> {
+            ID: <ID>
+            Name: Minimal student enrollement
+            Description: A student should be enrolled to at least 3 courses.
+            Source: interview
+            Type: Policy
+        }
+
+        object "<ID>" <<Business Rule>> {
+            ID: <ID>
+            Name: Enrollment preference
+            Description: It is prefered to a student to repeat failed courses rather than new courses.
+            Source: Interview
+            Type: Constraint
+        }
+    }
+}
+
+@enduml
+        object "<ID>" <<Business Rule>> {
+            ID: <ID>
+            Name: 
+            Description: 
+            Source: 
+            Type: 
+        }
