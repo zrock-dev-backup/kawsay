@@ -21,7 +21,7 @@ package "Core Academic Objects" as pkg_CoreObjects {
     }
     package "Class Management" {
         stereotype "Class Section Management" AS class_mgmt {
-            {field} overview: Registrar can manage class sections for a course, including assigning teachers and defining basic attributes.
+          {field} overview: Registrar can create classes through a guided workflow, defining the course, qualified teacher, student cohort, specific timeline, and preferred schedule slots.
         }
     }
     package "Timetable Management" {

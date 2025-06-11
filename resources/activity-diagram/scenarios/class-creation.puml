@@ -1,0 +1,96 @@
+@startuml
+
+title Activity Diagram: Intent-Driven Class Creation (Detailed User-System Interaction)
+
+|Registrar|
+start
+:Clicks "Add Class" button;
+
+|System|
+:Displays "Select Class Type" modal;
+note left: This is a blocking modal to capture user intent.
+
+|Registrar|
+:Selects "Masterclass" or "Lab";
+:Clicks "Continue";
+
+|System|
+:Closes modal;
+:Loads Class Creation view in "Loading" state;
+:Fetches all necessary data in parallel:
+- Course Configurations (for the selected type)
+- Qualified Teachers
+- Academic Structure (Cohorts/Groups/Sections);
+note right: A single skeleton loader for the whole page is appropriate here.
+
+if (Data fetch successful?) then (yes)
+  |System|
+  :Renders the main creation view;
+  :Pre-selects the 'Class Type' radio button and locks it;
+  :Presents a filtered list of Courses;
+else (no)
+  |System|
+  :Displays a critical error message:
+  "Could not load necessary data. Please try again.";
+  stop
+endif
+
+' --- Main Interaction Loop ---
+|Registrar|
+:Selects a **Course** from the dropdown;
+|System|
+:Auto-populates **Length** and **Frequency** fields
+from the course configuration;
+:Filters the **Teacher** dropdown to show only
+instructors qualified for the selected course;
+note right: **Feedback:** The form visibly updates.
+|Registrar|
+:Selects a **Teacher** from the filtered list;
+|System|
+:The **Live Schedule Preview** on the right updates.
+It now grays out all time slots where the
+selected teacher is already booked;
+note right: **Feedback:** The grid becomes interactive and reflects teacher availability.
+|Registrar|
+:Selects a **Student Group** (if Masterclass) or **Section** (if Lab);
+|System|
+' (Future Enhancement)
+' :The Live Schedule could potentially show
+' a "student clash hint" if many students in
+' the selected group are already booked.
+note right: **Feedback:** The final prerequisite for scheduling is met.
+|Registrar|
+:Hovers over a valid start time in the Slot Picker;
+|System|
+:Temporarily highlights the full block of periods
+that the class would occupy;
+note right: **Feedback:** Instant visual confirmation of the class duration and footprint.
+|Registrar|
+:Clicks to select one or more preferred time slots;
+|System|
+:The selected slots are marked with a solid color;
+note right: **Feedback:** The user's choice is clearly registered.
+|Registrar|
+:Clicks the main "Create Class" button;
+|System|
+:Disables the entire form and shows a spinner on the button;
+:Sends the final payload to the backend API;
+if (API call successful?) then (yes)
+  |System|
+  :Displays a success toast/notification:
+  "Masterclass for Programming 1 created.";
+  :Resets the form, but intelligently keeps
+  the Course and Class Type selected to
+  accelerate the creation of the next, similar class;
+  :The Live Schedule Preview updates to show the
+  newly created class as a solid, permanent block;
+else (no)
+  |System|
+  :Displays an error toast/notification with
+  a clear message from the API response;
+  :Re-enables the form for the user to correct any issues;
+endif
+|Registrar|
+:Continues to create more classes or navigates away;
+stop
+@enduml
