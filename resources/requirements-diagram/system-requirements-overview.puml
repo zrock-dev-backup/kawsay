@@ -1,24 +1,34 @@
---- START OF FILE system-requirements-overview.puml ---
 @startuml
 !include style.puml
-
 title System Requirements Model (Scenario-Based View)
-footer End-to-End System Requirements
 
-' --- Include all functional area packages --- '
 !include core-academic-objects.puml
 !include end-of-module-processing.puml
 !include individual-enrollment-management.puml
 !include predictive-analytics.puml
+!include academic-structure-management.puml
+!include business-rules.puml
 
+' Update Class Section Management to reflect new complexity
+class_mgmt : {field} overview: Registrar can manage class sections for a course, **assigning a student group/section, an instructor, and defining its component type (Masterclass/Lab).**
 
 ' --- Define high-level relationships between the packages --- '
-' The workflows USE the core objects '
+' The structure management is a prerequisite for creating classes
+pkg_CoreObjects ..> pkg_Structure : <<uses>>
+
+' The workflows USE the core objects and the new structure
 pkg_EOM_Processing ..> pkg_CoreObjects : <<uses>>
 pkg_Individual_Enrollment ..> pkg_CoreObjects : <<uses>>
 
 ' The predictive analytics package ENHANCES the end-of-module process '
 pkg_Predictive_Analytics ..> pkg_EOM_Processing : <<enhances>>
 
+' Enrollment Management uses the timetable created by Timetable Management
+pkg_Individual_Enrollment ..> timetable_mgmt : <<uses schedule from>>
+note right on link
+  The generated faculty timetable
+  is a prerequisite for enrolling
+  individual students.
+end note
 
 @enduml

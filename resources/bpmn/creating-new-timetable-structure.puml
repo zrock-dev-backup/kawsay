@@ -1,0 +1,37 @@
+@startuml
+title Activity Diagram: Creating a New Timetable Structure
+
+header
+  <font size=14><b>Process Boundary Conditions</b></font>
+  --
+  <font color=blue><b>Pre-condition:</b></font>
+  - The Registrar has the necessary details for the new module (name, dates, etc.).
+endheader
+
+footer
+  <font color=green><b>Post-condition:</b></font>
+  - A new timetable structure is created in the system and is ready for classes to be added.
+endfooter
+
+|Registrar|
+start
+--> :Navigate to Timetable Creation page;
+--> :Enter Timetable Name;
+--> :Select Start and End Dates;
+--> :Select Active Days of the Week;
+--> :Define one or more Time Periods;
+--> :Submit Timetable Form;
+
+|System|
+--> :Receive and Validate Data;
+
+if (Is Data Valid?) then
+  --> [Yes] :Create Timetable records in Database;
+  --> :Display Success Confirmation;
+  --> stop
+else
+  --> [No] :Display Validation Errors on Form;
+  -up-> :Navigate to Timetable Creation page;
+endif
+
+@enduml

@@ -1,4 +1,3 @@
---- START OF FILE core-academic-objects.puml ---
 @startuml
 package "Core Academic Objects" as pkg_CoreObjects {
     package "Student Management" {

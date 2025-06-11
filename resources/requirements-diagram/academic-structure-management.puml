@@ -1,0 +1,20 @@
+@startuml
+package "Academic Structure Management" as pkg_Structure {
+    stereotype "Cohort Management" as cohort_mgmt {
+        {field} overview: Registrar can create and manage academic Cohorts, representing a group of students starting the program at the same time.
+    }
+    stereotype "Student Group Management" as group_mgmt {
+        {field} overview: Registrar can subdivide a Cohort into one or more Groups for the purpose of attending Masterclasses.
+    }
+    stereotype "Student Section Management" as section_mgmt {
+        {field} overview: Registrar can subdivide a Group into one or more Sections for the purpose of attending labs and faculty.
+    }
+    stereotype "Student Assignment" as student_assign {
+        {field} overview: Registrar can assign individual students to a specific Section.
+    }
+
+    cohort_mgmt --> group_mgmt
+    group_mgmt --> section_mgmt
+    section_mgmt --> student_assign
+}
+@enduml
