@@ -1,94 +1,65 @@
 @startuml
-title Refined End-of-Module & Provisional Planning Workflow
+title Recommended Workflow: EOM & Provisional Planning
 
 |Registrar|
 start
 partition "Phase 1: Data Ingestion & Processing" {
     :Accesses "End of Module" dashboard;
-    :Selects "Process Module Grades" for the completed module;
     :Uploads Grades CSV;
 
     |System| <<Kawsay>>
-    :1. Validates CSV format and data integrity;
-    if (Validation Fails?) then (yes)
-        :Displays detailed error report to Registrar;
-        stop
-    else (no)
-        :2. Ingests grades, creating/updating 'StudentModuleGrade' records;
-        :3. Analyzes student roster to **identify data gaps**
-        (students with no submitted grade);
-    endif
+    :1. Ingests grades, creating 'StudentModuleGrade' records.
+    **A new 'IsPredicted' flag is set to false.**;
+    :2. For students with **in-progress data** (not missing),
+    gathers features for prediction;
+    :Sends feature set to Prediction Service;
 
-    if (Are there data gaps?) then (yes)
-        |System| <<Kawsay>>
-        :4a. For students with missing grades,
-        gathers features for prediction;
-        :Sends feature set to Prediction Service;
-
-        |Prediction| <<Pservice>>
-        :Runs model and returns pass/fail predictions
-        with confidence scores;
-
-        |System| <<Kawsay>>
-        :4b. Receives predictions;
-    endif
+    |Prediction| <<Pservice>>
+    :Runs model and returns pass/fail predictions;
 
     |System| <<Kawsay>>
-    :5. Merges **actual grades** and **predicted outcomes**
-    into a complete, provisional dataset;
-    note right
-        This dataset is the foundation
-        for all subsequent planning steps.
-        Predicted outcomes are clearly marked.
-    end note
-    :6. Segments students into three cohorts:
-      - **Advancing:** All courses passed.
-      - **Retake:** One or more courses failed.
-      - **Exceptions:** Complex cases (e.g., withdrawn).
+    :3. For each prediction, creates a 'StudentModuleGrade' record
+    with **'IsPredicted' flag set to true**.;
+    :4. Segments students into four cohorts:
+      - **Advancing:** All courses passed (IsPredicted=false).
+      - **Retake:** One or more courses failed (IsPredicted=false).
+      - **Provisional:** Contains predicted outcomes.
+      - **Exceptions:** 3rd failure, withdrawn status, etc.;
     :Presents cohort summaries to Registrar;
 }
 
 partition "Phase 2: Planning & Enrollment for Next Module" {
     |Registrar|
-    :Selects the "Retake" cohort for action;
+    :Reviews "Exceptions" and resolves manually;
+    :Selects the "Retake" cohort;
 
     |System| <<Kawsay>>
-    :Generates **Retake Demand Report**, showing
-    how many students need to retake each course;
+    :Generates Retake Demand Report;
 
     |Registrar|
-    :Reviews the demand report;
-    :Uses "Ad-Hoc Class Creation" to create
-    the necessary retake class sections in the
+    :Creates retake class sections in the
     **next module's timetable**;
-    note right
-        This is a critical human-in-the-loop step.
-        The Registrar decides the schedule for retake classes.
-    end note
     :Initiates **Bulk Enrollment** for the Retake Cohort;
 
     |System| <<Kawsay>>
-    :Enrolls retake students into their required classes,
-    validating against the new timetable;
+    :Enrolls retake students;
 
     |Registrar|
-    :Reviews the "Advancing" cohort;
-    :Initiates **Bulk Enrollment** for the Advancing Cohort;
+    :Selects the "Advancing" cohort;
 
     |System| <<Kawsay>>
-    :For each student, proposes an enrollment plan
-    based on their academic map and prerequisite completion;
-    note left
-        This step MUST validate against the student's
-        completed courses (including retakes just enrolled)
-        and the next module's timetable.
-    end note
-    :Executes bulk enrollment after Registrar confirmation;
+    :For each student, **displays a list of eligible
+    next courses** based on their completed academic record
+    (including just-enrolled retakes);
+
+    |Registrar|
+    :Selects courses for the cohort and initiates Bulk Enrollment;
+
+    |System| <<Kawsay>>
+    :Executes bulk enrollment after confirmation;
 }
 
 |System| <<Kawsay>>
-:Generates a final summary report of all enrollments
-and flags any remaining exceptions for manual review;
-
+:Generates a final summary report;
 stop
 @enduml

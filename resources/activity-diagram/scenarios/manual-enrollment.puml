@@ -1,19 +1,19 @@
 @startuml
-title Activity Diagram: Scenario 3 - Manual Enrollment of an Individual Student
+title Activity Diagram: Manual Enrollment of an Individual Student
 
 header
-  <font size=14><b>Process Boundary Conditions</b></font>
-  --
-  <font color=blue><b>Pre-condition:</b></font>
-  - The student's profile exists in the system.
-  - The course catalog and master timetable are available.
-endheader
+<font size=14><b>Process Boundary Conditions</b></font>
+--
+<font color=blue><b>Pre-condition:</b></font>
+- The student's profile exists in the system.
+- The course catalog and master timetable are available.
+end header
 
 footer
-  <font color=green><b>Post-condition:</b></font>
-  - The student is successfully enrolled in the selected courses.
-  - The student's academic record and class rosters are updated.
-endfooter
+<font color=green><b>Post-condition:</b></font>
+- The student is successfully enrolled in the selected courses.
+- The student's academic record and class rosters are updated.
+end footer
 
 skinparam activity {
     BackgroundColor<<System>> LightBlue
@@ -24,29 +24,44 @@ skinparam activity {
 
 |Registrar|
 start
-:Searches for and selects a student profile;
-:Views the student's Academic Plan\nto determine course needs;
-:Initiates the enrollment process;
+:Search for and select a student profile;
+:View the student's Academic Plan to determine course needs;
+note right: Implements `stu_plan_view` requirement.
+:Initiate the enrollment process for the student;
 
-repeat
-  :Selects a course to add to the enrollment;
-  |System| <<System>>
-  :Provides real-time validation feedback\n(prerequisites, timeslot availability);
+|System| <<System>>
+:Present the course catalog and the student's current schedule side-by-side;
+
 |Registrar|
+repeat
+  :Select a course section to add;
+  |System| <<System>>
+  :Provide real-time validation feedback;
+  note right: Implements `student_eligibilityStatus` and `notifications` requirements.
+  |Registrar|
+  if (Validation OK?) then (yes)
+    :Add class to a "pending enrollment" list;
+  else (no)
+    :See error message and cannot add the class;
+    note left: Can choose another section or use Forced Enrollment if available.
+  endif
 repeat while (More courses to add?) is (yes)
 -> no;
 
-:Finalizes enrollment selections;
+:Review the "pending enrollment" list;
+:Click "Finalize Enrollment";
 
 |System| <<System>>
-:Runs a final validation on the entire proposed schedule;
-:Presents summary for confirmation;
+:Run a final validation on the entire proposed schedule;
+:Present a summary for confirmation;
 
 |Registrar|
-:Confirms the enrollment;
+:Confirm the enrollment;
 
 |System| <<System>>
-:Completes enrollment and updates all relevant records;
-:Displays success confirmation;
+:Persist enrollment records;
+:Update all relevant data;
+:Display success confirmation;
+
 stop
 @enduml
