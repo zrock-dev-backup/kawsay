@@ -1,93 +1,64 @@
 @startuml
-title Proposed Unified Enrollment Workflow
+title Corrected Workflow: EOM using Non-Destructive Status Tags
 
 legend top
-  <font size=14><b>Key Concept: The Proposed Enrollment Entity</b></font>
+  <font size=14><b>Core Principle: Preserve the Academic Structure</b></font>
   --
-  A **ProposedEnrollment** is a temporary, non-binding record created by the EOM process.
-  It acts as a "suggestion" or a "pre-filled cart item" for the next module.
-  It is **NOT** a final enrollment and has no impact until confirmed by the Registrar.
-  ---
-  **Fields:** StudentId, CourseId, TimetableId (for the *next* module), Status (Pending, Confirmed)
+  The system **NEVER** changes a student's assigned Cohort/Group/Section automatically.
+  It applies a temporary **EOM Status Tag** (e.g., 'NeedsRetake', 'ReadyToAdvance')
+  to a student's record for the purpose of this workflow only.
 end legend
 
 |Registrar|
 start
-partition "Phase 1: End-of-Module as a Planning & Preparation Tool" {
-    :Accesses EOM Dashboard for **Completed Module** (e.g., Module 1);
+partition "Phase 1: EOM as a Tagging & Preparation Tool" {
+    :Accesses EOM Dashboard for **Completed Module**;
     :Ingests final grades;
 
     |System|
-    :Processes grades and segments students into cohorts
-    (Advancing, Retake, Exceptions);
-    :Presents cohort summaries to Registrar;
+    :Processes grades;
+    :For each student, **applies an EOM Status Tag**:
+      - 'ReadyToAdvance'
+      - 'NeedsRetake'
+      - 'RequiresReview' (for exceptions);
+    note right
+        This is a non-destructive **labeling** action.
+        The student's formal Cohort/Group/Section
+        assignment remains untouched.
+    end note
+    :Presents a report of students, filterable by their new Status Tag.
+    The report also shows the student's **existing Academic Cohort**.;
 
     |Registrar|
-    :Reviews "Exceptions" cohort for manual resolution
-    (e.g., students facing dismissal);
-    :Selects "Advancing" or "Retake" cohort;
+    :Reviews students tagged 'RequiresReview' for manual action;
+    :Selects a group of students (e.g., all tagged 'NeedsRetake');
     :Clicks "**Prepare Enrollments for Next Module**";
-    note right
-        This button replaces the dangerous
-        "Advance Cohort" / "Process Retakes" buttons.
-        It performs **no enrollment**.
-    end note
 
     |System|
-    :For each student in the selected cohort:
-      - Determines required courses for the **next module**.
-      - Checks that required classes exist in the next timetable.
-      - Creates a **'ProposedEnrollment'** record in the database
-        for each required course.;
+    :For each selected student:
+      - Determines required courses for the next module.
+      - Creates a **'ProposedEnrollment'** record.;
     :Displays confirmation:
-    "Enrollment proposals for [Next Module Name] have been created.
-    Proceed to the Student Enrollment page to review and confirm.";
+    "Enrollment proposals for [Next Module Name] have been created.";
 }
 
 |Registrar|
 partition "Phase 2: Manual Enrollment as the Confirmation Hub" {
-    :Navigates to the Student Enrollment page
-    for the **Next Module** (e.g., Module 2);
-    note right
-        This context switch is now an
-        explicit and logical step in the process.
-    end note
-
-    :Selects a student from the list;
+    :Navigates to the Student Enrollment page for the **Next Module**;
+    :Selects a student;
 
     |System|
-    :Loads the student's context for the **Next Module**;
-    :Checks for any pending **'ProposedEnrollment'** records
-    for this student;
-
-    if (Proposed Enrollments exist?) then (yes)
-      :Automatically adds the proposed classes
-      to the student's **Enrollment Cart**;
-      note left
-        The cart is now pre-filled with the
-        system's suggestions (e.g., required retakes).
-      end note
-    endif
+    :Loads student's context, including their
+    **permanent Academic Cohort/Group/Section**;
+    :Checks for any pending 'ProposedEnrollment' records;
+    :Pre-populates the Enrollment Cart with proposals;
 
     |Registrar|
-    :Sees the familiar **Enrollment Workspace**:
-      - The cart is pre-populated with required classes.
-      - The "Available Classes" list shows eligible electives.
-      - The course load indicator is accurate.;
-    :Adds or removes classes from the cart as needed;
-    note right
-        The Registrar has **full visibility and control**
-        before any final action is taken. This is where
-        a "Force Enrollment" override could be added.
-    end note
-    :Clicks "**Confirm Enrollments**" in the cart;
+    :Reviews the cart and available classes;
+    :Confirms the final enrollment;
 
     |System|
-    :Processes the final cart contents;
-    :Runs all validations (clash, capacity, prerequisites);
     :Creates final **'EnrollmentEntity'** records;
-    :Marks the corresponding **'ProposedEnrollment'** records
-    as 'Confirmed';
 }
 
 stop
