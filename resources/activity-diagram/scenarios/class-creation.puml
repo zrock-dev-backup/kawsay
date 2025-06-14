@@ -1,96 +1,78 @@
 @startuml
-
-title Activity Diagram: Intent-Driven Class Creation (Detailed User-System Interaction)
+title Activity Diagram: Unified Class Management Workflow
 
 |Registrar|
 start
-:Clicks "Add Class" button;
+:Accesses "Class Management" tab;
 
-|System|
-:Displays "Select Class Type" modal;
-note left: This is a blocking modal to capture user intent.
+if (What action?) then (Add New Class)
+    :Clicks "Add New Class" button;
+    
+    |System|
+    :Presents the Class Wizard in **create mode**;
+    note right: Form is empty, ready for new input.
+    
+    |Registrar|
+    :Selects **Class Type** (Masterclass/Lab);
+    :Selects **Course** from dropdown;
+    
+    |System|
+    :Populates default **Length/Frequency**;
+    :Filters **Teacher** list for qualified instructors;
+    
+    |Registrar|
+    :Selects **Teacher** and preferred **time slots**;
+    
+    |System|
+    note right: Live Schedule Preview updates to show potential conflicts.
+    
+    |Registrar|
+    :Clicks the **"Create Class"** button;
+    
+    |System|
+    :Validates payload and sends to API (POST);
 
-|Registrar|
-:Selects "Masterclass" or "Lab";
-:Clicks "Continue";
+elseif (Edit Existing Class) then
+    :Selects a class from the list;
+    :Clicks "Edit" icon;
+    
+    |System|
+    :Fetches selected class data from API;
+    :Presents the Class Wizard in **edit mode**;
+    note right: Form is pre-populated with existing class details.
+    
+    |Registrar|
+    :Modifies class details (e.g., teacher, time slots);
+    :Clicks the **"Save Changes"** button;
+    
+    |System|
+    :Validates payload and sends to API (PUT);
 
-|System|
-:Closes modal;
-:Loads Class Creation view in "Loading" state;
-:Fetches all necessary data in parallel:
-- Course Configurations (for the selected type)
-- Qualified Teachers
-- Academic Structure (Cohorts/Groups/Sections);
-note right: A single skeleton loader for the whole page is appropriate here.
-
-if (Data fetch successful?) then (yes)
-  |System|
-  :Renders the main creation view;
-  :Pre-selects the 'Class Type' radio button and locks it;
-  :Presents a filtered list of Courses;
-else (no)
-  |System|
-  :Displays a critical error message:
-  "Could not load necessary data. Please try again.";
-  stop
+else (Delete Class)
+    :Selects a class from the list;
+    :Clicks "Delete" icon;
+    
+    |System|
+    :Displays "Are you sure?" confirmation dialog;
+    
+    |Registrar|
+    :Confirms deletion;
+    
+    |System|
+    :Sends request to API (DELETE);
 endif
 
-' --- Main Interaction Loop ---
-|Registrar|
-:Selects a **Course** from the dropdown;
-|System|
-:Auto-populates **Length** and **Frequency** fields
-from the course configuration;
-:Filters the **Teacher** dropdown to show only
-instructors qualified for the selected course;
-note right: **Feedback:** The form visibly updates.
-|Registrar|
-:Selects a **Teacher** from the filtered list;
-|System|
-:The **Live Schedule Preview** on the right updates.
-It now grays out all time slots where the
-selected teacher is already booked;
-note right: **Feedback:** The grid becomes interactive and reflects teacher availability.
-|Registrar|
-:Selects a **Student Group** (if Masterclass) or **Section** (if Lab);
-|System|
-' (Future Enhancement)
-' :The Live Schedule could potentially show
-' a "student clash hint" if many students in
-' the selected group are already booked.
-note right: **Feedback:** The final prerequisite for scheduling is met.
-|Registrar|
-:Hovers over a valid start time in the Slot Picker;
-|System|
-:Temporarily highlights the full block of periods
-that the class would occupy;
-note right: **Feedback:** Instant visual confirmation of the class duration and footprint.
-|Registrar|
-:Clicks to select one or more preferred time slots;
-|System|
-:The selected slots are marked with a solid color;
-note right: **Feedback:** The user's choice is clearly registered.
-|Registrar|
-:Clicks the main "Create Class" button;
-|System|
-:Disables the entire form and shows a spinner on the button;
-:Sends the final payload to the backend API;
 if (API call successful?) then (yes)
-  |System|
-  :Displays a success toast/notification:
-  "Masterclass for Programming 1 created.";
-  :Resets the form, but intelligently keeps
-  the Course and Class Type selected to
-  accelerate the creation of the next, similar class;
-  :The Live Schedule Preview updates to show the
-  newly created class as a solid, permanent block;
+    |System|
+    :Displays a success notification;
+    :Refreshes the class list in the UI;
 else (no)
-  |System|
-  :Displays an error toast/notification with
-  a clear message from the API response;
-  :Re-enables the form for the user to correct any issues;
+    |System|
+    :Displays an error notification from the API;
+    :Re-enables the form for correction (if applicable);
 endif
-|Registrar|
-:Continues to create more classes or navigates away;
+
+:Stops or continues managing classes;
 stop
+
 @enduml
