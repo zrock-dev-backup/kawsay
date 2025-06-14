@@ -1,0 +1,32 @@
+@startuml
+' Alternative CDN sources for C4 and icons
+!includeurl https://raw.githubusercontent.com/adrianvlupu/C4-PlantUML/latest/C4_Container.puml
+
+' Or use local includes if you have them downloaded
+' !include ./C4_Container.puml
+
+title C4 Container Diagram: Kawsay System with Prediction Service
+
+Person(registrar, "Registrar", "Plans student enrollment")
+
+System_Boundary(kawsay, "Kawsay System") {
+    Container(react_app, "Web Application", "React, TypeScript", "Provides the UI for enrollment planning.")
+    Container(api_gateway, "API Gateway", "Nginx, YARP", "Routes requests, handles authentication.")
+    Container(kawsay_api, "Kawsay API", ".NET 8", "Core business logic and data access.")
+    ContainerDb(db, "Timetabling DB", "PostgreSQL", "Stores all academic and scheduling data.")
+    Container(predictor, "Prediction Service", "Python, FastAPI/Flask", "Serves pass/fail predictions with explanations.")
+}
+
+System_Ext(model_store, "Model Store", "S3, Azure Blob Storage", "Stores ML model artifacts")
+
+' Relationships
+Rel(registrar, react_app, "Uses web interface")
+Rel(react_app, api_gateway, "API calls", "HTTPS/JSON")
+Rel(api_gateway, kawsay_api, "Routes core requests")
+Rel(api_gateway, predictor, "Routes prediction requests")
+Rel(kawsay_api, db, "Reads/Writes data")
+Rel(kawsay_api, predictor, "Requests predictions", "HTTPS/JSON")
+Rel(predictor, model_store, "Loads ML models")
+Rel(kawsay_api, model_store, "Uploads retrained models", "Async")
+
+@enduml

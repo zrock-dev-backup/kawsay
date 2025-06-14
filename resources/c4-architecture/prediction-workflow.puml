@@ -1,0 +1,33 @@
+@startuml
+title Sequence: Provisional Enrollment Forecasting
+
+actor Registrar
+participant "Web Application" as WebApp
+participant "Kawsay API (.NET)" as CoreAPI
+participant "Prediction Service (Python)" as Predictor
+
+Registrar -> WebApp: Opens "Provisional Planning" view
+WebApp -> CoreAPI: GET /students
+CoreAPI --> WebApp: List of students
+
+Registrar -> WebApp: Selects a student to review
+WebApp -> CoreAPI: GET /students/{id}/forecast
+note right of CoreAPI
+  The API gathers features for the student:
+  - Past grades
+  - Course load
+  - Attendance (if available)
+end note
+CoreAPI -> Predictor: POST /predict\n(feature_vector)
+Predictor -> Predictor: Load model & run prediction
+Predictor --> CoreAPI: 200 OK\n{ prediction, confidence, drivers }
+CoreAPI --> WebApp: 200 OK\n{ prediction, confidence, drivers }
+WebApp -> Registrar: Displays "Forecast: 92% PASS"\n"Key Factors: High grade in P1, good attendance"
+
+alt Prediction Service Unavailable
+    CoreAPI -> Predictor: POST /predict
+    Predictor -->> CoreAPI: 503 Service Unavailable
+    CoreAPI --> WebApp: 503 Service Unavailable\n{ error: "Forecasting service is currently unavailable." }
+    WebApp -> Registrar: Shows "Forecasting unavailable" message
+end
+@enduml
