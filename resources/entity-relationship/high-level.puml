@@ -1,122 +1,144 @@
-@startchen
+@startuml
+title Kawsay Timetable System - Logical Data Model (v3 - Based on Workflow Document)
 
-'"Each [ENTITY1] [cardinality+optionality] [relationship verb] [cardinality+optionality] [ENTITY2]"
+skinparam linetype ortho
 
-/'
-Each CLASS is a COURSE
-Each MODULE has 3 COURSES
-Each TERM has 3 MODULEs
-Each CLASS may last 8 to 10 weeks
-'/
+' --- Core Academic & Structural Entities ---
 
-'				Entities
-entity STUDENT {
-	id <<key>>
-	full_name
-	timezone
-	email_address
-	country
+entity Course {
+  + **CourseCode** [PK]
+  --
+  * Name: varchar
+  * DurationWeeks: int
 }
-entity SECTION {
-	ID <<key>>
-	alpha_num_name
- }
-entity GROUP {
-	ID <<key>>
-	alpha_num_name
- }
-entity COHORT {
-	ID <<key>>
-	alpha_num_name
- }
-entity TERM {
-	ID <<key>>
-	num_name
- }
-entity TEACHER {
-	ID <<key>>
-	full_name
- }
-entity CLASS {
-	ID <<key>>
-	title
- }
- entity TIMESLOT {
-	ID <<key>>
- }
-entity TIMETABLE {
-	ID <<key>>
-	name
- }
- entity DAY {
-    ID <<key>>
-    date
- }
- entity PERIOD {
-    ID <<key>>
-    time_range
- }
+note top: Represents a catalog course, e.g., "CS101".
 
-'				Relationships
-relationship IS_IN_GROUP {
- }
-relationship IS_IN_SECTION {
- }
-relationship ENROLLED_IN_TERM {
- }
-relationship ENROLLED_IN_CLASS {
- }
-relationship TEACHES {
- }
-relationship IS_SCHEDULED_FOR {
- }
-relationship CONTAINS_GROUP {
- }
-relationship CONTAINS_DAY {
- }
-relationship CONSISTS_OF_PERIOD {
- }
-relationship INCLUDES {
- }
+entity Teacher {
+  + **TeacherID** [PK]
+  --
+  * FullName: varchar
+}
 
-'				Connections
-'Each STUDENT must BELONG to exactly one SECTION and exactly one GROUP.
-STUDENT -1- IS_IN_SECTION
-SECTION -1- IS_IN_SECTION
+entity Timetable {
+  + **TimetableID** [PK]
+  --
+  * Name: varchar
+  * Module: varchar
+  * Track: enum
+  * StartDate: date
+  * EndDate: date
+}
 
-STUDENT -1- IS_IN_GROUP
-GROUP -1- IS_IN_GROUP
+' --- The Formal Academic Hierarchy ---
 
-'Each COHORT must have one or many GROUPs.
-COHORT -1- CONTAINS_GROUP
-GROUP -M- CONTAINS_GROUP
+entity Cohort {
+  + **CohortID** [PK]
+  --
+  * Name: varchar
+}
+note right: The highest-level student grouping, e.g., "Fall 2024".
 
-'Each STUDENT must be ENROLLED to exactly one TERM.
-STUDENT -1- ENROLLED_IN_TERM
-TERM -1- ENROLLED_IN_TERM
+entity "Group" as Group {
+  + **GroupID** [PK]
+  --
+  * Name: varchar
+}
+note right: A subdivision of a Cohort, attends a Master Class together.
 
-'Each STUDENT must be ENROLLED in at least one or many CLASS.
-STUDENT -1- ENROLLED_IN_CLASS
-CLASS -M- ENROLLED_IN_CLASS
+entity Section {
+  + **SectionID** [PK]
+  --
+  * Name: varchar
+}
+note right: A subdivision of a Group, often for labs/tutorials.
 
-'Each TEACHER must be ASSIGNED to one or many CLASSES
-TEACHER -1- TEACHES
-CLASS -M- TEACHES
+' --- Student Entity with Eligibility Model ---
 
-'Each CLASS IS_SCHEDULED_FOR one or many TIMESLOTs
-CLASS -1- IS_SCHEDULED_FOR
-TIMESLOT -M- IS_SCHEDULED_FOR
+entity Student {
+  + **StudentID** [PK]
+  --
+  * FullName: varchar
+  * Email: varchar
+  * Status: enum ('Enrolled', 'Withdrawn', 'Freeze/LOA')
+  * EligibilityStatus: enum ('Yes', 'No', 'Maybe')
+  --
+  # SectionID [FK]
+}
+note bottom of Student: A student has a "home" Section for administrative grouping.
 
-'Each TIMESLOT must CONTAINS_DAY one or many DAYs
-TIMESLOT -1- CONTAINS_DAY
-DAY -M- CONTAINS_DAY
+entity EligibilityLog {
+  + **LogID** [PK]
+  --
+  * AssessedStatus: enum
+  * Justification: text (e.g., "GPA: 2.8, SPA: OK, SS Notes: ...")
+  * AssessedBy: varchar
+  * Timestamp: datetime
+  --
+  # StudentID [FK]
+  # CourseCode [FK]
+}
+note "Tracks the 'likelihood analysis' for students with 'Maybe' eligibility for a specific course." as N_Eligible
 
-'Each DAY must CONSISTS_OF_PERIOD one or many PERIODs
-DAY -1- CONSISTS_OF_PERIOD
-PERIOD -M- CONSISTS_OF_PERIOD
+' --- Class and Enrollment Entities ---
 
-'Each TIMETABLE must INCLUDES one or many TIMESLOTs
-TIMETABLE -1- INCLUDES
-TIMESLOT -M- INCLUDES
+entity Class {
+  + **ClassID** [PK]
+  --
+  * ClassType: enum ('Masterclass', 'Lab')
+  * DayOfWeek: enum
+  * StartTime: time
+  * EndTime: time
+  --
+  # CourseCode [FK]
+  # TeacherID [FK]
+  # TimetableID [FK]
+  # GroupID [FK, nullable]
+  # SectionID [FK, nullable]
+}
+note top of Class
+A scheduled instance of a Course.
+A Masterclass links to a Group.
+A Lab/Section links to a Section.
+end note
 
-@endchen
+entity Enrollment {
+  + **StudentID** [FK]
+  + **ClassID** [FK]
+  --
+  * Status: enum ('Confirmed', 'Withdrawn', 'Dropped_Attendance')
+}
+
+' --- Relationships ---
+
+' Hierarchy Relationships
+Cohort "1" -- "1..*" Group : "contains"
+Group "1" -- "1..*" Section : "contains"
+Section "1" -- "0..*" Student : "has as home section"
+
+' Scheduling Relationships
+Timetable "1" -- "0..*" Class : "schedules"
+Course "1" -- "0..*" Class : "is instance of"
+Teacher "1" -- "0..*" Class : "teaches"
+
+' Class to Hierarchy Links
+Group "1" -- "0..*" Class : "(Masterclass) is for"
+Section "1" -- "0..*" Class : "(Lab) is for"
+
+' Student Enrollment (decoupled from hierarchy)
+Student "1" -- "0..*" Enrollment : "has"
+Class "1" -- "0..*" Enrollment : "has"
+
+' Eligibility Logging
+Student "1" -- "0..*" EligibilityLog : "has log for"
+Course "1" -- "0..*" EligibilityLog
+EligibilityLog .. N_Eligible
+
+' --- Self-Referencing Prerequisite Relationship ---
+entity CoursePrerequisite {
+  + **CourseCode** [FK]
+  + **PrerequisiteCourseCode** [FK]
+}
+Course "1" -- "0..*" CoursePrerequisite : "requires >"
+Course "1" -- "0..*" CoursePrerequisite : "< is prerequisite for"
+
+@enduml
