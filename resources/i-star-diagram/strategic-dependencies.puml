@@ -1,57 +1,62 @@
 @startuml
 !include style.puml
-skinparam linetype ortho
+' --- REVISED STRATEGIC DEPENDENCY DIAGRAM v2 ---
+title Core Academic Workflow Dependencies
 
-actor "Student Services" AS SS
+' --- Actors ---
 actor Student
 actor Registrar
 actor "Academic\nCoordinator" AS coordinator
-actor "Student Information\n System" AS SIS
+actor "Student Information\nSystem" AS SIS
 actor Teacher
+actor "Program Director (or equivalent role)" as PD
 
-cloud "Enrollment flexibility" as SG_EnrollmentFlexibility <<Softgoal>>
-	Student --> SG_EnrollmentFlexibility
-	SG_EnrollmentFlexibility --> Registrar
+' --- The Initiating Dependency: Curriculum ---
+database "Curriculum & Course Catalog" as R_Curriculum <<Resource>>
+    PD --> R_Curriculum
+    R_Curriculum --> Registrar
+    note "Evidence (High): The entire schedule is based on a set of courses. While the actor 'PD' is an inference, the existence of this data as an input to the Registrar is a certainty." as E_Curriculum
+    E_Curriculum --> R_Curriculum
 
-database "Student Data" as R_StudentData <<Resource>>
-	Registrar --> R_StudentData
-	R_StudentData --> SIS
+' --- The Core Planning Loop (A Healthy, Sequential Dependency) ---
+database "Staffing Needs" as R_Needs <<Resource>>
+    Registrar --> R_Needs
+    R_Needs --> coordinator
+    note "Evidence (Very High): 'We need to find different faculties... it's a coordinated work between them and me...'" as E_Needs
+    E_Needs --> R_Needs
 
-database "Module timetable" as R_CourseTimetableInfo <<Resource>>
-	R_CourseTimetableInfo <-- Teacher
-	Student --> R_CourseTimetableInfo
-	Registrar <-- R_CourseTimetableInfo
+database "Hired Faculty Data" as R_Hired <<Resource>>
+    coordinator --> R_Hired
+    R_Hired --> Registrar
+    note "Evidence (Very High): Registrar needs to know who was hired to finalize the schedule and accommodate their availability." as E_Hired
+    E_Hired --> R_Hired
 
-database "Student grades" as R_StudentGrades <<Resource>>
-	SIS --> R_StudentGrades
-	R_StudentGrades --> Teacher
+' --- The Enrollment & Outcome Loop ---
+rectangle "Student is Enrolled" as G_Enrolled <<Goal>>
+    Student --> G_Enrolled
+    G_Enrolled --> Registrar
+    note "Evidence (Very High): The student's goal is to be enrolled; the Registrar performs the action." as E_Enroll
 
-database "Hired teachers\ndata" as R_HiredFacultyDB <<Resource>>
-	Registrar --> R_HiredFacultyDB
-	R_HiredFacultyDB --> coordinator
+database "Finalized Timetable" as R_Timetable <<Resource>>
+    Registrar --> R_Timetable
+    R_Timetable --> Student
+    R_Timetable --> Teacher
+    note "Evidence (Very High): Both students and teachers need access to the final schedule." as E_Timetable
+    E_Timetable --> R_Timetable
 
-database "Teaching staff\nto be hired" as R_RequiredTeachers <<Resource>>
-	R_RequiredTeachers <-- coordinator
-	Registrar <-- R_RequiredTeachers
+' --- Data & Support Dependencies ---
+database "Student Academic Data" as R_StudentData <<Resource>>
+    SIS --> R_StudentData
+    R_StudentData --> Registrar
+    note "Evidence (Very High): Registrar uses student records from a central system for enrollment." as E_SIS
+    E_SIS --> R_StudentData
 
-rectangle "Enrolled" as G_Enrolled <<Goal>>
-	Student --> G_Enrolled
-	G_Enrolled --> Registrar
-
-rectangle "Hired" as G_Hired <<Goal>>
-	G_Hired <-- Teacher
-	coordinator <-- G_Hired
-
-cloud "Enrollment compliance" as T_EnrollmentCompliance <<Softgoal>>
-	Student --> T_EnrollmentCompliance
-	T_EnrollmentCompliance --> SS
-
-cloud "Resolve student enrollment\n & timetable issues" as T_Resolve <<Softgoal>>
-	SS --> T_Resolve
-	T_Resolve --> Registrar
-
-cloud "Class schedule flexibility" as SG_ClassFlexibility <<Softgoal>>
-	SG_ClassFlexibility <-- Teacher
-	Registrar <-- SG_ClassFlexibility
+cloud "Enrollment Issues Resolved" as SG_Issues <<Softgoal>>
+    actor "Student Services" as SS
+    Student --> SG_Issues
+    SG_Issues --> SS
+    SS --> Registrar : (depends on for complex resolutions)
+    note "Evidence (High): The interviews imply a support structure for when students have problems with the schedule created by the Registrar." as E_SS
+    SG_Issues --> E_SS
 
 @enduml

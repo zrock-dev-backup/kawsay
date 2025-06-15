@@ -1,90 +1,60 @@
 @startuml
 !include ../style.puml
-'skinparam linetype ortho
-
-' --- REVISED REGISTRAR DIAGRAM ---
-title Registrar Actor Boundary - v2 (Revised)
+' --- REVISED REGISTRAR DIAGRAM v3 ---
+title Registrar: Term Planning & Enrollment Workflow
 
 ' --- External Actors & Dependencies ---
 actor Student
-actor "Academic\nCoordinator" AS coordinator
-actor "Student Information\nSystem" AS SIS
-actor Teacher
+actor "Academic\nCoordinator" as coordinator
+actor "Student Information\nSystem" as SIS
 
-' --- Goals this actor helps others achieve ---
-rectangle "Student is Enrolled in Courses" as G_StudentEnrolled <<Goal>>
-    Student --> G_StudentEnrolled
+package "Registrar" <<boundary>> {
 
-' --- Resources this actor depends on ---
-database "Hired Faculty Data" as R_HiredFacultyData <<Resource>>
-    coordinator --> R_HiredFacultyData
-database "Student Academic Records" as R_StudentData <<Resource>>
-    SIS --> R_StudentData
-database "Curriculum & Policies" as R_Curriculum <<Resource>>
-    ' Note: This resource comes from the role described as "Program/Academic Director"
-    ' For now, we model it as an input without defining the actor.
+    ' --- Phase 1: Pre-Term Planning ---
+    package "Phase 1: Planning & Staffing" {
+        rectangle "Create Provisional Timetable" as T_CreateProvisional <<Task>>
+        rectangle "Determine Staffing Needs" as T_DetermineNeeds <<Task>>
+        rectangle "Finalize Timetable with Hired Faculty" as T_FinalizeTimetable <<Task>>
+        
+        T_CreateProvisional --> T_DetermineNeeds : "leads to"
+        T_DetermineNeeds --> T_FinalizeTimetable : "enables"
+        
+        database "Curriculum Rules" as R_Curriculum <<Resource>>
+        T_CreateProvisional --> R_Curriculum : "uses"
+        note bottom of T_CreateProvisional : Evidence: Stakeholder plans modules in advance based on expected courses.
+    }
 
-' --- Resources this actor produces/maintains ---
-database "Staffing Needs Document" as R_RequiredTeachers <<Resource>>
-    coordinator <-- R_RequiredTeachers
+    ' --- Phase 2: Term-Time Execution ---
+    package "Phase 2: Enrollment & Management" {
+        rectangle "Execute Student Enrollments" as T_ExecuteEnrollments <<Task>>
+        cloud "High Enrollment Accuracy" as SG_Accuracy <<Softgoal>>
+        T_ExecuteEnrollments ..> SG_Accuracy : + (MAKE)
 
+        ' --- Core Obstacle & Resolution ---
+        rectangle "Time Clash Blocks Enrollment" as O_Clash <<Obstacle>>
+        O_Clash --|> T_ExecuteEnrollments : "obstructs"
+        note bottom of O_Clash : Evidence: This is the central problem described in all interviews.
 
-package "Registrar" <<actorboundary>> {
+        rectangle "Resolve Enrollment Clash" as T_ResolveClash <<Task>>
+        T_ResolveClash --|> O_Clash : "resolves"
+        T_ResolveClash ..> SG_Accuracy : + (HELP)
+        
+        rectangle "Move Student to Alternative Section" as T_Move <<Task>>
+        rectangle "Override Clash per Policy" as T_Override <<Task>>
+        T_ResolveClash --o T_Move
+        T_ResolveClash --o T_Override
+        note bottom of T_ResolveClash : Evidence: Stakeholder explicitly requested both finding alternatives and an override option.
+    }
 
-    ' --- Core Goal: Shifted from simple enrollment to overall management ---
-    rectangle "Successfully Manage Module Timetable & Enrollments" as G_ManageModule <<Goal>>
+    ' --- Cross-Cutting Quality Goals & Trade-offs ---
+    package "Operational Quality" {
+        cloud "Low Administrative Overhead" as SG_Overhead <<Softgoal>>
+        rectangle "Manual Clash Verification" as T_Manual <<Task>>
+        rectangle "Automated Clash Detection (System Feature)" as T_Automated <<Task>>
 
-    ' --- Decomposed Goals/Tasks showing the sequential process ---
-    rectangle "1. Create Provisional Timetable" as T_CreateProvisional <<Task>>
-        G_ManageModule <|-- T_CreateProvisional: means-end
-        T_CreateProvisional --> R_Curriculum: uses
-
-    rectangle "2. Determine Staffing Needs" as T_DetermineNeeds <<Task>>
-        G_ManageModule <|-- T_DetermineNeeds: means-end
-        T_DetermineNeeds --|> R_RequiredTeachers: produces
-        T_CreateProvisional --o T_DetermineNeeds: decomposes into
-
-    rectangle "3. Finalize Timetable with Faculty" as T_FinalizeTimetable <<Task>>
-        G_ManageModule <|-- T_FinalizeTimetable: means-end
-        T_FinalizeTimetable --> R_HiredFacultyData: uses
-        T_DetermineNeeds --o T_FinalizeTimetable: decomposes into
-
-    rectangle "4. Execute Student Enrollments" as T_ExecuteEnrollments <<Task>>
-        G_ManageModule <|-- T_ExecuteEnrollments: means-end
-        T_ExecuteEnrollments --> R_StudentData: uses
-        T_FinalizeTimetable --o T_ExecuteEnrollments: decomposes into
-        G_StudentEnrolled <|-- T_ExecuteEnrollments: means-end
-
-    ' --- Obstacle Analysis: Making clash detection a first-class citizen ---
-    rectangle "Clash Prevents Enrollment" as O_Clash <<Obstacle>>
-        O_Clash --|> T_ExecuteEnrollments: obstructs
-
-    rectangle "Resolve Enrollment Clash" as T_ResolveClash <<Task>>
-        T_ResolveClash --|> O_Clash: resolves
-        rectangle "Find Alternative Section" as T_FindAlternative <<Task>>
-        rectangle "Process Enrollment Override" as T_ProcessOverride <<Task>>
-        T_ResolveClash --o T_FindAlternative: decomposes into
-        T_ResolveClash --o T_ProcessOverride: decomposes into
-
-    ' --- Softgoals and Contributions, now more specific and showing trade-offs ---
-    cloud "High Confidence in Schedule Accuracy" as SG_Accuracy <<Softgoal>>
-    cloud "Low Administrative Overhead" as SG_Overhead <<Softgoal>>
-
-    rectangle "Manually Verify Each Enrollment for Clashes" as T_ManualClashCheck <<Task>>
-        T_ManualClashCheck ..> SG_Accuracy: + (HELP)
-        T_ManualClashCheck ..> SG_Overhead: -- (BREAK)
-        note right of T_ManualClashCheck: Current, painful process.
-
-    rectangle "Automate Clash Detection" as T_AutomatedClashCheck <<Task>>
-        ' This is a proposed system feature, not a current task.
-        T_AutomatedClashCheck ..> SG_Accuracy: ++ (MAKE)
-        T_AutomatedClashCheck ..> SG_Overhead: ++ (MAKE)
-        note left of T_AutomatedClashCheck: Proposed system feature.
+        T_Manual ..> SG_Overhead : -- (BREAK)
+        T_Automated ..> SG_Overhead : ++ (MAKE)
+        note bottom of T_Manual : Evidence: Stakeholder described the manual process as taking 'forever', justifying automation.
+    }
 }
-
-database "Finalized Module Timetable" as R_FinalTimetable <<Resource>>
-    T_FinalizeTimetable --|> R_FinalTimetable: produces
-    Student <-- R_FinalTimetable
-    Teacher <-- R_FinalTimetable
-
 @enduml
