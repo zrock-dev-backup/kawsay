@@ -1,143 +1,104 @@
 @startuml
-title Kawsay Domain Model - Entity-Relationship Diagram
+title Kawsay Timetable System - Logical Data Model
+skinparam linetype ortho
 
-' --- Entities ---
-entity TimetableEntity {
-  * **Id** (PK)
+' --- Core Academic Entities ---
+
+entity Course {
+  + **CourseCode** [PK]
   --
-  * Name
-  * StartDate
-  * EndDate
+  * Name: varchar
+  * DurationWeeks: int
+}
+note right: Represents a catalog course, like "CS101 - Intro to Programming".
+
+entity Teacher {
+  + **TeacherID** [PK]
+  --
+  * FullName: varchar
 }
 
-entity CourseEntity {
-  * **Id** (PK)
+entity Timetable {
+  + **TimetableID** [PK]
   --
-  * Name
-  * Code
+  * Name: varchar
+  * Module: varchar
+  * Track: enum
+  * StartDate: date
+  * EndDate: date
 }
 
-entity TeacherEntity {
-  * **Id** (PK)
+' --- Class is the scheduled instance of a Course ---
+entity Class {
+  + **ClassID** [PK]
   --
-  * Name
-  * Type
+  * ClassType: enum ('Master Class', 'Section')
+  * DayOfWeek: enum
+  * StartTime: time
+  * EndTime: time
+}
+note top: A specific meeting, e.g., the Tuesday 10am Section for CS101.
+
+' --- Student & Grouping Entities ---
+
+entity Cohort {
+  + **CohortID** [PK]
+  --
+  * Name: varchar
+}
+note left: A group of students starting at the same time, e.g., "Fall 2024".
+
+entity Student {
+  + **StudentID** [PK]
+  --
+  * FullName: varchar
+  * Email: varchar
+  * Status: enum ('Active', 'Withdrawn')
 }
 
-entity StudentEntity {
-  * **Id** (PK)
+' --- Junction / Associative Entities for Many-to-Many Relationships ---
+
+' A Student can have many Enrollments; A Class can have many Enrollments.
+entity Enrollment {
+  + **StudentID** [FK]
+  + **ClassID** [FK]
   --
-  * Name
-  * Standing
-  --
-  * SectionId (FK)
+  * EnrollmentStatus: enum ('Enrolled', 'Clash-Overridden', 'Withdrawn')
+}
+note "This entity is the heart of the system, linking a student to a specific class instance and tracking their status within it." as N_Enroll
+
+' A Course can require many other Courses as prerequisites.
+entity CoursePrerequisite {
+  + **CourseCode** [FK]
+  + **PrerequisiteCourseCode** [FK]
 }
 
-entity HolidayEntity {
-  * **Id** (PK)
-  --
-  * Name
-  * Date
-  --
-  * TimetableId (FK)
+' A Teacher can be qualified to teach many Courses.
+entity TeacherQualification {
+  + **TeacherID** [FK]
+  + **CourseCode** [FK]
 }
 
-entity CohortEntity {
-  * **Id** (PK)
-  --
-  * Name
-  --
-  * TimetableId (FK)
-}
-
-entity StudentGroupEntity {
-  * **Id** (PK)
-  --
-  * Name
-  --
-  * CohortId (FK)
-}
-
-entity SectionEntity {
-  * **Id** (PK)
-  --
-  * Name
-  --
-  * StudentGroupId (FK)
-}
-
-entity ClassEntity {
-  * **Id** (PK)
-  --
-  * ClassType
-  * Frequency
-  * Length
-  * StartDate (new)
-  * EndDate (new)
-  --
-  * CourseId (FK)
-  * TeacherId (FK)
-  * TimetableId (FK)
-  * StudentGroupId (FK, nullable)
-  * SectionId (FK, nullable)
-}
-
-' --- Configuration & Junction Entities ---
-entity EnrollmentEntity {
-  * **Id** (PK)
-  --
-  * EnrollmentDate
-  --
-  * StudentId (FK)
-  * ClassId (FK)
-}
-
-entity CoursePrerequisiteEntity {
-  * **CourseId** (FK)
-  * **PrerequisiteCourseId** (FK)
-}
-
-entity CourseConfigurationEntity {
-  * **Id** (PK)
-  --
-  * ClassType
-  * DefaultLength
-  * DefaultFrequency
-  --
-  * CourseId (FK)
-}
-
-entity TeacherQualificationEntity {
-  * **TeacherId** (FK)
-  * **CourseId** (FK)
-}
 
 ' --- Relationships ---
-TimetableEntity "1" -- "0..*" CohortEntity : has
-TimetableEntity "1" -- "0..*" HolidayEntity : has
 
-CohortEntity "1" -- "1..*" StudentGroupEntity : contains
-StudentGroupEntity "1" -- "1..*" SectionEntity : contains
-SectionEntity "1" -- "0..*" StudentEntity : contains
+' Structural Relationships
+Timetable "1" -- "0..*" Class : "schedules"
+Course "1" -- "0..*" Class : "is an instance of"
+Teacher "1" -- "0..*" Class : "teaches"
+Cohort "1" -- "0..*" Student : "contains"
 
-TimetableEntity "1" -- "0..*" ClassEntity : schedules
-CourseEntity "1" -- "0..*" ClassEntity : is for
-TeacherEntity "1" -- "0..*" ClassEntity : is taught by
+' Many-to-Many Relationships (resolved by junction entities)
+Student "1" -- "0..*" Enrollment
+Class "1" -- "0..*" Enrollment
+Enrollment .. N_Enroll
 
-' Masterclass / Lab Relationships
-StudentGroupEntity "1" -- "0..*" ClassEntity : is for (Masterclasses)
-SectionEntity "1" -- "0..*" ClassEntity : is for (Labs)
+' Self-referencing Many-to-Many for Prerequisites
+Course "1" -- "0..*" CoursePrerequisite : "requires >"
+Course "1" -- "0..*" CoursePrerequisite : "< is prerequisite for"
 
-' Enrollment (Many-to-Many)
-StudentEntity "1" -- "0..*" EnrollmentEntity : has
-ClassEntity "1" -- "0..*" EnrollmentEntity : has
+' Many-to-Many for Teacher Qualifications
+Teacher "1" -- "0..*" TeacherQualification
+Course "1" -- "0..*" TeacherQualification
 
-' Prerequisite (Self-referencing Many-to-Many)
-CourseEntity "1" -- "0..*" CoursePrerequisiteEntity : requires
-CourseEntity "1" -- "0..*" CoursePrerequisiteEntity : is prerequisite for
-
-' Configuration & Qualification (Many-to-Many)
-CourseEntity "1" -- "1..2" CourseConfigurationEntity : has configuration for
-CourseEntity "1" -- "0..*" TeacherQualificationEntity : can be taught by
-TeacherEntity "1" -- "0..*" TeacherQualificationEntity : is qualified for
 @enduml
