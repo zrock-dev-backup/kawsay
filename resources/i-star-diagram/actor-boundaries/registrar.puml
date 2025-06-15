@@ -2,60 +2,89 @@
 !include ../style.puml
 'skinparam linetype ortho
 
-actor Teacher
+' --- REVISED REGISTRAR DIAGRAM ---
+title Registrar Actor Boundary - v2 (Revised)
+
+' --- External Actors & Dependencies ---
 actor Student
 actor "Academic\nCoordinator" AS coordinator
 actor "Student Information\nSystem" AS SIS
-actor "Student Services" AS SS
+actor Teacher
 
-rectangle "Enrolled" as G_Enrolled <<Goal>>
-	Student --> G_Enrolled
-database "Teaching staff\nto be hired" as R_RequiredTeachers <<Resource>>
-	coordinator --> R_RequiredTeachers
+' --- Goals this actor helps others achieve ---
+rectangle "Student is Enrolled in Courses" as G_StudentEnrolled <<Goal>>
+    Student --> G_StudentEnrolled
+
+' --- Resources this actor depends on ---
+database "Hired Faculty Data" as R_HiredFacultyData <<Resource>>
+    coordinator --> R_HiredFacultyData
+database "Student Academic Records" as R_StudentData <<Resource>>
+    SIS --> R_StudentData
+database "Curriculum & Policies" as R_Curriculum <<Resource>>
+    ' Note: This resource comes from the role described as "Program/Academic Director"
+    ' For now, we model it as an input without defining the actor.
+
+' --- Resources this actor produces/maintains ---
+database "Staffing Needs Document" as R_RequiredTeachers <<Resource>>
+    coordinator <-- R_RequiredTeachers
+
 
 package "Registrar" <<actorboundary>> {
-	rectangle "Enroll student to course" as T_EnrollStudent <<Task>>
-		G_Enrolled <|-- T_EnrollStudent: means-end
 
-    rectangle "Verify student timeslot availability" as T_ReviewStudentAvailability <<Task>>
-    rectangle "Assign a teacher (faculty practicioner or professor) to a class" as T_FindTeacher <<Task>>
-    rectangle "Create class on timetable in a defined period boundary" as T_Allocate <<Task>>
-		T_EnrollStudent --o T_Allocate: decomposes into
-		T_Allocate --o T_FindTeacher: decomposes into
-		T_Allocate --o T_ReviewStudentAvailability: decomposes into
+    ' --- Core Goal: Shifted from simple enrollment to overall management ---
+    rectangle "Successfully Manage Module Timetable & Enrollments" as G_ManageModule <<Goal>>
 
-rectangle "Plan new courses to be open next module" as T_PlanNewCourses <<Task>>
-	R_RequiredTeachers --> T_PlanNewCourses
-	rectangle "Collect list of passed and failed courses" as T_ListCourses <<Task>>
-	T_PlanNewCourses --o T_ListCourses: decomposes into
+    ' --- Decomposed Goals/Tasks showing the sequential process ---
+    rectangle "1. Create Provisional Timetable" as T_CreateProvisional <<Task>>
+        G_ManageModule <|-- T_CreateProvisional: means-end
+        T_CreateProvisional --> R_Curriculum: uses
 
-/'
-++ (MAKE)  | stronly positive
-+  (HELP)  | positive
--  (HURT)  | negative
--- (BREAK) | stronly negative
-'/
-cloud "Minimize Administrative Overhead" as SG_Overhead <<Softgoal>>
-    SG_Overhead <.. T_ReviewStudentAvailability: - (HURT)
-    SG_Overhead <.. T_Allocate: - (HURT)
-    T_PlanNewCourses ..> SG_Overhead: + (HELP)
+    rectangle "2. Determine Staffing Needs" as T_DetermineNeeds <<Task>>
+        G_ManageModule <|-- T_DetermineNeeds: means-end
+        T_DetermineNeeds --|> R_RequiredTeachers: produces
+        T_CreateProvisional --o T_DetermineNeeds: decomposes into
 
-cloud "Reduce student double booking" as SG_AvoidStudentDoubleBooking <<Softgoal>>
-    T_ReviewStudentAvailability ..> SG_AvoidStudentDoubleBooking: + (MAKE)
+    rectangle "3. Finalize Timetable with Faculty" as T_FinalizeTimetable <<Task>>
+        G_ManageModule <|-- T_FinalizeTimetable: means-end
+        T_FinalizeTimetable --> R_HiredFacultyData: uses
+        T_DetermineNeeds --o T_FinalizeTimetable: decomposes into
+
+    rectangle "4. Execute Student Enrollments" as T_ExecuteEnrollments <<Task>>
+        G_ManageModule <|-- T_ExecuteEnrollments: means-end
+        T_ExecuteEnrollments --> R_StudentData: uses
+        T_FinalizeTimetable --o T_ExecuteEnrollments: decomposes into
+        G_StudentEnrolled <|-- T_ExecuteEnrollments: means-end
+
+    ' --- Obstacle Analysis: Making clash detection a first-class citizen ---
+    rectangle "Clash Prevents Enrollment" as O_Clash <<Obstacle>>
+        O_Clash --|> T_ExecuteEnrollments: obstructs
+
+    rectangle "Resolve Enrollment Clash" as T_ResolveClash <<Task>>
+        T_ResolveClash --|> O_Clash: resolves
+        rectangle "Find Alternative Section" as T_FindAlternative <<Task>>
+        rectangle "Process Enrollment Override" as T_ProcessOverride <<Task>>
+        T_ResolveClash --o T_FindAlternative: decomposes into
+        T_ResolveClash --o T_ProcessOverride: decomposes into
+
+    ' --- Softgoals and Contributions, now more specific and showing trade-offs ---
+    cloud "High Confidence in Schedule Accuracy" as SG_Accuracy <<Softgoal>>
+    cloud "Low Administrative Overhead" as SG_Overhead <<Softgoal>>
+
+    rectangle "Manually Verify Each Enrollment for Clashes" as T_ManualClashCheck <<Task>>
+        T_ManualClashCheck ..> SG_Accuracy: + (HELP)
+        T_ManualClashCheck ..> SG_Overhead: -- (BREAK)
+        note right of T_ManualClashCheck: Current, painful process.
+
+    rectangle "Automate Clash Detection" as T_AutomatedClashCheck <<Task>>
+        ' This is a proposed system feature, not a current task.
+        T_AutomatedClashCheck ..> SG_Accuracy: ++ (MAKE)
+        T_AutomatedClashCheck ..> SG_Overhead: ++ (MAKE)
+        note left of T_AutomatedClashCheck: Proposed system feature.
 }
-database "Module timetable" as R_CourseTimetableInfo <<Resource>>
-	R_CourseTimetableInfo --> T_Allocate
-	Teacher --> R_CourseTimetableInfo
-	Student --> R_CourseTimetableInfo
-database "Student Data" as R_StudentData <<Resource>>
-	R_StudentData <-- T_ListCourses: uses
-	SIS <-- R_StudentData
-database "Hired teachers data" as R_HiredTeacherData <<Resource>>
-	R_HiredTeacherData <-- T_FindTeacher: uses
-	coordinator <-- R_HiredTeacherData
-cloud "Resolve student enrollment\n & timetable issues" as SG_ResolveIssues <<Softgoal>>
-	SS --> SG_ResolveIssues
-	T_ReviewStudentAvailability ..> SG_ResolveIssues: + (MAKE)
-	T_EnrollStudent ..> SG_ResolveIssues: + (MAKE)
-@enduml
 
+database "Finalized Module Timetable" as R_FinalTimetable <<Resource>>
+    T_FinalizeTimetable --|> R_FinalTimetable: produces
+    Student <-- R_FinalTimetable
+    Teacher <-- R_FinalTimetable
+
+@enduml
