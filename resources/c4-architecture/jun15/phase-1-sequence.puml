@@ -1,0 +1,55 @@
+@startuml
+title Sequence: Phase 1 - Creating a Course Requirement
+
+actor Registrar
+participant "Web Application" as WebApp
+participant "Kawsay API (.NET)" as CoreAPI
+database "Timetabling DB" as DB
+
+skinparam sequenceMessageAlign center
+
+group Initial Page Load
+    Registrar -> WebApp: Navigates to "Course Requirements" page for a Timetable
+    activate WebApp
+    WebApp -> CoreAPI: **GET /kawsay/timetables/{id}/requirements**
+    activate CoreAPI
+    CoreAPI -> DB: SELECT * FROM CourseRequirements WHERE TimetableId = {id}
+    DB --> CoreAPI: Returns existing requirements
+    CoreAPI --> WebApp: 200 OK (JSON list of requirements)
+    deactivate CoreAPI
+    WebApp -> WebApp: Renders list of existing requirements
+    WebApp --> Registrar: Displays page
+    deactivate WebApp
+end
+
+group Create New Requirement
+    Registrar -> WebApp: Clicks "Add Requirement" and fills form
+    activate WebApp
+    WebApp -> CoreAPI: **POST /kawsay/timetables/{id}/requirements**\n(CreateCourseRequirementRequest)
+    activate CoreAPI
+    
+    alt Successful Creation
+        CoreAPI -> CoreAPI: 1. Validate DTO (e.g., CourseId exists)
+        note right of CoreAPI
+            This is a critical step for data integrity.
+            The API must ensure all foreign keys
+            (CourseId, StudentGroupId, etc.) are valid
+            before attempting to save.
+        end note
+        CoreAPI -> DB: **INSERT** into "CourseRequirements" table
+        activate DB
+        DB --> CoreAPI: Returns new CourseRequirement with ID
+        deactivate DB
+        CoreAPI --> WebApp: **201 Created**\n(CourseRequirementDto)
+        deactivate CoreAPI
+        WebApp -> WebApp: Updates UI state with the new requirement
+        WebApp --> Registrar: Displays success message and new item in list
+    else Validation Failed
+        CoreAPI --> WebApp: **400 Bad Request**\n{ error: "Invalid CourseId provided." }
+        deactivate CoreAPI
+        WebApp --> Registrar: Displays specific error message to user
+    end
+    deactivate WebApp
+end
+
+@enduml
