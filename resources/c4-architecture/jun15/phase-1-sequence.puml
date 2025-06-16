@@ -1,55 +1,71 @@
 @startuml
-title Sequence: Phase 1 - Creating a Course Requirement
+title Sequence: Phase 2 - Interactive & Assisted Scheduling (CQRS Pattern)
 
 actor Registrar
 participant "Web Application" as WebApp
 participant "Kawsay API (.NET)" as CoreAPI
-database "Timetabling DB" as DB
+database "Timetabling DB\n(Source of Truth)" as WriteDB
+queue "Message Broker" as Broker
+participant "Availability Processor\n(Background Worker)" as Processor
+database "Availability Read Model\n(Denormalized Cache)" as ReadDB
 
 skinparam sequenceMessageAlign center
 
-group Initial Page Load
-    Registrar -> WebApp: Navigates to "Course Requirements" page for a Timetable
+group 1. Query for Valid Slots (Fast Read Path)
+    Registrar -> WebApp: Selects a "Course Requirement" to place
     activate WebApp
-    WebApp -> CoreAPI: **GET /kawsay/timetables/{id}/requirements**
+    WebApp -> CoreAPI: **GET /requirements/{id}/valid-slots**
     activate CoreAPI
-    CoreAPI -> DB: SELECT * FROM CourseRequirements WHERE TimetableId = {id}
-    DB --> CoreAPI: Returns existing requirements
-    CoreAPI --> WebApp: 200 OK (JSON list of requirements)
+    note right of CoreAPI
+        This is the **Query** path.
+        It only interacts with the
+        fast, pre-calculated read model.
+    end note
+    CoreAPI -> ReadDB: **SELECT** day, period FROM AvailabilityMatrices\nWHERE resource_ids IN (...) AND is_available = true
+    ReadDB --> CoreAPI: Returns list of valid slots
+    CoreAPI --> WebApp: 200 OK (JSON list of valid slots)
     deactivate CoreAPI
-    WebApp -> WebApp: Renders list of existing requirements
-    WebApp --> Registrar: Displays page
+    WebApp -> WebApp: Highlights the valid slots on the grid
+    WebApp --> Registrar: Displays highlighted grid
     deactivate WebApp
 end
 
-group Create New Requirement
-    Registrar -> WebApp: Clicks "Add Requirement" and fills form
+group 2. Command: Place Requirement (Write Path)
+    Registrar -> WebApp: Clicks on a highlighted, valid slot
     activate WebApp
-    WebApp -> CoreAPI: **POST /kawsay/timetables/{id}/requirements**\n(CreateCourseRequirementRequest)
+    WebApp -> CoreAPI: **POST /requirements/{id}/place**\n{ day: 5, period: 3 }
     activate CoreAPI
+    note right of CoreAPI
+        This is the **Command** path.
+        It writes to the source of truth
+        and publishes an event. It does
+        **not** wait for the read model to update.
+    end note
+    CoreAPI -> WriteDB: **INSERT** into "ClassOccurrences" table
+    WriteDB --> CoreAPI: Success
     
-    alt Successful Creation
-        CoreAPI -> CoreAPI: 1. Validate DTO (e.g., CourseId exists)
-        note right of CoreAPI
-            This is a critical step for data integrity.
-            The API must ensure all foreign keys
-            (CourseId, StudentGroupId, etc.) are valid
-            before attempting to save.
-        end note
-        CoreAPI -> DB: **INSERT** into "CourseRequirements" table
-        activate DB
-        DB --> CoreAPI: Returns new CourseRequirement with ID
-        deactivate DB
-        CoreAPI --> WebApp: **201 Created**\n(CourseRequirementDto)
-        deactivate CoreAPI
-        WebApp -> WebApp: Updates UI state with the new requirement
-        WebApp --> Registrar: Displays success message and new item in list
-    else Validation Failed
-        CoreAPI --> WebApp: **400 Bad Request**\n{ error: "Invalid CourseId provided." }
-        deactivate CoreAPI
-        WebApp --> Registrar: Displays specific error message to user
-    end
+    CoreAPI ->> Broker: **PUBLISH** event: `ClassPlacedEvent`
+    
+    CoreAPI --> WebApp: **202 Accepted**
+    deactivate CoreAPI
+    WebApp -> WebApp: Visually "locks" the placement on the grid,\npossibly with a temporary "processing" state.
+    WebApp --> Registrar: Placement is visually confirmed
     deactivate WebApp
 end
 
+... A few moments later (Asynchronous Processing) ...
+
+group 3. Asynchronous Update of Read Model
+    Broker ->> Processor: Delivers `ClassPlacedEvent`
+    activate Processor
+    Processor -> Processor: Processes event data (TeacherId, StudentGroupId, etc.)
+    Processor -> ReadDB: **UPDATE** AvailabilityMatrices SET is_available = false\nWHERE resource_ids IN (...) AND slot = ...
+    note right of Processor
+        The processor makes the read model
+        eventually consistent with the
+        source of truth.
+    end note
+    ReadDB --> Processor: Success
+    deactivate Processor
+end
 @enduml
