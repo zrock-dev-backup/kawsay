@@ -1,0 +1,94 @@
+@startuml
+title Kawsay Workflow: "Cold Start" Module Setup & Enrollment
+
+|Registrar|
+start
+:Accesses Timetable Workspace;
+
+partition "Phase 1: Foundational Setup" {
+    :Creates new Timetable ("Fall 2025");
+    :Navigates to "Academic Structure" tab;
+    :Defines Cohorts, Groups, and Sections;
+    note right
+        At this point, the academic
+        structure is an empty shell.
+    end note
+    :Selects "Import and Assign Students" action;
+    :Uploads Student CSV
+    (student_id, name, cohort, group, section);
+}
+
+|System|
+:Parses CSV and validates data;
+:Creates `StudentEntity` records;
+:Assigns each student to their specified `SectionEntity`,
+populating the academic structure;
+:Displays "Import Successful" report;
+
+|Registrar|
+partition "Phase 2: Demand & Proactive Validation" {
+    :Navigates to "Module Requirements" tab;
+    :Creates a new `CourseRequirement`
+    (e.g., "Calculus I" for "Group A");
+}
+
+|System|
+:Saves the requirement;
+:Triggers **asynchronous "Pre-flight Check"**;
+:Gets all students in "Group A";
+:For each student, checks eligibility for "Calculus I"
+(prerequisites, holds, etc.);
+:Updates the requirement's status in the UI;
+
+|Registrar|
+:Observes the status update on the requirement list
+(e.g., from "Checking..." to <font color=orange>"48/50 Eligible"</font>);
+note right
+    The registrar can now proactively
+    address the 2 identified issues
+    before proceeding. This is a key
+    HCI loop for error prevention.
+end note
+:Repeats process for all required courses;
+
+partition "Phase 3: Scheduling & Class Creation" {
+    :Navigates to "Scheduling Assistant" tab;
+    :Sees list of validated requirements;
+    :Selects a requirement and places it on the grid,
+    creating a final `ClassEntity`;
+    :Repeats until all requirements are scheduled;
+}
+
+partition "Phase 4: Enrollment Audit & Confirmation" {
+    :Navigates to the "Student Audit" tab;
+    :Filters the student list by status
+    (e.g., "Ready to Enroll");
+}
+
+split
+    --> "Handle Bulk Enrollments";
+    |Registrar|
+    :Selects all "Ready to Enroll" students;
+    :Clicks "**Confirm Enrollments for Selected**";
+split again
+    --> "Handle Exceptions";
+    |Registrar|
+    :Filters list to "Action Required";
+    :Selects an individual student (Peter Jones);
+    :Enters the detailed "Student Audit" view;
+    :System displays the specific issue
+    (e.g., "Blocked: Prerequisite Missing");
+    :Registrar resolves the issue
+    (e.g., by enrolling in the prerequisite instead);
+    :Clicks "Confirm Peter's Final Plan";
+end split
+
+|System|
+:Creates final `EnrollmentEntity` records for all confirmed actions;
+:Updates student statuses to "Enrolled";
+
+|Registrar|
+:Navigates to "Schedule View" tab;
+:Views the final, populated timetable;
+stop
+@enduml
