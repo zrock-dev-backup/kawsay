@@ -1,41 +1,28 @@
 \subsection{Planteamiento del problema}
 \label{sec:problemDefinition}
-La Oficina del Registro necesita procesar una cantidad cada vez mayor de datos descentralizados\footnote{Los \textbf{datos descentralizados} se refieren a información que se almacena o gestiona en múltiples ubicaciones o sistemas, en lugar de estar centralizada en un único punto.
-Esto puede dificultar la consolidación y el análisis coherente de los datos.}, donde las reglas de negocio\footnote{Las \textbf{reglas de negocio} son directrices, principios o restricciones que definen o limitan algún aspecto de un negocio.
-Determinan cómo opera una organización o cómo se deben realizar ciertos procesos.} están en constante evolución.
-También debe generar informes y crear horarios que necesitan ser actualizados y ajustados en tiempo real a medida que avanza el calendario académico y surgen situaciones del mundo real.
+La planificación académica de la institución se fundamenta en un proceso manual que depende de un sistema complejo de hojas de cálculo descentralizadas.
+Si bien esta metodología fue funcional en el pasado, el crecimiento constante en el volumen de estudiantes, cursos y docentes la ha convertido en una fuente crítica de riesgo operativo y de ineficiencia.
+La gestión de datos de esta manera no solo es propensa a errores, sino que ha generado una fractura estructural entre las fases clave del ciclo académico.
 
-Un horario debe ser actualizado en los siguientes escenarios:
+\subsubsection{Puntos de falla del proceso manual}
+
 \begin{itemize}
-    \item Las calificaciones de los estudiantes aún no están disponibles.
-Dado que las calificaciones no están, la Oficina del Registro evalúa la elegibilidad de un estudiante en función de la probabilidad de aprobar.
-Este análisis se realiza considerando el GPA del estudiante y el estado del SAP.
-    \item El estudiante reprobó un curso.
-    \item La elegibilidad del estudiante fue evaluada como "No", pero logró aprobar el curso.
-El estudiante no fue considerado para su siguiente curso y ahora necesita ser asignado a él.
-    \item Un profesor o un miembro del personal académico solicita un cambio en el horario.
-Esta solicitud podría deberse a comentarios de la clase o factores externos.
+    \item \textbf{Desconexión de datos y de intención:} Una vez que el horario maestro es creado, la lógica de negocio y las restricciones que lo formaron (ej. una clase diseñada para una sección específica) no se transfieren automáticamente al proceso de inscripción.
+    El personal del Registro debe actuar como un "puente humano", recordando y aplicando manualmente estas reglas, con el riesgo inherente de error u omisión.
+
+    \item \textbf{Desconexión de proceso y de tiempo:} La transición entre la finalización del horario y el inicio de la inscripción es un evento manual y no transaccional.
+    Un cambio solicitado por un docente \textit{después} de que el horario ha sido comunicado como "final" crea un estado inconsistente, donde las inscripciones pueden realizarse sobre la base de información obsoleta, requiriendo costosas correcciones manuales.
+
+    \item \textbf{Desconexión de dominios de validación:} El sistema manual obliga a validar el horario a nivel macro (recursos como aulas y docentes) y las inscripciones a nivel micro (restricciones de un estudiante individual) de forma aislada.
+    La resolución de un solo conflicto de inscripción de un estudiante puede invalidar el horario para otros veinte, lo que requiere un ciclo de re-validación manual masivo que es cognitivamente inviable de realizar sin errores.
 \end{itemize}
 
-Actualmente, la Oficina del Registro depende de hojas de cálculo, lo que presenta varios desafíos.
+Esta dependencia en hojas de cálculo y en la memoria del operador humano para conectar procesos y validar reglas complejas resulta en un ciclo de trabajo tedioso y de alto riesgo, donde la integridad de la planificación y la inscripción no puede ser garantizada sistémicamente.
 
-Trabajar con hojas de cálculo en un contexto académico es problemático debido a la naturaleza descentralizada de los datos, lo que requiere la entrada manual de múltiples fuentes.
-Este proceso consume mucho tiempo y es propenso a errores, especialmente cuando se necesitan actualizaciones de datos en tiempo real.
+La dependencia de la Oficina del Registro en hojas de cálculo descentralizadas para la planificación académica no solo introduce un alto riesgo de errores operativos, sino que también crea una \textit{desconexión fundamental entre el proceso de creación de horarios y el subsecuente ciclo de inscripción estudiantil}.
 
-La configuración de la hoja de cálculo en sí requiere un esfuerzo considerable, que implica definir celdas, crear fórmulas y macros\footnote{Una \textbf{macro} en el contexto de hojas de cálculo es una secuencia de comandos o instrucciones que se agrupan para automatizar tareas repetitivas.}, y establecer formato condicional\footnote{El \textbf{formato condicional} es una característica de las hojas de cálculo que permite aplicar automáticamente un formato específico (como colores, fuentes o bordes) a las celdas que cumplen ciertas condiciones o criterios.} para hacer que el documento se asemeje a un panel de control funcional.
-Aunque esta configuración es necesaria para organizar e interpretar grandes conjuntos de datos, puede hacerse abrumadora sin una planificación cuidadosa.
-
-Las hojas de cálculo también tienen dificultades con tareas como la evaluación y la detección de conflictos.
-Los cálculos manuales para la elegibilidad de los estudiantes son laboriosos y propensos a errores, y las hojas de cálculo carecen de verificaciones automáticas para problemas como estudiantes con doble asignación o conflictos de cursos.
-Sin alertas incorporadas o detección automatizada de errores, las hojas de cálculo pueden llevar a errores e ineficiencias en la gestión académica.
-
-Dado el enorme volumen de datos, actividades como la inscripción de estudiantes o el traslado de una clase a otro periodo se hacen tediosas y consumen mucho tiempo, ya que es necesario tener en cuenta toda esa información al editar el calendario académico o gestionar la inscripción de un estudiante.
-
-\begin{figure}[H]
-    \centering
-    \caption{Diagrama Ishikawa} \label{fig:ishikawa}
-    \includegraphics[width=0.8\textwidth]{ishikawa-spanish.pdf}
-\end{figure}
+Esta fractura en el flujo de trabajo obliga a realizar reconciliaciones manuales, impide la aplicación consistente de políticas académicas\footnote{Las \textbf{políticas académicas} se refieren al conjunto de reglas que gobiernan tanto la progresión académica del estudiante (prerrequisitos, cursos obligatorios por cohorte) como las restricciones de recursos de la institución (disponibilidad de docentes, capacidad de las aulas y horarios de funcionamiento).} y limita la capacidad de la institución para planificar de forma proactiva.
 
 \subsubsection{Formulación del problema}
-¿Qué impacto tendría aplicar machine learning al proceso de inscripción y algoritmos heurísticos\footnote{Los \textbf{algoritmos heurísticos} son métodos o enfoques para resolver problemas que no garantizan encontrar la solución óptima.} a la programación de horarios en la reducción del tiempo y aumento de la precisión en la planificación del calendario academico?
+
+¿Cómo la implementación de un motor de planificación 'dirigido por la demanda'\footnote{Un flujo de trabajo que modela la necesidad de un curso como una 'demanda' antes de crear la clase final.} logra unificar el ciclo académico, desde la creación de horarios hasta la inscripción, para garantizar la resiliencia operativa?
