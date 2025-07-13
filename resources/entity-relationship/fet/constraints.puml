@@ -1,0 +1,29 @@
+@startuml
+' Constraint-focused diagram
+skinparam linetype ortho
+!theme vibrant
+
+title FET 7.2.6 – Constraint Relationships
+
+abstract Constraint
+entity TimeConstraint
+entity SpaceConstraint
+entity OrderConstraint
+
+Constraint <|-- TimeConstraint
+Constraint <|-- SpaceConstraint
+Constraint <|-- OrderConstraint
+
+TimeConstraint --> Teacher    : applies to
+TimeConstraint --> Students   : applies to
+TimeConstraint --> Activity   : applies to
+TimeConstraint --> TimeGrid   : applies to
+
+SpaceConstraint --> Activity  : applies to
+SpaceConstraint --> Room      : applies to
+SpaceConstraint --> Building  : applies to
+
+OrderConstraint --> Activity  : links
+OrderConstraint --> Activity  : links
+
+@enduml

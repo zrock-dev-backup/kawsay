@@ -1,0 +1,100 @@
+@startuml
+' Cleaned-up Core Data Model (main view)
+skinparam linetype ortho
+!theme vibrant
+
+title FET 7.2.6 – Core Data Model (Cleaned)
+
+entity "Institution" as Inst {
+  + Name
+  + Comments
+  --
+  # Root object
+}
+
+package "Time Structure" {
+  entity TimeGrid
+  entity Day
+  entity Hour
+  entity TimeSlot
+}
+
+package "Resource Entities" {
+  entity Teacher
+  entity Subject
+  entity Students
+  entity ActivityTag
+}
+
+package "Space Entities" {
+  entity Building
+  entity Room
+}
+
+package "Core Unit" {
+  entity Activity
+  entity Subactivity
+}
+
+' Root ownership
+Inst "1" *-- "many" TimeGrid
+Inst "1" *-- "many" Teacher
+Inst "1" *-- "many" Subject
+Inst "1" *-- "many" Students
+Inst "1" *-- "many" ActivityTag
+Inst "1" *-- "many" Building
+Inst "1" *-- "many" Activity
+Inst "1" *-- "many" Constraint
+
+' Time structure
+TimeGrid "1" }|--|| "many" Day
+TimeGrid "1" }|--|| "many" Hour
+Day "1" o-- "many" TimeSlot
+Hour "1" o-- "many" TimeSlot
+
+' Space structure
+Building "1" }o-- "many" Room
+
+' Core relationships
+Activity }|--|| Subject
+Activity }|--|| ActivityTag
+
+' Associative join tables
+entity ActivityTeacher {
+  --
+  # Links Activities ↔ Teachers
+}
+Activity }o--|| ActivityTeacher
+Teacher }o--|| ActivityTeacher
+
+entity ActivityStudents {
+  --
+  # Links Activities ↔ StudentSets
+}
+Activity }o--|| ActivityStudents
+Students }o--|| ActivityStudents
+
+' Activity → Subactivity
+Activity "1" }|--|{ "many" Subactivity : splits into
+
+' Student hierarchy
+Students "1" }o-- "many" Students : parent of
+
+' Generated scheduling
+Subactivity }o--|| TimeSlot : scheduled at
+Subactivity }o--|| Room     : located in
+
+' Notes
+note right of Subactivity
+  *User-defined concept* (Activity)
+  splits into
+  *Schedulable unit* (Subactivity),
+  which the engine places.
+end note
+
+note bottom of Students
+  Supports hierarchical sets:
+  Years → Groups → Divisions
+end note
+
+@enduml
