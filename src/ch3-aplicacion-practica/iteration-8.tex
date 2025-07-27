@@ -1,0 +1,107 @@
+\subsection{Iteración 8: UI de Planificación Asistida e Ingesta de Datos}
+
+\subsubsection{Descripción General del Sprint}
+
+\textbf{Objetivo del Sprint}: Entregar la interfaz de usuario para la planificación de horarios asistida, implementar funcionalidades de importación masiva de datos vía CSV y completar la implementación de la API del servicio de predicción de ML.
+
+\textbf{Duración}: 22 de Junio, 2025 - 3 de Julio, 2025 (Aprox. 10 días hábiles)
+
+\textbf{Definición de Terminado (Definition of Done)}: 
+\begin{itemize}
+    \item La interfaz de planificación asistida (parrilla, carrito de compras) es funcional y está conectada a un API mockeada.
+    \item Los usuarios pueden importar la estructura académica y los requisitos de cursos mediante archivos CSV.
+    \item La API de predicción de ML está completamente implementada y probada con tests de integración.
+    \item El código está revisado, refactorizado y desplegado en el entorno de pruebas.
+\end{itemize}
+
+\subsubsection{Backlog del Sprint}
+
+\begin{table}[H]
+\caption{Backlog de la Iteración 8}
+\label{tab:iteration-8-backlog}
+\begin{tabularx}{\textwidth}{@{}llXrr@{}}
+\toprule
+\textbf{\#} & \textbf{Historia de Usuario} & \textbf{Descripción de la Tarea} & \textbf{Est. (min)} & \textbf{Real (min)} \\
+\midrule
+    1 & UI Planificación Asistida & Implementación de la planificación de horarios asistida en vivo. & 60 & 64 \\
+    2 & UI Planificación Asistida & Implementación del "carrito de compras" para la planificación. & 120 & 100 \\
+    3 & Ingesta de Datos & Implementación de la importación de la estructura académica como CSV. & 120 & 59 \\
+    4 & Ingesta de Datos & Importación masiva de requisitos de cursos vía CSV. & 60 & 71 \\
+    5 & Integración ML & Implementación de la API REST en Python para el servicio de ML. & 120 & 210 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Análisis Técnico}
+
+\textbf{Decisiones de Arquitectura y Diseño}:
+\begin{itemize}
+    \item \textbf{Mocking de API con MSW (Mock Service Worker)}: Se decidió utilizar MSW para desarrollar el frontend de forma desacoplada del backend. Esto permitió avanzar en paralelo y definir los contratos de la API de manera temprana, como se ve en el commit `de36fa49` ("chore(msw): generated mocked service").
+    \item \textbf{Componentización de la UI de Planificación}: La interfaz de planificación se dividió en componentes lógicos como la parrilla de horarios, la lista de requisitos y el carrito de compras, promoviendo la reutilización y la mantenibilidad.
+    \item \textbf{API de Python con FastAPI/Flask}: Se eligió un framework de Python (probablemente FastAPI o Flask) para la API de ML por su simplicidad y rendimiento, facilitando la integración con librerías de ciencia de datos como ONNX.
+\end{itemize}
+
+\begin{table}[H]
+    \caption{Trazabilidad de Decisiones de Arquitectura a Commits Relevantes}
+    \label{tab:sprint-8-commit-traceability}
+    \begin{tabularx}{\textwidth}{@{}lXl@{}}
+        \toprule
+        \textbf{Decisión de Arquitectura} & \textbf{Descripción del Commit} & \textbf{Hash del Commit} \\
+        \midrule
+        UI de Planificación Asistida & \texttt{feat(scheduling): assisted scheduling implementation} & \texttt{f02f6d9f...} \\
+        Ingesta de CSV & \texttt{feat(end-of-module): ingest csv for student enrollment} & \texttt{f71e0486...} \\
+        Mocking de API & \texttt{chore(msw): generated mocked service} & \texttt{de36fa49...} \\
+        API de Predicción (Python) & \texttt{feat(all): simple api (prediction-service)} & \texttt{6e14682b...} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Análisis de la Ejecución del Sprint}
+
+\begin{table}[H]
+    \caption{Análisis de Precisión en la Estimación del Sprint 8}
+    \label{tab:sprint-8-estimation-accuracy}
+    \begin{tabularx}{\textwidth}{@{}Xrrr@{}}
+        \toprule
+        \textbf{Tarea} & \textbf{Estimado (min)} & \textbf{Real (min)} & \textbf{Varianza (\%)} \\
+        \midrule
+        Implementación de la API REST de Python & 120 & 210 & +75\% \\
+        Importación de estructura académica como CSV & 120 & 59 & -51\% \\
+        Implementación del carrito de compras & 120 & 100 & -17\% \\
+        Importación masiva de requisitos de cursos & 60 & 71 & +18\% \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \caption{Distribución del Esfuerzo por Temática en el Sprint 8}
+    \label{tab:sprint-8-effort-distribution}
+    \begin{tabularx}{\textwidth}{@{}Xrr@{}}
+        \toprule
+        \textbf{Temática (Tag)} & \textbf{Tiempo Total (min)} & \textbf{Porcentaje del Esfuerzo} \\
+        \midrule
+        Desarrollo de Frontend (timetable, feat) & 553 & $\sim$78\% \\
+        Desarrollo de Backend (ml) & 254 & $\sim$22\% \\
+        \midrule
+        \textbf{Total} & \textbf{807} & \textbf{100\%} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Retrospectiva del Sprint}
+
+\textbf{Qué Salió Bien} (Mantener):
+\begin{itemize}
+    \item El uso de mocking en el frontend (MSW) fue un gran éxito, permitiendo un desarrollo rápido y paralelo.
+    \item El equipo demostró una buena capacidad de estimación para las tareas de frontend, con varianzas mucho menores que en sprints anteriores.
+\end{itemize}
+
+\textbf{Qué No Salió Bien} (Problemas):
+\begin{itemize}
+    \item La implementación de la API de ML tomó más tiempo de lo esperado, lo que sugiere que la integración entre diferentes stacks tecnológicos (Go, Python, .NET) sigue siendo un área de riesgo.
+\end{itemize}
+
+\textbf{Mejoras de Proceso} (Probar):
+\begin{itemize}
+    \item \textbf{Acción}: Definir contratos de API (ej. OpenAPI/Swagger) como primer paso para cualquier nueva integración entre microservicios, antes de comenzar la implementación. \textit{Criterio de éxito}: Reducir el tiempo de depuración de la integración en el próximo sprint que involucre múltiples servicios.
+\end{itemize}
