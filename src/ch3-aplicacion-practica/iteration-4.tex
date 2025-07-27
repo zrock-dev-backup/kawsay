@@ -1,3 +1,7 @@
+% Archivo: sprint4_report.tex
+% Este archivo está diseñado para ser incluido en un documento maestro de LaTeX usando \input{sprint4_report.tex}
+% Asegúrese de que el documento maestro cargue los paquetes: geometry, graphicx, caption, booktabs, tabularx, H.
+
 \subsection{Iteración 4: Prueba de Concepto del Motor de Planificación}
 
 \subsubsection{Descripción General del Sprint}
@@ -76,6 +80,22 @@ Dado el carácter exploratorio y la larga duración del sprint, esta práctica n
     \item \textbf{Refactorización de Entidades de Dominio}: Se tomó la decisión de refactorizar el backend para acomodar entidades específicas de la planificación de horarios (`55293492`), separándolas del modelo original centrado en el estudiante para crear un dominio más robusto.
 \end{itemize}
 
+\begin{table}[H]
+    \caption{Trazabilidad de Decisiones de Arquitectura a Commits Relevantes}
+    \label{tab:sprint-4-commit-traceability}
+    \begin{tabularx}{\textwidth}{@{}lXl@{}}
+        \toprule
+        \textbf{Decisión de Arquitectura} & \textbf{Descripción del Commit} & \textbf{Hash del Commit} \\
+        \midrule
+        Modelado ERD inicial & \texttt{chore(entiy-relationship): create high level ERD} & \texttt{b610bab7...} \\
+        Refactorización del ERD & \texttt{refactor(ERD): change to crowfoot} & \texttt{d2ff7cc1...} \\
+        Diseño de API & \texttt{docs(api): document timetable generation api} & \texttt{3e3bafbb...} \\
+        Modelado i-star & \texttt{feat(i-star): add registrar actor boundary} & \texttt{793891af...} \\
+        Refactorización de Requisitos & \texttt{refactor(requirements): migrate to scenario association} & \texttt{f1ac49f4...} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
 \textbf{Evaluación de la Deuda Técnica}:
 \begin{itemize}
     \item \textbf{Deuda técnica resuelta}: Aproximadamente 4.5 horas (270 minutos) se dedicaron a tareas explícitas de refactorización.
@@ -86,6 +106,7 @@ Dado el carácter exploratorio y la larga duración del sprint, esta práctica n
 
 % \begin{figure}[H]
 %     \centering
+%     % Nota: Esta es una imagen de marcador de posición.
 %     \includegraphics[width=0.8\textwidth]{iteration-4-flow-diagram.png}
 %     \caption{Diagrama de Flujo Acumulativo del Sprint 4}
 %     \label{fig:flow-diagram-4}
@@ -97,12 +118,40 @@ Dado el carácter exploratorio y la larga duración del sprint, esta práctica n
     \item \textit{Resolución}: Se adaptó el alcance sobre la marcha y se reconoció la necesidad de utilizar técnicas de estimación diferentes (como spikes de tiempo fijo) para futuras tareas de investigación.
 \end{itemize}
 
-\textbf{Análisis de Asignación de Tiempo}:
-\begin{itemize}
-    \item Desarrollo y Refactorización: 44\% (aprox. 20 horas)
-    \item Investigación y Prueba de Concepto: 37\% (aprox. 17 horas)
-    \item Documentación y Pruebas: 19\% (aprox. 8 horas)
-\end{itemize}
+\begin{table}[H]
+    \caption{Análisis de Precisión en la Estimación del Sprint 4}
+    \label{tab:sprint-4-estimation-accuracy}
+    \begin{tabularx}{\textwidth}{@{}Xrrr@{}}
+        \toprule
+        \textbf{Tarea} & \textbf{Estimado (min)} & \textbf{Real (min)} & \textbf{Varianza (\%)} \\
+        \midrule
+        Entender la matriz de disponibilidad & 50 & 108 & +116\% \\
+        Entender el método de asignación & 50 & 130 & +160\% \\
+        Implementación de la fórmula 1 de Almond & 50 & 166 & +232\% \\
+        Diseño de la API de generación de horarios & 45 & 59 & +31\% \\
+        Refactorización del frontend & 120 & 45 & -62.5\% \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \caption{Distribución del Esfuerzo por Temática en el Sprint 4}
+    \label{tab:sprint-4-effort-distribution}
+    \begin{tabularx}{\textwidth}{@{}Xrr@{}}
+        \toprule
+        \textbf{Temática (Tag)} & \textbf{Tiempo Total (min)} & \textbf{Porcentaje del Esfuerzo} \\
+        \midrule
+        Investigación de Algoritmo (almond) & 424 & $\sim$28\% \\
+        Modelado y Análisis (i\_star, marco\_teorico) & 328 & $\sim$22\% \\
+        Refactorización y Deuda Técnica & 243 & $\sim$16\% \\
+        Desarrollo de Backend & 231 & $\sim$15\% \\
+        Documentación y QA & 115 & $\sim$8\% \\
+        Otros & 165 & $\sim$11\% \\
+        \midrule
+        \textbf{Total} & \textbf{1506} & \textbf{100\%} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
 
 \subsubsection{Gestión de Riesgos}
 
