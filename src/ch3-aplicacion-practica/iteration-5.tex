@@ -1,0 +1,114 @@
+\subsection{Iteración 5: Refactorización Arquitectónica y Estabilización}
+
+\subsubsection{Descripción General del Sprint}
+
+\textbf{Objetivo del Sprint}: Refactorizar la arquitectura del backend para implementar una separación clara de responsabilidades (Clean Architecture) y estabilizar el sistema resolviendo bugs críticos relacionados con la persistencia de datos y la lógica de negocio.
+
+\textbf{Duración}: 10 de Mayo, 2025 - 24 de Mayo, 2025 (Aprox. 11 días hábiles)
+
+\textbf{Definición de Terminado (Definition of Done)}: 
+\begin{itemize}
+    \item Pruebas unitarias y de integración actualizadas para reflejar la nueva arquitectura.
+    \item Código revisado y refactorizado, eliminando el acceso directo al DbContext desde los controladores.
+    \item Criterios de aceptación validados para los flujos de creación de clases.
+    \item Documentación de la arquitectura (diagramas C4, SD) actualizada.
+\end{itemize}
+
+\subsubsection{Backlog del Sprint}
+
+\begin{table}[H]
+\caption{Backlog de la Iteración 5}
+\label{tab:iteration-5-backlog}
+\begin{tabularx}{\textwidth}{@{}llXrr@{}}
+\toprule
+\textbf{\#} & \textbf{Historia de Usuario} & \textbf{Descripción de la Tarea} & \textbf{Est. (min)} & \textbf{Real (min)} \\
+\midrule
+    1 & Refactorización & Refactorizar para añadir separaciones claras (DTO, DAO, Dominio). & 45 & 401 \\
+    2 & Bug Fix & Analizar y arreglar problema al guardar clases planificadas en la BD. & 45 & 139 \\
+    3 & Bug Fix & Arreglar bug en el frontend para la creación de clases (requiere frecuencia). & 45 & 248 \\
+    4 & Documentación & Elaborar diagrama de Dependencias Estratégicas (SD). & 30 & 40 \\
+    5 & Documentación & Documentar el flujo de trabajo del actor "Registrar". & 30 & 282 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Análisis Técnico}
+
+\textbf{Decisiones de Arquitectura y Diseño}:
+\begin{itemize}
+    \item \textbf{Adopción de Clean Architecture}: La decisión más importante del sprint fue refactorizar el backend para seguir los principios de Clean Architecture, introduciendo capas de `Api`, `Application`, `Domain`, e `Infrastructure`. Esto se evidencia en la tarea `b7e7f193` y múltiples commits que mueven entidades y lógica a sus respectivas capas. El objetivo era mejorar la mantenibilidad, testabilidad y desacoplamiento.
+    \item \textbf{Introducción del Patrón Repositorio y Servicio}: Se eliminó el acceso directo al `DbContext` desde los controladores de la API, introduciendo una capa de servicios y repositorios para abstraer la lógica de acceso a datos.
+\end{itemize}
+
+\begin{table}[H]
+    \caption{Trazabilidad de Decisiones de Arquitectura a Commits Relevantes}
+    \label{tab:sprint-5-commit-traceability}
+    \begin{tabularx}{\textwidth}{@{}lXl@{}}
+        \toprule
+        \textbf{Decisión de Arquitectura} & \textbf{Descripción del Commit} & \textbf{Hash del Commit} \\
+        \midrule
+        Separación de Capas & \texttt{refactor(all): separation of concerns} & \texttt{446b6c58...} \\
+        Creación de Proyectos & \texttt{chore(all): create domain,infra and app projects} & \texttt{9d0358c1...} \\
+        Migración de Entidades & \texttt{refactor(all): move Entities to Domain} & \texttt{bf0df724...} \\
+        Uso del Patrón Repositorio & \texttt{refactor(Courses): update Controller to use repository} & \texttt{c0274ba1...} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Análisis de la Ejecución del Sprint}
+
+\textbf{Impedimentos y Resoluciones}:
+\begin{itemize}
+    \item \textbf{Impedimento}: La tarea de refactorización arquitectónica (`b7e7f193`) superó masivamente la estimación (45 min vs. 401 min), indicando una subestimación severa de la complejidad y el alcance del cambio.
+    \item \textit{Resolución}: El equipo absorbió el impacto, reconociendo la importancia estratégica de la refactorización. Esto llevó a una recalibración del cronograma (`b499bd35`).
+\end{itemize}
+
+\begin{table}[H]
+    \caption{Análisis de Precisión en la Estimación del Sprint 5}
+    \label{tab:sprint-5-estimation-accuracy}
+    \begin{tabularx}{\textwidth}{@{}Xrrr@{}}
+        \toprule
+        \textbf{Tarea} & \textbf{Estimado (min)} & \textbf{Real (min)} & \textbf{Varianza (\%)} \\
+        \midrule
+        Refactorización de arquitectura (DTO, DAO, Dominio) & 45 & 401 & +791\% \\
+        Arreglar persistencia de clases en BD & 45 & 139 & +209\% \\
+        Arreglar bug de creación de clases en frontend & 45 & 248 & +451\% \\
+        Documentar flujo de trabajo del "Registrar" & 30 & 282 & +840\% \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \caption{Distribución del Esfuerzo por Temática en el Sprint 5}
+    \label{tab:sprint-5-effort-distribution}
+    \begin{tabularx}{\textwidth}{@{}Xrr@{}}
+        \toprule
+        \textbf{Temática (Tag)} & \textbf{Tiempo Total (min)} & \textbf{Porcentaje del Esfuerzo} \\
+        \midrule
+        Refactorización y Deuda Técnica & 835 & $\sim$54\% \\
+        Documentación (marco\_teorico) & 403 & $\sim$26\% \\
+        Análisis de Requisitos (i\_star) & 181 & $\sim$12\% \\
+        Otros (QA, gestión) & 122 & $\sim$8\% \\
+        \midrule
+        \textbf{Total} & \textbf{1541} & \textbf{100\%} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Retrospectiva del Sprint}
+
+\textbf{Qué Salió Bien} (Mantener):
+\begin{itemize}
+    \item Se tomó la decisión valiente y correcta de invertir en una refactorización profunda, lo que mejorará la calidad del producto a largo plazo.
+    \item La documentación del dominio del problema (i-star, flujos de trabajo) continuó madurando, proporcionando una base sólida para el desarrollo futuro.
+\end{itemize}
+
+\textbf{Qué No Salió Bien} (Problemas):
+\begin{itemize}
+    \item Las estimaciones para tareas de refactorización y documentación fueron extremadamente inexactas, lo que indica una brecha en la comprensión de la complejidad de estas actividades.
+\end{itemize}
+
+\textbf{Mejoras de Proceso} (Probar):
+\begin{itemize}
+    \item \textbf{Acción}: Para tareas de refactorización grandes, realizar un spike de investigación de 1-2 horas para descomponer la tarea en subtareas más pequeñas y estimables antes de comprometerse con el trabajo completo. \textit{Criterio de éxito}: Reducir la varianza de estimación para tareas de refactorización a menos del 100\% en el próximo sprint.
+\end{itemize}
