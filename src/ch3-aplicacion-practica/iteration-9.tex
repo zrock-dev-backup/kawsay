@@ -1,0 +1,109 @@
+\subsection{Iteración 9: Flujos de Trabajo, UX y Planificación Estratégica}
+
+\subsubsection{Descripción General del Sprint}
+
+\textbf{Objetivo del Sprint}: Refinar la experiencia del usuario a través de un asistente de creación de horarios y una auditoría de matriculación, implementar la gestión del personal docente y realizar una investigación estratégica para la próxima generación del motor de planificación.
+
+\textbf{Duración}: 26 de Junio, 2025 - 13 de Julio, 2025 (Aprox. 12 días hábiles)
+
+\textbf{Definición de Terminado (Definition of Done)}: 
+\begin{itemize}
+    \item El asistente de creación de horarios guía al usuario a través de los pasos de configuración.
+    \item La interfaz de auditoría de estudiantes permite identificar y resolver problemas de matriculación.
+    \item La interfaz de gestión de personal docente permite asignar profesores a los horarios.
+    \item La investigación sobre optimizadores (ej. Google OR-Tools) está documentada con una solución propuesta.
+\end{itemize}
+
+\subsubsection{Backlog del Sprint}
+
+\begin{table}[H]
+\caption{Backlog de la Iteración 9}
+\label{tab:iteration-9-backlog}
+\begin{tabularx}{\textwidth}{@{}llXrr@{}}
+\toprule
+\textbf{\#} & \textbf{Historia de Usuario} & \textbf{Descripción de la Tarea} & \textbf{Est. (min)} & \textbf{Real (min)} \\
+\midrule
+    1 & Asistente de Creación & Creación del asistente de horarios. & 120 & 205 \\
+    2 & Auditoría de Estudiantes & Implementación de la auditoría de estudiantes. & 120 & 123 \\
+    3 & Gestión de Docentes & Implementación de la gestión del personal docente. & 120 & 176 \\
+    4 & Mejora de UX & Actualización de la apariencia y la experiencia de la interfaz de usuario. & 60 & 259 \\
+    5 & Investigación Estratégica & Análisis del problema de generación de horarios y solución propuesta. & 60 & 118 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Análisis Técnico}
+
+\textbf{Decisiones de Arquitectura y Diseño}:
+\begin{itemize}
+    \item \textbf{Introducción de un Asistente (Wizard)}: Se decidió encapsular el complejo proceso de creación de horarios en un componente de asistente paso a paso (`TimetableLifecycleWizard.tsx`). Esto mejora drásticamente la usabilidad para los nuevos usuarios.
+    \item \textbf{Gestión de Estado Centralizada (Zustand)}: Se continuó utilizando Zustand para gestionar el estado global de la UI, especialmente para flujos complejos como el asistente y la auditoría, lo que simplifica la comunicación entre componentes.
+    \item \textbf{Investigación de Motores de Optimización}: Se realizó una investigación formal sobre soluciones de optimización de nivel empresarial como Google OR-Tools. La conclusión de esta investigación (`6d1612b7`) probablemente influirá en la arquitectura del backend en futuros sprints, marcando un posible pivote desde el algoritmo heurístico actual.
+\end{itemize}
+
+\begin{table}[H]
+    \caption{Trazabilidad de Decisiones de Arquitectura a Commits Relevantes}
+    \label{tab:sprint-9-commit-traceability}
+    \begin{tabularx}{\textwidth}{@{}lXl@{}}
+        \toprule
+        \textbf{Decisión de Arquitectura} & \textbf{Descripción del Commit} & \textbf{Hash del Commit} \\
+        \midrule
+        Implementación del Asistente & \texttt{feat(timetable wizard): timetable wizard implementation} & \texttt{a690be23...} \\
+        Interfaz de Auditoría & \texttt{feat(student audit): grid implementation for timetable enrollment} & \texttt{32c22c92...} \\
+        Gestión de Docentes & \texttt{feat(faculty): implement faculty management} & \texttt{0e2ef704...} \\
+        Revisión de la UX & \texttt{feat(theme): use modus inspired theme} & \texttt{5da7ab18...} \\
+        Análisis del Problema & \texttt{refactor(definicion problema): issue is domain validation disconnection} & \texttt{9c4094de...} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Análisis de la Ejecución del Sprint}
+
+\begin{table}[H]
+    \caption{Análisis de Precisión en la Estimación del Sprint 9}
+    \label{tab:sprint-9-estimation-accuracy}
+    \begin{tabularx}{\textwidth}{@{}Xrrr@{}}
+        \toprule
+        \textbf{Tarea} & \textbf{Estimado (min)} & \textbf{Real (min)} & \textbf{Varianza (\%)} \\
+        \midrule
+        Actualización de la interfaz de usuario & 60 & 259 & +331\% \\
+        Creación del asistente de horarios & 120 & 205 & +71\% \\
+        Implementación de la gestión de personal docente & 120 & 176 & +47\% \\
+        Análisis del problema de generación de horarios & 60 & 118 & +97\% \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \caption{Distribución del Esfuerzo por Temática en el Sprint 9}
+    \label{tab:sprint-9-effort-distribution}
+    \begin{tabularx}{\textwidth}{@{}Xrr@{}}
+        \toprule
+        \textbf{Temática (Tag)} & \textbf{Tiempo Total (min)} & \textbf{Porcentaje del Esfuerzo} \\
+        \midrule
+        Desarrollo de Frontend (feat, frontend) & 827 & $\sim$76\% \\
+        Investigación y Análisis (research, backend) & 236 & $\sim$22\% \\
+        Documentación (docs) & 22 & $\sim$2\% \\
+        \midrule
+        \textbf{Total} & \textbf{1085} & \textbf{100\%} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Retrospectiva del Sprint}
+
+\textbf{Qué Salió Bien} (Mantener):
+\begin{itemize}
+    \item El enfoque en la experiencia del usuario (asistente, auditoría, rediseño de UX) resultó en mejoras significativas y tangibles en la usabilidad del producto.
+    \item La dedicación de tiempo a la investigación estratégica (`1a457ff0`, `6d1612b7`) es una práctica madura que ayudará a guiar la evolución técnica del producto.
+\end{itemize}
+
+\textbf{Qué No Salió Bien} (Problemas):
+\begin{itemize}
+    \item Las tareas relacionadas con la interfaz de usuario, especialmente el rediseño (`1e32133d`), fueron subestimadas, lo que indica que la complejidad de la UI/UX es mayor de lo previsto.
+\end{itemize}
+
+\textbf{Mejoras de Proceso} (Probar):
+\begin{itemize}
+    \item \textbf{Acción}: Para tareas de rediseño de UI, crear prototipos de baja fidelidad (wireframes) y obtener retroalimentación antes de la estimación y la implementación. \textit{Criterio de éxito}: Mejorar la precisión de la estimación para tareas de UI en el próximo sprint.
+\end{itemize}
