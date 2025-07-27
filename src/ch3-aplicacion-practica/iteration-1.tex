@@ -1,9 +1,114 @@
-\subsection{Iteration 1}
-The objective of this iteration was UI prototyping.
+\subsection{Iteración 1: Descubrimiento y Fundamentos}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{planning-sprint-1.png}
-    \caption{Iteration backlog - Fuente: Elaboración propia}
-    \label{fig:sprint1-backlog}
-\end{figure}
+\subsubsection{Descripción General del Sprint}
+
+\textbf{Objetivo del Sprint}: Establecer las bases teóricas, metodológicas y arquitectónicas del proyecto. El enfoque principal fue la investigación y definición del problema, los objetivos y el alcance, así como el diseño inicial de la arquitectura del sistema utilizando el modelo C4.
+
+\textbf{Duración}: 8 de Abril, 2025 - 12 de Abril, 2025 (5 días hábiles)
+
+\textbf{Definición de Terminado (Definition of Done)}:
+\begin{itemize}
+    \item Los objetivos generales y específicos del proyecto están definidos y documentados.
+    \item Las preguntas de investigación del estudio de caso están formuladas.
+    \item Se ha diseñado un modelo arquitectónico C4 de nivel 1 (Contexto) y nivel 2 (Contenedores).
+    \item El marco teórico inicial está delineado.
+\end{itemize}
+
+\subsubsection{Backlog del Sprint}
+
+\begin{table}[H]
+\caption{Backlog de la Iteración 1}
+\label{tab:iteration-1-backlog}
+\begin{tabularx}{\textwidth}{@{}llXrr@{}}
+\toprule
+\textbf{\#} & \textbf{Historia de Usuario} & \textbf{Descripción de la Tarea} & \textbf{Est. (min)} & \textbf{Real (min)} \\
+\midrule
+    1 & Definición del Problema & Definir las preguntas de investigación. & 15 & 112 \\
+    2 & Definición del Problema & Definición de los objetivos del proyecto. & 15 & 41 \\
+    3 & Diseño de Arquitectura & Diseño del contexto de Nivel 1 (C4). & 10 & 11 \\
+    4 & Diseño de Arquitectura & Diseño de los contenedores de Nivel 2 (C4). & 10 & 15 \\
+    5 & Marco Teórico & Definición final del índice del marco teórico. & 15 & 15 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Análisis Técnico}
+
+\textbf{Decisiones de Arquitectura y Diseño}:
+\begin{itemize}
+    \item \textbf{Adopción del Modelo C4}: Se tomó la decisión de utilizar el modelo C4 para documentar la arquitectura del software. Esto proporcionó un lenguaje común y una estructura clara para visualizar el sistema desde diferentes niveles de abstracción, comenzando con el contexto y los contenedores.
+    \item \textbf{Formalización de Requisitos}: En lugar de comenzar directamente con la codificación, se invirtió tiempo en formalizar los objetivos y las preguntas de investigación, asegurando que el desarrollo posterior estuviera alineado con los objetivos académicos del proyecto de grado.
+\end{itemize}
+
+\begin{table}[H]
+    \caption{Trazabilidad de Decisiones de Arquitectura a Commits Relevantes}
+    \label{tab:sprint-1-commit-traceability}
+    \begin{tabularx}{\textwidth}{@{}lXl@{}}
+        \toprule
+        \textbf{Decisión de Arquitectura} & \textbf{Descripción del Commit} & \textbf{Hash del Commit} \\
+        \midrule
+        Diseño de Contenedores (Nivel 2) & \texttt{chore: lvl2 container creation} & \texttt{6de33cb3...} \\
+        Diseño de Componentes (Nivel 3) & \texttt{chore: lvl3 component view, st and timetable} & \texttt{113935ae...} \\
+        Definición de Objetivos & \texttt{objetivos: creation of document} & \texttt{1e5fa495...} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Análisis de la Ejecución del Sprint}
+
+\textbf{Impedimentos y Resoluciones}:
+\begin{itemize}
+    \item \textbf{Impedimento}: Falta de claridad inicial sobre el alcance y la dirección del proyecto, como se evidencia en la tarea "understand what is what am doing" (anotación en la tarea `3441f75b`).
+    \item \textit{Resolución}: Se dedicó una parte significativa del sprint a la investigación y definición formal, lo que, aunque consumió tiempo, clarificó el camino a seguir para las siguientes iteraciones.
+\end{itemize}
+
+\begin{table}[H]
+    \caption{Análisis de Precisión en la Estimación de la Iteración 1}
+    \label{tab:sprint-1-estimation-accuracy}
+    \begin{tabularx}{\textwidth}{@{}Xrrr@{}}
+        \toprule
+        \textbf{Tarea} & \textbf{Estimado (min)} & \textbf{Real (min)} & \textbf{Varianza (\%)} \\
+        \midrule
+        Definir preguntas de investigación & 15 & 112 & +647\% \\
+        Investigación de la recopilación de datos & 15 & 33 & +120\% \\
+        Definición de objetivos & 15 & 41 & +173\% \\
+        Entender la definición del marco teórico & 15 & 43 & +187\% \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \caption{Distribución del Esfuerzo por Temática en la Iteración 1}
+    \label{tab:sprint-1-effort-distribution}
+    \begin{tabularx}{\textwidth}{@{}Xrr@{}}
+        \toprule
+        \textbf{Temática (Tag)} & \textbf{Tiempo Total (min)} & \textbf{Porcentaje del Esfuerzo} \\
+        \midrule
+        Estudio de Caso (case\_study) & 207 & $\sim$54\% \\
+        Objetivos (objective) & 95 & $\sim$25\% \\
+        Arquitectura (c4) & 60 & $\sim$16\% \\
+        Marco Teórico (marco\_teorico) & 15 & $\sim$4\% \\
+        \midrule
+        \textbf{Total} & \textbf{377} & \textbf{100\%} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Retrospectiva del Sprint}
+
+\textbf{Qué Salió Bien} (Mantener):
+\begin{itemize}
+    \item La decisión de invertir tiempo en la fase de descubrimiento y definición fue acertada, ya que proporcionó una base sólida y clara para el resto del proyecto.
+    \item La adopción del modelo C4 demostró ser una herramienta eficaz para la planificación arquitectónica.
+\end{itemize}
+
+\textbf{Qué No Salió Bien} (Problemas):
+\begin{itemize}
+    \item Las estimaciones iniciales fueron muy imprecisas, lo que refleja la incertidumbre típica de una fase de investigación.
+    \item Se dedicó una cantidad significativa de tiempo a la "carga de contexto" en lugar de a la producción de artefactos tangibles.
+\end{itemize}
+
+\textbf{Mejoras de Proceso} (Probar):
+\begin{itemize}
+    \item \textbf{Acción}: Para futuras fases de investigación, utilizar "spikes" con un tiempo fijo (time-boxed) en lugar de estimar tareas con resultados inciertos. \textit{Criterio de éxito}: Reducir la varianza entre el tiempo planificado y el real para tareas de investigación.
+\end{itemize}
