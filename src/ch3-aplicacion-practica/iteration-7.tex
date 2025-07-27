@@ -1,0 +1,117 @@
+\subsection{Iteración 7: Motor de Planificación y Despliegue}
+
+\subsubsection{Descripción General del Sprint}
+
+\textbf{Objetivo del Sprint}: Implementar una nueva versión del motor de planificación de horarios, desarrollar la infraestructura para el despliegue continuo y construir las funcionalidades de gestión de la estructura académica y matriculación de estudiantes.
+
+\textbf{Duración}: 4 de Junio, 2025 - 20 de Junio, 2025 (Aprox. 13 días hábiles)
+
+\textbf{Definición de Terminado (Definition of Done)}: 
+\begin{itemize}
+    \item El nuevo motor de planificación está integrado y es funcional.
+    \item La aplicación (frontend y backend) está desplegada en un entorno de pruebas a través de contenedores Docker.
+    \item Los endpoints para la gestión de la estructura académica (cohortes, grupos, secciones) están implementados y probados.
+    \item El flujo de matriculación de estudiantes está implementado y validado con pruebas E2E.
+\end{itemize}
+
+\subsubsection{Backlog del Sprint}
+
+\begin{table}[H]
+\caption{Backlog de la Iteración 7}
+\label{tab:iteration-7-backlog}
+\begin{tabularx}{\textwidth}{@{}llXrr@{}}
+\toprule
+\textbf{\#} & \textbf{Historia de Usuario} & \textbf{Descripción de la Tarea} & \textbf{Est. (min)} & \textbf{Real (min)} \\
+\midrule
+    1 & Despliegue & Desplegar Kawsay en el entorno de pruebas. & 45 & 610 \\
+    2 & Motor de Planificación & Implementación del motor de planificación de horarios asistido en vivo. & 120 & 782 \\
+    3 & Estructura Académica & Refactorización del backend para adaptarse a 'cohorte, grupo, sección'. & 120 & 112 \\
+    4 & Matriculación & Implementación de la matriculación de estudiantes. & 300 & 304 \\
+    5 & Integración ML & Serialización del modelo ONNX para PoC de ML. & 30 & 47 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Análisis Técnico}
+
+\textbf{Decisiones de Arquitectura y Diseño}:
+\begin{itemize}
+    \item \textbf{Reemplazo del Algoritmo de Planificación}: Se tomó la decisión estratégica de depreciar el algoritmo heurístico inicial (Yule) y reemplazarlo por un motor de planificación más robusto y preparado para el futuro. Esto se refleja en los commits `5a8ca55a` ("feat(scheduling): yule algorithm deprecation") y `8a0b92c6` ("feat(scheduling): implement schedule engine").
+    \item \textbf{Contenerización para Despliegue}: Se adoptó Docker como estándar para el empaquetado y despliegue de la aplicación, utilizando Nix Flakes para asegurar compilaciones reproducibles. Esto se evidencia en la tarea `7e78d0b6` y los commits del frontend relacionados con Nix y Docker.
+    \item \textbf{Modelo de Dominio para Estructura Académica}: Se implementó un modelo de dominio explícito para la estructura académica (cohorte, grupo, sección), lo que permite una gestión más granular y realista del alumnado.
+\end{itemize}
+
+\begin{table}[H]
+    \caption{Trazabilidad de Decisiones de Arquitectura a Commits Relevantes}
+    \label{tab:sprint-7-commit-traceability}
+    \begin{tabularx}{\textwidth}{@{}lXl@{}}
+        \toprule
+        \textbf{Decisión de Arquitectura} & \textbf{Descripción del Commit} & \textbf{Hash del Commit} \\
+        \midrule
+        Nuevo Motor de Planificación & \texttt{feat(scheduling): implement schedule engine} & \texttt{8a0b92c6...} \\
+        Modelo de Estructura Académica & \texttt{feat(academic structure): endpoints implementation} & \texttt{3f609a36...} \\
+        Flujo de Matriculación & \texttt{feat(enrollment): implement student enrollment} & \texttt{f61440ca...} \\
+        Infraestructura de Despliegue & \texttt{feat(nix): write nix deployment file} & \texttt{cd36a415...} \\
+        Serialización de Modelo ML & \texttt{feat(all): append behavior tests (prediction-service)} & \texttt{8188f7c9...} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Análisis de la Ejecución del Sprint}
+
+\textbf{Impedimentos y Resoluciones}:
+\begin{itemize}
+    \item \textbf{Impedimento}: La tarea de despliegue (`7e78d0b6`) fue significativamente más compleja de lo estimado (45 min vs. 610 min) debido a problemas con las dependencias de compilación en el entorno de CI/CD y la configuración de la red.
+    \item \textit{Resolución}: Se requirió una investigación profunda y múltiples iteraciones sobre los scripts de Nix y Docker para lograr una compilación y despliegue exitosos, lo que consumió una gran parte del tiempo del sprint.
+\end{itemize}
+
+\begin{table}[H]
+    \caption{Análisis de Precisión en la Estimación del Sprint 7}
+    \label{tab:sprint-7-estimation-accuracy}
+    \begin{tabularx}{\textwidth}{@{}Xrrr@{}}
+        \toprule
+        \textbf{Tarea} & \textbf{Estimado (min)} & \textbf{Real (min)} & \textbf{Varianza (\%)} \\
+        \midrule
+        Desplegar Kawsay en entorno de pruebas & 45 & 610 & +1255\% \\
+        Implementación del motor de planificación & 120 & 782 & +551\% \\
+        Implementación de matriculación de estudiantes & 300 & 304 & +1.3\% \\
+        Refactorización del backend para estructura académica & 120 & 112 & -6.7\% \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \caption{Distribución del Esfuerzo por Temática en el Sprint 7}
+    \label{tab:sprint-7-effort-distribution}
+    \begin{tabularx}{\textwidth}{@{}Xrr@{}}
+        \toprule
+        \textbf{Temática (Tag)} & \textbf{Tiempo Total (min)} & \textbf{Porcentaje del Esfuerzo} \\
+        \midrule
+        Desarrollo de Backend (refactor, engine) & 1002 & $\sim$44\% \\
+        Despliegue e Infraestructura & 610 & $\sim$27\% \\
+        Desarrollo de Frontend & 304 & $\sim$13\% \\
+        Integración y Pruebas de ML & 129 & $\sim$6\% \\
+        Documentación y Análisis & 245 & $\sim$10\% \\
+        \midrule
+        \textbf{Total} & \textbf{2290} & \textbf{100\%} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Retrospectiva del Sprint}
+
+\textbf{Qué Salió Bien} (Mantener):
+\begin{itemize}
+    \item Se lograron avances masivos en funcionalidades críticas (motor de planificación, matriculación, despliegue), demostrando una alta capacidad de ejecución.
+    \item La implementación de la estructura académica en el dominio del backend proporcionó un modelo de datos mucho más robusto.
+\end{itemize}
+
+\textbf{Qué No Salió Bien} (Problemas):
+\begin{itemize}
+    \item La complejidad de las tareas de infraestructura y del nuevo motor de planificación fue severamente subestimada, lo que generó una gran presión y horas extra.
+\end{itemize}
+
+\textbf{Mejoras de Proceso} (Probar):
+\begin{itemize}
+    \item \textbf{Acción}: Asignar un "presupuesto de riesgo" de tiempo (ej. 20\% adicional) a tareas que involucren infraestructura de despliegue o la reescritura de componentes centrales. \textit{Criterio de éxito}: Mantener la varianza de estimación para tareas de infraestructura por debajo del 200\%.
+\end{itemize}
