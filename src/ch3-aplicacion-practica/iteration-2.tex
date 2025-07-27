@@ -1,54 +1,112 @@
-\subsection{Iteration 2}
+\subsection{Iteración 2: Implementación del Prototipo Inicial (MVP-0)}
 
-\subsubsection{Initial approach}
-The initial approach for this iteration was the development of basic features such as schedule generation and handling class timetable migration.  
-The iteration backlog contained the following user stories:
+\subsubsection{Descripción General del Sprint}
 
-\begin{table}[ht]
-\caption{Iteration 2 Backlog}
+\textbf{Objetivo del Sprint}: Desarrollar un prototipo funcional end-to-end para la creación y visualización de horarios, establecer la conexión inicial entre el frontend y el backend, y documentar formalmente la metodología de trabajo (XP) que se seguirá en el proyecto.
+
+\textbf{Duración}: 14 de Abril, 2025 - 24 de Abril, 2025 (9 días hábiles)
+
+\textbf{Definición de Terminado (Definition of Done)}:
+\begin{itemize}
+    \item El usuario puede acceder a una página de inicio y navegar a una vista de creación de horarios.
+    \item La vista de creación de horarios permite capturar las restricciones básicas para la generación de un horario.
+    \item El frontend puede comunicarse con una API (inicialmente mockeada) para enviar y recibir datos.
+    \item La metodología XP adaptada para el proyecto está documentada, incluyendo roles, eventos y artefactos.
+\end{itemize}
+
+\subsubsection{Backlog del Sprint}
+
+\begin{table}[H]
+\caption{Backlog de la Iteración 2}
 \label{tab:iteration-2-backlog}
-
-\begin{tabularx}{\textwidth}{@{}llXr@{}}
+\begin{tabularx}{\textwidth}{@{}llXrr@{}}
 \toprule
-\textbf{\#} &
-\textbf{User story} &
-\textbf{Description} &
-\textbf{Score} \\
+\textbf{\#} & \textbf{Historia de Usuario} & \textbf{Descripción de la Tarea} & \textbf{Est. (min)} & \textbf{Real (min)} \\
 \midrule
-    7 &
-    Academic track creation &
-    As a registrar, I want to create a track so that students can be managed under it.
-    Track creation involves selecting cohorts; cohorts involve selecting groups; groups are composed of sections. &
-    0 \\
-
-    8 &
-    Class timetable pre-population &
-    When opening a module, it should come pre-populated with classes.
-    Given that a module has a defined set of courses, the system should generate a timetable for a specific cohort. &
-    0 \\
-
-    6 &
-    Class timeslot migration &
-    As a registrar, I want to change the timeslot of a class so that I can handle the teacher’s request. &
-    0 \\
+    1 & Creación de Horarios & Implementación de la vista de creación de horarios para capturar restricciones. & 40 & 62 \\
+    2 & Generación de Horarios & Conexión frontend-backend y API mockeada para la generación de horarios. & 65 & 65 \\
+    3 & Visualización de Horarios & Diseño de la vista de calendario y el popup de edición. & 30 & 90 \\
+    4 & Metodología XP & Definición de la adaptación de XP, roles, eventos y artefactos. & 55 & 104 \\
+    5 & Documentación & Documentación de los artefactos del sprint (informes de iteración). & 35 & 38 \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\subsubsection{Iteration execution}
-During iteration execution, one important challenge was the initial setup of the repository, along with writing the theoretical framework for this case-study research, resulting in less time for developing the user stories.
-To adjust for these challenges, the researcher reduced quality in order to increase velocity.
-Being a solo project, it required much more effort to apply the methodology.
+\subsubsection{Análisis Técnico}
 
-Because of these challenges, acceptance tests and unit testing were not done. Additionally, user stories were not assigned velocity points.
-
-\subsubsection{Retrospective}
-Action items:
+\textbf{Decisiones de Arquitectura y Diseño}:
 \begin{itemize}
-    \item The researcher needs to read and understand better how to perform eXtreme Programming.
-    \item Either take fewer user stories or invest more time in the project to include acceptance tests, quality assurance, and unit tests.
+    \item \textbf{API Mockeada Primero}: Se tomó la decisión de implementar primero una API mockeada (`f071a0f2`) para permitir que el desarrollo del frontend avanzara en paralelo y de forma independiente a la implementación completa del backend. Esto aceleró la creación del prototipo inicial.
+    \item \textbf{Algoritmo de Mapeo Directo (Simplificación Inicial)}: Para la pre-población de horarios, se optó por un enfoque de mapeo directo y simple. Aunque se sabía que era una solución temporal, permitió entregar un prototipo funcional rápidamente y validar el flujo de datos end-to-end.
 \end{itemize}
 
-\subsubsection{Lessons learned}
-Implementing “class timetable pre-population” (user story \#8) with a direct mapping approach was too simple and did not take into account the problem of distributing teaching staff among classes given their availabilities.
-Therefore, it is necessary to research a new algorithm for timetable generation.
+\begin{table}[H]
+    \caption{Trazabilidad de Decisiones de Arquitectura a Commits Relevantes}
+    \label{tab:sprint-2-commit-traceability}
+    \begin{tabularx}{\textwidth}{@{}lXl@{}}
+        \toprule
+        \textbf{Decisión de Arquitectura} & \textbf{Descripción del Commit} & \textbf{Hash del Commit} \\
+        \midrule
+        Definición de Metodología & \texttt{chore(aplicacion-practica): added methodology definition} & \texttt{446eeba8...} \\
+        Formalización de Requisitos & \texttt{refactor(requirements-diagram): split and update requirements} & \texttt{9dc8011a...} \\
+        Documentación de XP & \texttt{chore(aplicacion practica): Write roles y responsabilidaes} & \texttt{a816defc...} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Análisis de la Ejecución del Sprint}
+
+\textbf{Impedimentos y Resoluciones}:
+\begin{itemize}
+    \item \textbf{Impedimento}: El tiempo dedicado a la configuración inicial del repositorio y a la redacción del marco teórico y la metodología consumió una parte significativa del tiempo que podría haberse dedicado al desarrollo de funcionalidades.
+    \item \textit{Resolución}: Para cumplir con los plazos, se tomó la decisión consciente de reducir la calidad (omitiendo temporalmente pruebas unitarias y de aceptación) para aumentar la velocidad de entrega del prototipo.
+\end{itemize}
+
+\begin{table}[H]
+    \caption{Análisis de Precisión en la Estimación de la Iteración 2}
+    \label{tab:sprint-2-estimation-accuracy}
+    \begin{tabularx}{\textwidth}{@{}Xrrr@{}}
+        \toprule
+        \textbf{Tarea} & \textbf{Estimado (min)} & \textbf{Real (min)} & \textbf{Varianza (\%)} \\
+        \midrule
+        Diseño de la vista de calendario & 15 & 80 & +433\% \\
+        Creación de diálogo para nuevo curso & 30 & 63 & +110\% \\
+        Implementación de la página de inicio & 5 & 23 & +360\% \\
+        Definir adaptación de la metodología & 25 & 44 & +76\% \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \caption{Distribución del Esfuerzo por Temática en la Iteración 2}
+    \label{tab:sprint-2-effort-distribution}
+    \begin{tabularx}{\textwidth}{@{}Xrr@{}}
+        \toprule
+        \textbf{Temática (Tag)} & \textbf{Tiempo Total (min)} & \textbf{Porcentaje del Esfuerzo} \\
+        \midrule
+        Desarrollo de Frontend (UI/UX) & 274 & $\sim$37\% \\
+        Documentación (marco\_teorico, xp) & 257 & $\sim$35\% \\
+        Investigación y Diseño (design, cbr) & 148 & $\sim$20\% \\
+        Backend y Conectividad & 65 & $\sim$9\% \\
+        \midrule
+        \textbf{Total} & \textbf{744} & \textbf{100\%} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Retrospectiva del Sprint}
+
+\textbf{Qué Salió Bien} (Mantener):
+\begin{itemize}
+    \item Se logró construir y conectar un prototipo end-to-end, lo que validó la arquitectura básica y el flujo de datos.
+    \item La documentación de la metodología XP proporcionó una guía clara para los sprints futuros.
+\end{itemize}
+
+\textbf{Qué No Salió Bien} (Problemas):
+\begin{itemize}
+    \item Se sacrificó la calidad técnica al omitir las pruebas unitarias y de aceptación, acumulando deuda técnica.
+    \item El esfuerzo requerido para la documentación y el marco teórico fue subestimado, lo que afectó la capacidad de desarrollo.
+\end{itemize}
+
+\textbf{Lecciones Aprendidas}:
+La implementación de la "pre-población de horarios" (historia de usuario \#8) mediante un mapeo directo fue una simplificación excesiva que no abordó el problema central de la asignación de recursos con restricciones (como la disponibilidad de los docentes). Se concluyó que era imperativo investigar e implementar un algoritmo de planificación más sofisticado, lo que sentó las bases para el trabajo de la Iteración 4.
