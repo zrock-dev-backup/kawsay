@@ -1,0 +1,23 @@
+\begin{table}[h!]
+\centering
+\caption{Comparación entre Árboles de Decisión y Bosques Aleatorios}
+\label{tab:decision_tree_vs_random_forest}
+\begin{tabularx}{\textwidth}{@{} l X X @{}}
+\toprule
+\textbf{Característica} & \textbf{Árbol de Decisión} & \textbf{Bosques Aleatorios (Random Forest)} \\
+\midrule
+\textbf{Concepto} & Es un modelo único que utiliza una estructura de árbol para tomar decisiones basadas en las características de los datos. & Es un método de ensamble (ensemble) que combina múltiples árboles de decisión para mejorar la precisión y robustez. \\
+\\
+\textbf{Sobreajuste (Overfitting)} & Tiene una alta tendencia a sobreajustarse a los datos de entrenamiento, capturando ruido en lugar de la señal subyacente. & Es mucho más resistente al sobreajuste gracias a la combinación de múltiples árboles entrenados en subconjuntos de datos. \\
+\\
+\textbf{Precisión} & Generalmente, su precisión es menor en comparación con los bosques aleatorios, especialmente en conjuntos de datos complejos. & Ofrece una precisión significativamente mayor y un rendimiento más estable al promediar las predicciones de muchos árboles. \\
+\\
+\textbf{Interpretabilidad} & Alta. La estructura del árbol es fácil de visualizar y entender, lo que hace que el modelo sea transparente. & Baja. Debido a la gran cantidad de árboles, el modelo funciona como una "caja negra", siendo difícil de interpretar. \\
+\\
+\textbf{Costo Computacional} & Bajo. El entrenamiento es rápido y requiere menos memoria. & Alto. Requiere más tiempo y recursos computacionales para entrenar cientos o miles de árboles. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Conclusión:}
+Para este proyecto vamos a utilizar Bosques Aleatorios.

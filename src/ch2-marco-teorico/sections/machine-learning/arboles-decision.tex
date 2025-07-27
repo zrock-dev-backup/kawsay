@@ -1,0 +1,21 @@
+\subsubsection{Árboles de Decisión}
+Un árbol de decisión es un algoritmo de aprendizaje supervisado utilizado tanto para tareas de clasificación como de regresión\footnote{La \textbf{regresión} en machine learning es un tipo de tarea de aprendizaje supervisado donde el objetivo es predecir un valor numérico continuo.
+La \textbf{clasificación}, por otro lado, predice una etiqueta categórica.}.
+Opera particionando recursivamente el espacio de características\footnote{El \textbf{espacio de características} (feature space) es el espacio n-dimensional definido por las características (variables) utilizadas para describir las instancias de datos.
+Cada instancia de datos es un punto en este espacio.} en regiones distintas basadas en una serie de reglas de decisión inferidas de los datos \parencite{quinlan1986induction}.
+Cada nodo interno en el árbol representa una prueba sobre un atributo (característica), cada rama representa el resultado de la prueba, y cada nodo hoja representa una etiqueta de clase (para clasificación) o una predicción (para regresión).
+
+El proceso de aprendizaje del árbol de decisión implica seleccionar las características más informativas para dividir los datos en cada nodo, con el objetivo de crear subconjuntos cada vez más homogéneos.
+Este proceso continúa recursivamente hasta que se cumple un criterio de parada, como alcanzar una profundidad máxima del árbol, un número mínimo de muestras en un nodo, o lograr una clasificación (o predicción) perfecta dentro de un nodo.
+
+\paragraph{Criterios de División}
+La selección de la mejor característica para realizar la división es crucial en la construcción de árboles de decisión.
+Los criterios de división comunes incluyen:
+
+\begin{itemize}
+    \item \textbf{Impureza de Gini (para clasificación):} Mide la impureza de un conjunto de instancias, donde valores más bajos indican una mayor homogeneidad.
+Es una medida de cuán a menudo un elemento elegido al azar del conjunto sería incorrectamente etiquetado si fuera etiquetado aleatoriamente según la distribución de etiquetas en el subconjunto.
+    \item \textbf{Ganancia de Información (para clasificación):} Mide la reducción de la entropía\footnote{La \textbf{entropía} en teoría de la información es una medida de la incertidumbre o impureza en un conjunto de datos.
+En los árboles de decisión, se utiliza para cuantificar la homogeneidad de las etiquetas de clase en un nodo.} después de dividir por un atributo.
+    \item \textbf{Error Cuadrático Medio (ECM) (para regresión):} Mide la diferencia cuadrática promedio entre los valores predichos y los reales.
+\end{itemize}
