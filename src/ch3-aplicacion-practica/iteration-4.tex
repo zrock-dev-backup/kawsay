@@ -1,0 +1,141 @@
+\subsection{Iteración 4: Prueba de Concepto del Motor de Planificación}
+
+\subsubsection{Descripción General del Sprint}
+
+\textbf{Objetivo del Sprint}: Validar e implementar una prueba de concepto para el algoritmo central de planificación de horarios ("Almond Algorithm") y refinar la arquitectura fundacional y los requisitos del sistema basándose en esta exploración.
+
+\textbf{Duración}: 18 de Abril, 2025 - 10 de Mayo, 2025 (Aprox. 16 días hábiles)
+
+\textbf{Capacidad del Sprint}: 45 horas (estimación basada en el tiempo real registrado). No se utilizaron puntos de historia para este sprint de investigación.
+
+\textbf{Definición de Terminado (Definition of Done)}: 
+\begin{itemize}
+    \item Pruebas unitarias escritas y superadas (>90\% de cobertura)
+    \item Código revisado y refactorizado
+    \item Criterios de aceptación validados
+    \item Documentación actualizada
+    \item Código integrado y desplegado
+\end{itemize}
+
+\subsubsection{Backlog del Sprint}
+
+\begin{table}[H]
+\caption{Backlog de la Iteración 4}
+\label{tab:iteration-4-backlog}
+\begin{tabularx}{\textwidth}{@{}llXrr@{}}
+\toprule
+\textbf{\#} & \textbf{Historia de Usuario} & \textbf{Descripción de la Tarea} & \textbf{Est. (min)} & \textbf{Real (min)} \\
+\midrule
+    1 & PoC Algoritmo & Entender la idea general del algoritmo Almond para la planificación de horarios. & 0 & 127 \\
+    2 & PoC Algoritmo & PoC del algoritmo Almond. & 136 & 75 \\
+    3 & PoC Algoritmo & Implementación de la generación de horarios con Almond. & 50 & 55 \\
+    4 & Diseño Arquitectura & Diseño de la relación de entidades para las funcionalidades del sistema de horarios. & 135 & 175 \\
+    5 & Diseño Arquitectura & Diseño de la API para la generación de horarios. & 45 & 59 \\
+    6 & Refactorización & Refactorización del backend para utilizar la planificación de horarios de la facultad. & 90 & 114 \\
+    7 & Análisis i-star & Revisión del diagrama i-star y migración a PlantUML. & 45 & 77 \\
+    8 & Análisis i-star & Elaboración del límite del actor "Registrar". & 45 & 165 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Panel de Métricas del Sprint}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{iteration-4-burndown.png}
+%     \caption{Gráfico Burndown del Sprint 4}
+%     \label{fig:iteration-4-burndown}
+% \end{figure}
+
+\textbf{Indicadores Clave de Rendimiento (KPIs)}:
+\begin{itemize}
+    \item \textbf{Velocidad (Velocity)}: 45 horas completadas (no se planificó por puntos).
+    \item \textbf{Finalización del Sprint}: 100\% de las tareas iniciadas fueron completadas.
+    \item \textbf{Tiempo de Ciclo (Cycle Time)}: Promedio de 6.5 días por tarea.
+    \item \textbf{Tasa de Defectos}: 0 defectos reportados durante el sprint.
+    \item \textbf{Cobertura de Código}: N/A (El foco fue la prueba de concepto, no la cobertura completa).
+\end{itemize}
+
+\subsubsection{Implementación de Prácticas XP}
+
+\textbf{Desarrollo Guiado por Pruebas (TDD)}:
+Se sentaron las bases para TDD con la tarea `0d5817d5` ("refactor project to allow unit testing"). Se crearon pruebas de API externas (`4a1fdc2b`) para validar los endpoints, demostrando un enfoque de "primero la prueba" a nivel de integración.
+
+\textbf{Diseño Simple y Refactorización}:
+Se dedicó un tiempo considerable a la refactorización. Tareas como `ab846060` ("refactor backend") y `88d6f663` ("remove innesary comments from fronted") muestran un compromiso con la limpieza del código. Las decisiones de diseño se centraron en desacoplar la nueva lógica de planificación, como se evidencia en `55293492` ("backend refactor to use faculty timetabling").
+
+\textbf{Lanzamientos Pequeños (Small Releases)}:
+Dado el carácter exploratorio y la larga duración del sprint, esta práctica no se aplicó estrictamente. El objetivo principal fue un lanzamiento interno más grande: la prueba de concepto del algoritmo, en lugar de entregas incrementales de valor al cliente.
+
+\subsubsection{Análisis Técnico}
+
+\textbf{Decisiones de Arquitectura y Diseño}:
+\begin{itemize}
+    \item \textbf{Adopción de un Algoritmo Heurístico (Almond/Yule)}: Se decidió implementar una prueba de concepto con un algoritmo heurístico para validar rápidamente una solución de planificación no trivial antes de comprometerse con un optimizador más complejo. Esto permitió un aprendizaje rápido y la mitigación de riesgos técnicos.
+    \item \textbf{Modelado Formal con i-star}: Se utilizó el framework i-star para analizar y documentar los requisitos de los actores (`9361070e`, `e2b8097d`). Esto aseguró una comprensión profunda del dominio del problema antes de la implementación, reduciendo la ambigüedad.
+    \item \textbf{Refactorización de Entidades de Dominio}: Se tomó la decisión de refactorizar el backend para acomodar entidades específicas de la planificación de horarios (`55293492`), separándolas del modelo original centrado en el estudiante para crear un dominio más robusto.
+\end{itemize}
+
+\textbf{Evaluación de la Deuda Técnica}:
+\begin{itemize}
+    \item \textbf{Deuda técnica resuelta}: Aproximadamente 4.5 horas (270 minutos) se dedicaron a tareas explícitas de refactorización.
+    \item \textbf{Nueva deuda técnica introducida}: La naturaleza de prueba de concepto del algoritmo de planificación introdujo una deuda técnica controlada, con la conciencia de que podría necesitar ser reemplazado por un motor de optimización más robusto en el futuro.
+\end{itemize}
+
+\subsubsection{Análisis de la Ejecución del Sprint}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{iteration-4-flow-diagram.png}
+%     \caption{Diagrama de Flujo Acumulativo del Sprint 4}
+%     \label{fig:flow-diagram-4}
+% \end{figure}
+
+\textbf{Impedimentos y Resoluciones}:
+\begin{itemize}
+    \item \textbf{Impedimento}: Estimaciones iniciales imprecisas para tareas con alta carga de investigación (ej. PoC del algoritmo, diseño de ERD). Se observó una alta varianza entre el tiempo estimado y el real.
+    \item \textit{Resolución}: Se adaptó el alcance sobre la marcha y se reconoció la necesidad de utilizar técnicas de estimación diferentes (como spikes de tiempo fijo) para futuras tareas de investigación.
+\end{itemize}
+
+\textbf{Análisis de Asignación de Tiempo}:
+\begin{itemize}
+    \item Desarrollo y Refactorización: 44\% (aprox. 20 horas)
+    \item Investigación y Prueba de Concepto: 37\% (aprox. 17 horas)
+    \item Documentación y Pruebas: 19\% (aprox. 8 horas)
+\end{itemize}
+
+\subsubsection{Gestión de Riesgos}
+
+\textbf{Evaluación de Riesgos}:
+\begin{table}[H]
+\caption{Registro de Riesgos del Sprint 4}
+\label{tab:risk-register-4}
+\begin{tabularx}{\textwidth}{@{}lXrrX@{}}
+\toprule
+\textbf{ID} & \textbf{Descripción} & \textbf{Prob.} & \textbf{Impacto} & \textbf{Estrategia de Mitigación} \\
+\midrule
+R-04 & El algoritmo PoC podría no ser suficiente para todas las restricciones complejas del mundo real. & M & H & Tratar la implementación como un spike. Planificar la posible migración a un optimizador más robusto (ej. Google OR-Tools). \\
+R-05 & El modelo de dominio podría ser insuficiente para las reglas académicas. & M & H & Utilizar modelado formal (i-star, ERD) y validación con stakeholders antes de la implementación completa. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Retrospectiva del Sprint}
+
+\textbf{Qué Salió Bien} (Mantener):
+\begin{itemize}
+    \item Se logró validar exitosamente la viabilidad de un algoritmo de planificación automática, mitigando un riesgo técnico importante.
+    \item El uso de modelado i-star y diagramas ERD profundizó la comprensión del dominio del problema y mejoró la comunicación.
+\end{itemize}
+
+\textbf{Qué No Salió Bien} (Problemas):
+\begin{itemize}
+    \item La gran variación entre las estimaciones y el tiempo real para tareas de investigación dificultó la planificación y previsibilidad.
+    \item La larga duración del sprint (casi un mes) dificultó el mantenimiento del enfoque y la agilidad.
+\end{itemize}
+
+\textbf{Mejoras de Proceso} (Probar):
+\begin{itemize}
+    \item \textbf{Acción}: Utilizar spikes con tiempo fijo (time-boxed) para tareas de investigación en lugar de estimaciones de esfuerzo. \textit{Criterio de éxito}: Reducir la varianza entre el tiempo planificado y el real para tareas de I+D en el próximo sprint.
+    \item \textbf{Acción}: Descomponer epopeyas exploratorias grandes en sprints más cortos y enfocados (1-2 semanas). \textit{Criterio de éxito}: Mejorar el enfoque del equipo y permitir una retroalimentación más rápida.
+\end{itemize}
